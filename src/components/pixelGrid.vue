@@ -1,7 +1,7 @@
 <template>
     <div class="grid">
         <div class="row" v-for="row in 12" :key="row">
-            <div :style="style" v-for="index in 12" :key="index" @mouseup="toolUse" @mouseover="dragDraw" @mouseleave="dragDraw" class="null" :data-id="getPixelID(row, index)" :data-row="row" :data-index="index"></div>
+            <div :style="style" v-for="index in 12" :key="index" @mouseup="toolUse" @mouseover="dragDraw" @mouseleave="dragDraw" @dragstart="preventDrag" class="null" draggable=false :data-id="getPixelID(row, index)" :data-row="row" :data-index="index"></div>
         </div>
     </div>
 </template>
@@ -26,26 +26,32 @@ export default {
         getPixelID(row, index) {
             return this.pixelGrid[row-1][index-1];
         },
+        preventDrag(event) {
+            event.preventDefault();
+        },
         dragDraw(pixel) {
             if(this.$parent.tool.drawing && this.$parent.tool.selected !== 'fillbucket') {
                 this.toolUse(pixel);
             }
         },
-        toolUse(pixel) {
+        toolUse(pixel, preventSrcElement) {
             const tool = this.$parent.tool;
+            if(!preventSrcElement) {
+                pixel = pixel.srcElement;
+            }
 
             if(tool.selected === 'pen' && tool.colour !== "") {
-                pixel.srcElement.className = tool.colour;
+                pixel.className = tool.colour;
             }
-            else if(tool.selected === 'eyedropper' && pixel.srcElement.className !== "null") {
-                tool.colour = pixel.srcElement.className;
+            else if(tool.selected === 'eyedropper' && pixel.className !== "null") {
+                tool.colour = pixel.className;
             }
             else if(tool.selected === 'eraser') {
-                pixel.srcElement.className = 'null';
+                pixel.className = 'null';
             }
             else if(tool.selected === 'fillbucket' && tool.colour !== "") {
-                this.fill_checkPixels(pixel.srcElement);
-                pixel.srcElement.className = tool.colour;
+                this.fill_checkPixels(pixel);
+                pixel.className = tool.colour;
             }
         },
         fill_checkPixels(pixel, overrides) {

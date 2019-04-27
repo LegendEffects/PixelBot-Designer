@@ -10,6 +10,8 @@
             <button class="tool" :class="isSelected('eraser')" @click="changeTool('eraser')"><i class="fas fa-eraser"></i></button>
             <button class="tool" :class="isSelected('eyedropper')" @click="changeTool('eyedropper')"><i class="fas fa-eye-dropper"></i></button>
             <button class="tool newRow" :class="isSelected('fillbucket')" @click="changeTool('fillbucket')"><i class="fas fa-fill"></i></button>
+
+            <button class="tool newRow" :class="lockScrollState()" @click="changeScrollState()"><i class="fas fa-lock"></i></button>
         </div>
         <div class="gridSettings section">
             <span class="heading">Grid Settings</span>
@@ -23,7 +25,7 @@
             <button class="actionButton" style="margin-top: 10px;">Play</button>
         </div> -->
         <div class="gridSettings section">
-            <span class="heading">Export/Import</span>
+            <span class="heading">Import/Export</span>
 
             <button class="actionButton" @click="importGrids()">Import</button>
             <button class="actionButton" @click="exportGrids()">Export</button>
@@ -72,6 +74,14 @@ export default {
 
             this.$parent.show.export.content = final;
             this.$parent.show.export.show = true;
+        },
+        lockScrollState() {
+            if(this.$parent.tool.lockScroll) return ' active';
+            else return '';
+        },
+        changeScrollState() {
+            this.$parent.tool.lockScroll = !this.$parent.tool.lockScroll;
+            this.$parent.tool.drawing = this.$parent.tool.lockScroll;
         }
     },
     watch: {

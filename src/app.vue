@@ -14,14 +14,14 @@
             </p>
         </modal>
 
-        <div class="combiGrid">
+        <div class="combiGrid" :style="isScrollLocked()">
             <div class="row">
-                <pixelgrid></pixelgrid>
-                <pixelgrid></pixelgrid>
+                <pixelgrid :grid-id="0"></pixelgrid>
+                <pixelgrid :grid-id="1"></pixelgrid>
             </div>
             <div class="row">
-                <pixelgrid></pixelgrid>
-                <pixelgrid></pixelgrid>
+                <pixelgrid :grid-id="2"></pixelgrid>
+                <pixelgrid :grid-id="3"></pixelgrid>
             </div>
         </div>
         <toolbox></toolbox>
@@ -33,35 +33,43 @@
         name: "app",
         data: () => {return {
             pixelColours: {
-                'r':  '#ff0000',
-                'g':  '#008000',
-                'b':  '#0000ff',
-                'w':  '#fff',
-                'x':  '#000',
-                'y':  '#ffff00',
-                'm':  '#800000',
-                'p':  '#800080',
-                'tp': '#6441a5',
-                'n':  '#000080',
-                'dg': '#006400',
-                'te': '#ffd700',
-                'or': '#f0e68c',
-                'pi': '#daa520',
-                'gr': '#00ffff',
-                'go': '#008080',
-                'k':  '#00ced1',
-                'cy': '#ffa500',
-                'do': '#ff8c00',
-                'or': '#ffc0cb',
+                a: '#ff0000',
+                b: '#008000',
+                c: '#0000ff',
+                d: '#fff',
+                e: '#000',
+                f: '#ffff00',
+                g: '#800000',
+                h: '#800080',
+                i: '#6441a5',
+                j: '#000080',
+                k: '#006400',
+                l: '#ffd700',
+                m: '#f0e68c',
+                n: '#daa520',
+                o: '#00ffff',
+                p: '#008080',
+                q: '#00ced1',
+                r: '#ffa500',
+                s: '#ff8c00',
+                t: '#ff4500',
+                u: '#ffc0cb',
+                v: '#ff1393',
+                w: '#ffa07a',
+                x:'#858d86',
+                y: '#4c504d',
+                
             },
             grid: {
                 size: 12,
                 pixelSize: 35
             },
+            grids: null,
             tool: {
                 drawing: false,
                 selected: 'pen',
                 colour: '',
+                lockScroll: false,
             },
             show: {
                 credits: false,
@@ -81,9 +89,25 @@
         methods: {
             startDrag() {
                 this.tool.drawing = true;
+                window.addEventListener('touchmove', this.touchdraw);
             },
             stopDrag() {
                 this.tool.drawing = false;
+                window.removeEventListener('touchmove', this.touchdraw);
+            },
+            touchdraw(e) {
+                if(this.tool.drawing && this.tool.lockScroll) {
+                    let element = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+                    let backelement = element.parentElement.parentElement;
+                    if(backelement.className === 'grid') {
+                        let gridid = backelement.attributes['grid-id'].nodeValue;
+                        this.grids[gridid].toolUse(element, true);
+                    }
+                }
+            },
+            isScrollLocked() {
+                if(this.tool.lockScroll === true) return {overflow: 'hidden'};
+                else return {overflow: 'auto'};
             },
             copyCommand(text) {
                 this.$copyText(text);
@@ -98,6 +122,13 @@
         mounted() {
             window.addEventListener('mousedown', this.startDrag);
             window.addEventListener('mouseup', this.stopDrag);
+            window.addEventListener('touchstart', this.startDrag);
+            window.addEventListener('touchend', this.stopDrag);
+
+            this.grids = this.$children.filter(function(val) {
+                if(val.grid) return true;
+                else return false;
+            });
 
             document.onkeyup = this.keyPressed;
         }
