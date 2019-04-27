@@ -1,0 +1,34 @@
+//@import '../node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss';
+
+@import 'elements/index';
+@import 'colours';
+@import 'grid';
+
+body, html {
+    background: #37393f;
+    margin: 0;
+    height: 100%;
+}
+
+.layout {
+    display: flex;
+    height: 100%;
+    flex-direction: row;
+    flex: 1;
+}
+
+.actionButton {
+    outline: none;
+    border: none;
+    padding: .5rem 1rem;
+    color: #fff;
+    border-radius: 5px;
+    background: #2f3136;
+}
+.actionButton:hover {
+    cursor: pointer;
+}
+
+.actionButton.darker {
+    background: #202225;
+}
