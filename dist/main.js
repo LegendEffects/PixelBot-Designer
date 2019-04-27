@@ -14,34 +14,36 @@ exports.default = {
     data: function data() {
         return {
             pixelColours: _defineProperty({
+                'w': '#fff',
                 'r': '#ff0000',
                 'g': '#008000',
-                'b': '#0000ff',
-                'w': '#fff',
                 'x': '#000',
                 'y': '#ffff00',
                 'm': '#800000',
                 'p': '#800080',
                 'tp': '#6441a5',
-                'n': '#000080',
                 'dg': '#006400',
-                'te': '#ffd700',
                 'or': '#f0e68c',
                 'pi': '#daa520',
-                'gr': '#00ffff',
+                'n': '#000080',
+                'b': '#0000ff',
                 'go': '#008080',
                 'k': '#00ced1',
+                'gr': '#00ffff',
                 'cy': '#ffa500',
+                'te': '#ffd700',
                 'do': '#ff8c00'
             }, 'or', '#ffc0cb'),
             grid: {
                 size: 12,
                 pixelSize: 35
             },
+            grids: null,
             tool: {
                 drawing: false,
                 selected: 'pen',
-                colour: ''
+                colour: '',
+                lockScroll: false
             },
             show: {
                 credits: false,
@@ -62,9 +64,24 @@ exports.default = {
     methods: {
         startDrag: function startDrag() {
             this.tool.drawing = true;
+            window.addEventListener('touchmove', this.touchdraw);
         },
         stopDrag: function stopDrag() {
             this.tool.drawing = false;
+            window.removeEventListener('touchmove', this.touchdraw);
+        },
+        touchdraw: function touchdraw(e) {
+            if (this.tool.drawing && this.tool.lockScroll) {
+                var element = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+                var backelement = element.parentElement.parentElement;
+                if (backelement.className === 'grid') {
+                    var gridid = backelement.attributes['grid-id'].nodeValue;
+                    this.grids[gridid].toolUse(element, true);
+                }
+            }
+        },
+        isScrollLocked: function isScrollLocked() {
+            if (this.tool.lockScroll === true) return { overflow: 'hidden' };else return { overflow: 'auto' };
         },
         copyCommand: function copyCommand(text) {
             this.$copyText(text);
@@ -76,6 +93,12 @@ exports.default = {
     mounted: function mounted() {
         window.addEventListener('mousedown', this.startDrag);
         window.addEventListener('mouseup', this.stopDrag);
+        window.addEventListener('touchstart', this.startDrag);
+        window.addEventListener('touchend', this.stopDrag);
+
+        this.grids = this.$children.filter(function (val) {
+            if (val.grid) return true;else return false;
+        });
 
         document.onkeyup = this.keyPressed;
     }
@@ -84,7 +107,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"layout",attrs:{"id":"appContainer"}},[(_vm.show.credits)?_c('modal',{on:{"close":function($event){_vm.show.credits = false}}},[_c('h3',{staticStyle:{"border-bottom":"2px solid #202225","padding-bottom":"5px"},attrs:{"slot":"header"},slot:"header"},[_vm._v("Credits")]),_vm._v(" "),_c('p',{attrs:{"slot":"body"},slot:"body"},[_vm._v("Editor Developed by LegendEffects"),_c('br'),_c('br'),_vm._v("Original Editor by Claw Studios"),_c('br'),_c('br'),_vm._v("Original PixelBot concept invented by Laboratory 424"),_c('br'),_c('br'),_vm._v("First editor concept by CaptainPDA")])]):_vm._e(),_vm._v(" "),(_vm.show.export.show)?_c('modal',{on:{"close":function($event){_vm.show.export.show = false}}},[_c('h3',{staticStyle:{"border-bottom":"2px solid #202225","padding-bottom":"5px"},attrs:{"slot":"header"},slot:"header"},[_vm._v("Export")]),_vm._v(" "),_c('p',{attrs:{"slot":"body"},slot:"body"},_vm._l((_vm.show.export.content),function(pixelbot,index){return _c('span',{key:pixelbot.id},[_c('pre',{staticStyle:{"overflow":"auto","padding":"20px"}},[_vm._v("!pb"+_vm._s(index)+_vm._s(pixelbot))]),_vm._v(" "),_c('button',{staticClass:"actionButton darker",on:{"click":function($event){return _vm.copyCommand('!pb'+index+pixelbot)}}},[_c('i',{staticClass:"fas fa-copy"})])])}),0)]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"combiGrid"},[_c('div',{staticClass:"row"},[_c('pixelgrid'),_vm._v(" "),_c('pixelgrid')],1),_vm._v(" "),_c('div',{staticClass:"row"},[_c('pixelgrid'),_vm._v(" "),_c('pixelgrid')],1)]),_vm._v(" "),_c('toolbox')],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"layout",attrs:{"id":"appContainer"}},[(_vm.show.credits)?_c('modal',{on:{"close":function($event){_vm.show.credits = false}}},[_c('h3',{staticStyle:{"border-bottom":"2px solid #202225","padding-bottom":"5px"},attrs:{"slot":"header"},slot:"header"},[_vm._v("Credits")]),_vm._v(" "),_c('p',{attrs:{"slot":"body"},slot:"body"},[_vm._v("Editor Developed by LegendEffects"),_c('br'),_c('br'),_vm._v("Original Editor by Claw Studios"),_c('br'),_c('br'),_vm._v("Original PixelBot concept invented by Laboratory 424"),_c('br'),_c('br'),_vm._v("First editor concept by CaptainPDA")])]):_vm._e(),_vm._v(" "),(_vm.show.export.show)?_c('modal',{on:{"close":function($event){_vm.show.export.show = false}}},[_c('h3',{staticStyle:{"border-bottom":"2px solid #202225","padding-bottom":"5px"},attrs:{"slot":"header"},slot:"header"},[_vm._v("Export")]),_vm._v(" "),_c('p',{attrs:{"slot":"body"},slot:"body"},_vm._l((_vm.show.export.content),function(pixelbot,index){return _c('span',{key:pixelbot.id},[_c('pre',{staticStyle:{"overflow":"auto","padding":"20px"}},[_vm._v("!pb"+_vm._s(index)+_vm._s(pixelbot))]),_vm._v(" "),_c('button',{staticClass:"actionButton darker",on:{"click":function($event){return _vm.copyCommand('!pb'+index+pixelbot)}}},[_c('i',{staticClass:"fas fa-copy"})])])}),0)]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"combiGrid",style:(_vm.isScrollLocked())},[_c('div',{staticClass:"row"},[_c('pixelgrid',{attrs:{"grid-id":0}}),_vm._v(" "),_c('pixelgrid',{attrs:{"grid-id":1}})],1),_vm._v(" "),_c('div',{staticClass:"row"},[_c('pixelgrid',{attrs:{"grid-id":2}}),_vm._v(" "),_c('pixelgrid',{attrs:{"grid-id":3}})],1)]),_vm._v(" "),_c('toolbox')],1)}
 __vue__options__.staticRenderFns = []
 __vue__options__._scopeId = "data-v-7c6a6a9e"
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
@@ -95,7 +118,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-7c6a6a9e", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-7c6a6a9e", __vue__options__)
+    hotAPI.reload("data-v-7c6a6a9e", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":13,"vueify/lib/insert-css":15}],2:[function(require,module,exports){
@@ -218,18 +241,21 @@ exports.default = {
                 this.toolUse(pixel);
             }
         },
-        toolUse: function toolUse(pixel) {
+        toolUse: function toolUse(pixel, preventSrcElement) {
             var tool = this.$parent.tool;
+            if (!preventSrcElement) {
+                pixel = pixel.srcElement;
+            }
 
             if (tool.selected === 'pen' && tool.colour !== "") {
-                pixel.srcElement.className = tool.colour;
-            } else if (tool.selected === 'eyedropper' && pixel.srcElement.className !== "null") {
-                tool.colour = pixel.srcElement.className;
+                pixel.className = tool.colour;
+            } else if (tool.selected === 'eyedropper' && pixel.className !== "null") {
+                tool.colour = pixel.className;
             } else if (tool.selected === 'eraser') {
-                pixel.srcElement.className = 'null';
+                pixel.className = 'null';
             } else if (tool.selected === 'fillbucket' && tool.colour !== "") {
-                this.fill_checkPixels(pixel.srcElement);
-                pixel.srcElement.className = tool.colour;
+                this.fill_checkPixels(pixel);
+                pixel.className = tool.colour;
             }
         },
         fill_checkPixels: function fill_checkPixels(pixel, overrides) {
@@ -493,6 +519,13 @@ exports.default = {
 
             this.$parent.show.export.content = final;
             this.$parent.show.export.show = true;
+        },
+        lockScrollState: function lockScrollState() {
+            if (this.$parent.tool.lockScroll) return ' active';else return '';
+        },
+        changeScrollState: function changeScrollState() {
+            this.$parent.tool.lockScroll = !this.$parent.tool.lockScroll;
+            this.$parent.tool.drawing = this.$parent.tool.lockScroll;
         }
     },
     watch: {
@@ -509,7 +542,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"toolbar"},[_c('div',{staticClass:"paletteSection"},[_c('span',{staticClass:"heading"},[_vm._v("Colour Palette")]),_vm._v(" "),_c('palette',{attrs:{"colours":_vm.pixelColours}})],1),_vm._v(" "),_c('div',{staticClass:"toolSelection section"},[_c('span',{staticClass:"heading"},[_vm._v("Tool Selection")]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('pen'),on:{"click":function($event){return _vm.changeTool('pen')}}},[_c('i',{staticClass:"fas fa-pen"})]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('eraser'),on:{"click":function($event){return _vm.changeTool('eraser')}}},[_c('i',{staticClass:"fas fa-eraser"})]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('eyedropper'),on:{"click":function($event){return _vm.changeTool('eyedropper')}}},[_c('i',{staticClass:"fas fa-eye-dropper"})]),_vm._v(" "),_c('button',{staticClass:"tool newRow",class:_vm.isSelected('fillbucket'),on:{"click":function($event){return _vm.changeTool('fillbucket')}}},[_c('i',{staticClass:"fas fa-fill"})])]),_vm._v(" "),_c('div',{staticClass:"gridSettings section"},[_c('span',{staticClass:"heading"},[_vm._v("Grid Settings")]),_vm._v(" "),_c('span',{staticClass:"subHeading"},[_vm._v("Pixel Size (px)")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.pixelSize),expression:"pixelSize"}],attrs:{"type":"number"},domProps:{"value":(_vm.pixelSize)},on:{"input":function($event){if($event.target.composing){ return; }_vm.pixelSize=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"gridSettings section"},[_c('span',{staticClass:"heading"},[_vm._v("Export/Import")]),_vm._v(" "),_c('button',{staticClass:"actionButton",on:{"click":function($event){return _vm.importGrids()}}},[_vm._v("Import")]),_vm._v(" "),_c('button',{staticClass:"actionButton",on:{"click":function($event){return _vm.exportGrids()}}},[_vm._v("Export")])]),_vm._v(" "),_c('div',{staticClass:"watermark section"},[_c('a',{attrs:{"href":"https://github.com/LegendEffects/PixelBot-Designer"}},[_vm._v("Github")]),_vm._v(" "),_c('a',{attrs:{"href":"#"},on:{"click":function($event){return _vm.showCredits()}}},[_vm._v("Credits")])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"toolbar"},[_c('div',{staticClass:"paletteSection"},[_c('span',{staticClass:"heading"},[_vm._v("Colour Palette")]),_vm._v(" "),_c('palette',{attrs:{"colours":_vm.pixelColours}})],1),_vm._v(" "),_c('div',{staticClass:"toolSelection section"},[_c('span',{staticClass:"heading"},[_vm._v("Tool Selection")]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('pen'),on:{"click":function($event){return _vm.changeTool('pen')}}},[_c('i',{staticClass:"fas fa-pen"})]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('eraser'),on:{"click":function($event){return _vm.changeTool('eraser')}}},[_c('i',{staticClass:"fas fa-eraser"})]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('eyedropper'),on:{"click":function($event){return _vm.changeTool('eyedropper')}}},[_c('i',{staticClass:"fas fa-eye-dropper"})]),_vm._v(" "),_c('button',{staticClass:"tool newRow",class:_vm.isSelected('fillbucket'),on:{"click":function($event){return _vm.changeTool('fillbucket')}}},[_c('i',{staticClass:"fas fa-fill"})]),_vm._v(" "),_c('button',{staticClass:"tool newRow",class:_vm.lockScrollState(),on:{"click":function($event){return _vm.changeScrollState()}}},[_c('i',{staticClass:"fas fa-lock"})])]),_vm._v(" "),_c('div',{staticClass:"gridSettings section"},[_c('span',{staticClass:"heading"},[_vm._v("Grid Settings")]),_vm._v(" "),_c('span',{staticClass:"subHeading"},[_vm._v("Pixel Size (px)")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.pixelSize),expression:"pixelSize"}],attrs:{"type":"number"},domProps:{"value":(_vm.pixelSize)},on:{"input":function($event){if($event.target.composing){ return; }_vm.pixelSize=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"gridSettings section"},[_c('span',{staticClass:"heading"},[_vm._v("Import/Export")]),_vm._v(" "),_c('button',{staticClass:"actionButton",on:{"click":function($event){return _vm.importGrids()}}},[_vm._v("Import")]),_vm._v(" "),_c('button',{staticClass:"actionButton",on:{"click":function($event){return _vm.exportGrids()}}},[_vm._v("Export")])]),_vm._v(" "),_c('div',{staticClass:"watermark section"},[_c('a',{attrs:{"href":"https://github.com/LegendEffects/PixelBot-Designer"}},[_vm._v("Github")]),_vm._v(" "),_c('a',{attrs:{"href":"#"},on:{"click":function($event){return _vm.showCredits()}}},[_vm._v("Credits")])])])}
 __vue__options__.staticRenderFns = []
 __vue__options__._scopeId = "data-v-5c97190d"
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")

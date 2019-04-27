@@ -34,21 +34,24 @@ export default {
                 this.toolUse(pixel);
             }
         },
-        toolUse(pixel) {
+        toolUse(pixel, preventSrcElement) {
             const tool = this.$parent.tool;
+            if(!preventSrcElement) {
+                pixel = pixel.srcElement;
+            }
 
             if(tool.selected === 'pen' && tool.colour !== "") {
-                pixel.srcElement.className = tool.colour;
+                pixel.className = tool.colour;
             }
-            else if(tool.selected === 'eyedropper' && pixel.srcElement.className !== "null") {
-                tool.colour = pixel.srcElement.className;
+            else if(tool.selected === 'eyedropper' && pixel.className !== "null") {
+                tool.colour = pixel.className;
             }
             else if(tool.selected === 'eraser') {
-                pixel.srcElement.className = 'null';
+                pixel.className = 'null';
             }
             else if(tool.selected === 'fillbucket' && tool.colour !== "") {
-                this.fill_checkPixels(pixel.srcElement);
-                pixel.srcElement.className = tool.colour;
+                this.fill_checkPixels(pixel);
+                pixel.className = tool.colour;
             }
         },
         fill_checkPixels(pixel, overrides) {
