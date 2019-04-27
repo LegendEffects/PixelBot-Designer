@@ -1,5 +1,5 @@
 require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".grid[data-v-61fd04f1] {\r\n    display: inline-block;\r\n    margin: -5px;\r\n}\r\n.combiGrid[data-v-61fd04f1] {\r\n    width: calc(100% - 240px);\r\n    padding: 20px;\r\n    white-space: nowrap;\r\n    overflow-x: auto;\r\n}")
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".grid[data-v-7c6a6a9e] {\r\n    display: inline-block;\r\n    margin: -5px;\r\n}\r\n.combiGrid[data-v-7c6a6a9e] {\r\n    width: calc(100% - 240px);\r\n    padding: 20px;\r\n    white-space: nowrap;\r\n    overflow-x: auto;\r\n}")
 ;(function(){
 'use strict';
 
@@ -86,16 +86,16 @@ var __vue__options__ = (typeof module.exports === "function"? module.exports.opt
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
 __vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"layout",attrs:{"id":"appContainer"}},[(_vm.show.credits)?_c('modal',{on:{"close":function($event){_vm.show.credits = false}}},[_c('h3',{staticStyle:{"border-bottom":"2px solid #202225","padding-bottom":"5px"},attrs:{"slot":"header"},slot:"header"},[_vm._v("Credits")]),_vm._v(" "),_c('p',{attrs:{"slot":"body"},slot:"body"},[_vm._v("Editor Developed by LegendEffects"),_c('br'),_c('br'),_vm._v("Original Editor by Claw Studios"),_c('br'),_c('br'),_vm._v("Original PixelBot concept invented by Laboratory 424"),_c('br'),_c('br'),_vm._v("First editor concept by CaptainPDA")])]):_vm._e(),_vm._v(" "),(_vm.show.export.show)?_c('modal',{on:{"close":function($event){_vm.show.export.show = false}}},[_c('h3',{staticStyle:{"border-bottom":"2px solid #202225","padding-bottom":"5px"},attrs:{"slot":"header"},slot:"header"},[_vm._v("Export")]),_vm._v(" "),_c('p',{attrs:{"slot":"body"},slot:"body"},_vm._l((_vm.show.export.content),function(pixelbot,index){return _c('span',{key:pixelbot.id},[_c('pre',{staticStyle:{"overflow":"auto","padding":"20px"}},[_vm._v("!pb"+_vm._s(index)+_vm._s(pixelbot))]),_vm._v(" "),_c('button',{staticClass:"actionButton darker",on:{"click":function($event){return _vm.copyCommand('!pb'+index+pixelbot)}}},[_c('i',{staticClass:"fas fa-copy"})])])}),0)]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"combiGrid"},[_c('div',{staticClass:"row"},[_c('pixelgrid'),_vm._v(" "),_c('pixelgrid')],1),_vm._v(" "),_c('div',{staticClass:"row"},[_c('pixelgrid'),_vm._v(" "),_c('pixelgrid')],1)]),_vm._v(" "),_c('toolbox')],1)}
 __vue__options__.staticRenderFns = []
-__vue__options__._scopeId = "data-v-61fd04f1"
+__vue__options__._scopeId = "data-v-7c6a6a9e"
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-61fd04f1", __vue__options__)
+    hotAPI.createRecord("data-v-7c6a6a9e", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-61fd04f1", __vue__options__)
+    hotAPI.rerender("data-v-7c6a6a9e", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":13,"vueify/lib/insert-css":15}],2:[function(require,module,exports){
@@ -117,7 +117,7 @@ module.exports = {
 };
 
 },{"./modal.vue":3,"./palette.vue":4,"./pixelGrid.vue":5,"./toolbox.vue":6,"vue":"vue"}],3:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".modal-mask[data-v-be132072] {\r\n    position: fixed;\r\n    z-index: 9998;\r\n    top: 0;\r\n    left: 0;\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: rgba(0, 0, 0, .5);\r\n    display: table;\r\n    transition: opacity .3s ease;\r\n}\r\n.modal-wrapper[data-v-be132072] {\r\n    display: table-cell;\r\n    vertical-align: middle;\r\n}\r\n.modal-container[data-v-be132072] {\r\n    width: 300px;\r\n    margin: 0px auto;\r\n    padding: 20px 30px;\r\n    background-color: #2f3136;\r\n    color: #fff;\r\n    border-radius: 2px;\r\n    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);\r\n    transition: all .3s ease;\r\n    font-family: Helvetica, Arial, sans-serif;\r\n}\r\n.modal-footer[data-v-be132072] {\r\n    text-align: right;\r\n}\r\n.modal-body[data-v-be132072] {\r\n    margin: 20px 0;\r\n}\r\n.modal-enter[data-v-be132072] {\r\n    opacity: 0;\r\n}\r\n.modal-leave-active[data-v-be132072] {\r\n    opacity: 0;\r\n}\r\n.modal-enter .modal-container[data-v-be132072],\r\n.modal-leave-active .modal-container[data-v-be132072] {\r\n    -webkit-transform: scale(1.1);\r\n    transform: scale(1.1);\r\n}")
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".modal-mask[data-v-28c80207] {\r\n    position: fixed;\r\n    z-index: 9998;\r\n    top: 0;\r\n    left: 0;\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: rgba(0, 0, 0, .5);\r\n    display: table;\r\n    transition: opacity .3s ease;\r\n}\r\n.modal-wrapper[data-v-28c80207] {\r\n    display: table-cell;\r\n    vertical-align: middle;\r\n}\r\n.modal-container[data-v-28c80207] {\r\n    width: 300px;\r\n    margin: 0px auto;\r\n    padding: 20px 30px;\r\n    background-color: #2f3136;\r\n    color: #fff;\r\n    border-radius: 2px;\r\n    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);\r\n    transition: all .3s ease;\r\n    font-family: Helvetica, Arial, sans-serif;\r\n}\r\n.modal-footer[data-v-28c80207] {\r\n    text-align: right;\r\n}\r\n.modal-body[data-v-28c80207] {\r\n    margin: 20px 0;\r\n}\r\n.modal-enter[data-v-28c80207] {\r\n    opacity: 0;\r\n}\r\n.modal-leave-active[data-v-28c80207] {\r\n    opacity: 0;\r\n}\r\n.modal-enter .modal-container[data-v-28c80207],\r\n.modal-leave-active .modal-container[data-v-28c80207] {\r\n    -webkit-transform: scale(1.1);\r\n    transform: scale(1.1);\r\n}")
 ;(function(){
 'use strict';
 
@@ -133,20 +133,20 @@ var __vue__options__ = (typeof module.exports === "function"? module.exports.opt
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
 __vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"modal-template"}},[_c('transition',{attrs:{"name":"modal"}},[_c('div',{staticClass:"modal-mask"},[_c('div',{staticClass:"modal-wrapper"},[_c('div',{staticClass:"modal-container"},[_c('div',{staticClass:"modal-header"},[_vm._t("header",[_vm._v("\n                        default header\n                        ")])],2),_vm._v(" "),_c('div',{staticClass:"modal-body"},[_vm._t("body",[_vm._v("\n                        default body\n                        ")])],2),_vm._v(" "),_c('div',{staticClass:"modal-footer"},[_c('button',{staticClass:"actionButton darker",on:{"click":function($event){return _vm.$emit('close')}}},[_vm._v("\n                            Ok\n                        ")])])])])])])],1)}
 __vue__options__.staticRenderFns = []
-__vue__options__._scopeId = "data-v-be132072"
+__vue__options__._scopeId = "data-v-28c80207"
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-be132072", __vue__options__)
+    hotAPI.createRecord("data-v-28c80207", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-be132072", __vue__options__)
+    hotAPI.rerender("data-v-28c80207", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":13,"vueify/lib/insert-css":15}],4:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".colour[data-v-01fd87d6] {\n    display: inline-block;\n\n    width: 50px;\n    height: 50px;\n    margin-right: 5px;\n}\n.colour[data-v-01fd87d6]:nth-child(3n+3) {\n    margin-right: 0;\n}\n.colour[data-v-01fd87d6]:hover {\n    cursor: pointer;\n}\n.active[data-v-01fd87d6] {\n    width: 46px;\n    height: 46px;\n}")
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".colour[data-v-4e918356] {\n    display: inline-block;\n\n    width: 50px;\n    height: 50px;\n    margin-right: 5px;\n}\n.colour[data-v-4e918356]:nth-child(3n+3) {\n    margin-right: 0;\n}\n.colour[data-v-4e918356]:hover {\n    cursor: pointer;\n}\n.active[data-v-4e918356] {\n    width: 46px;\n    height: 46px;\n}")
 ;(function(){
 'use strict';
 
@@ -170,20 +170,20 @@ var __vue__options__ = (typeof module.exports === "function"? module.exports.opt
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
 __vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"palette"}},_vm._l((_vm.colours),function(name,swatch){return _c('div',{key:swatch,staticClass:"colour",class:swatch + _vm.checkActive(swatch),on:{"click":function($event){return _vm.makeActive(swatch)}}})}),0)}
 __vue__options__.staticRenderFns = []
-__vue__options__._scopeId = "data-v-01fd87d6"
+__vue__options__._scopeId = "data-v-4e918356"
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-01fd87d6", __vue__options__)
+    hotAPI.createRecord("data-v-4e918356", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-01fd87d6", __vue__options__)
+    hotAPI.rerender("data-v-4e918356", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":13,"vueify/lib/insert-css":15}],5:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".grid[data-v-ab1de8f4] {\r\n    display: table;\r\n    border-spacing: 1px;\r\n    background: #37393f;\r\n    border: 5px solid #37393f;\r\n    overflow: auto;\r\n}\r\n.row[data-v-ab1de8f4] {\r\n    display: table-row;\r\n}\r\n.null[data-v-ab1de8f4] {\r\n    background: #000;\r\n}")
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".grid[data-v-22a10474] {\r\n    display: table;\r\n    border-spacing: 1px;\r\n    background: #37393f;\r\n    border: 5px solid #37393f;\r\n    overflow: auto;\r\n}\r\n.row[data-v-22a10474] {\r\n    display: table-row;\r\n}\r\n.null[data-v-22a10474] {\r\n    background: #000;\r\n}")
 ;(function(){
 'use strict';
 
@@ -209,6 +209,9 @@ exports.default = {
     methods: {
         getPixelID: function getPixelID(row, index) {
             return this.pixelGrid[row - 1][index - 1];
+        },
+        preventDrag: function preventDrag(event) {
+            event.preventDefault();
         },
         dragDraw: function dragDraw(pixel) {
             if (this.$parent.tool.drawing && this.$parent.tool.selected !== 'fillbucket') {
@@ -413,22 +416,22 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"grid"},_vm._l((12),function(row){return _c('div',{key:row,staticClass:"row"},_vm._l((12),function(index){return _c('div',{key:index,staticClass:"null",style:(_vm.style),attrs:{"data-id":_vm.getPixelID(row, index),"data-row":row,"data-index":index},on:{"mouseup":_vm.toolUse,"mouseover":_vm.dragDraw,"mouseleave":_vm.dragDraw}})}),0)}),0)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"grid"},_vm._l((12),function(row){return _c('div',{key:row,staticClass:"row"},_vm._l((12),function(index){return _c('div',{key:index,staticClass:"null",style:(_vm.style),attrs:{"draggable":"false","data-id":_vm.getPixelID(row, index),"data-row":row,"data-index":index},on:{"mouseup":_vm.toolUse,"mouseover":_vm.dragDraw,"mouseleave":_vm.dragDraw,"dragstart":_vm.preventDrag}})}),0)}),0)}
 __vue__options__.staticRenderFns = []
-__vue__options__._scopeId = "data-v-ab1de8f4"
+__vue__options__._scopeId = "data-v-22a10474"
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-ab1de8f4", __vue__options__)
+    hotAPI.createRecord("data-v-22a10474", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-ab1de8f4", __vue__options__)
+    hotAPI.rerender("data-v-22a10474", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":13,"vueify/lib/insert-css":15}],6:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".tool[data-v-fa3dd266] {\n    background: #2f3136;\n    border: #2f3136 solid 2px;\n    padding: .5rem;\n}\n.tool[data-v-fa3dd266]:hover {\n    cursor: pointer;\n}\n.tool[data-v-fa3dd266]:focus {\n    outline: none;\n}\n.tool.newRow[data-v-fa3dd266] {\n    margin-top: 5px;\n}\n.tool i[data-v-fa3dd266] {\n    color: #d6d6d6;\n    font-size: 32px;\n}")
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".tool[data-v-5c97190d] {\n    background: #2f3136;\n    border: #2f3136 solid 2px;\n    padding: .5rem;\n}\n.tool[data-v-5c97190d]:hover {\n    cursor: pointer;\n}\n.tool[data-v-5c97190d]:focus {\n    outline: none;\n}\n.tool.newRow[data-v-5c97190d] {\n    margin-top: 5px;\n}\n.tool i[data-v-5c97190d] {\n    color: #d6d6d6;\n    font-size: 32px;\n}")
 ;(function(){
 'use strict';
 
@@ -508,16 +511,16 @@ var __vue__options__ = (typeof module.exports === "function"? module.exports.opt
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
 __vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"toolbar"},[_c('div',{staticClass:"paletteSection"},[_c('span',{staticClass:"heading"},[_vm._v("Colour Palette")]),_vm._v(" "),_c('palette',{attrs:{"colours":_vm.pixelColours}})],1),_vm._v(" "),_c('div',{staticClass:"toolSelection section"},[_c('span',{staticClass:"heading"},[_vm._v("Tool Selection")]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('pen'),on:{"click":function($event){return _vm.changeTool('pen')}}},[_c('i',{staticClass:"fas fa-pen"})]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('eraser'),on:{"click":function($event){return _vm.changeTool('eraser')}}},[_c('i',{staticClass:"fas fa-eraser"})]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('eyedropper'),on:{"click":function($event){return _vm.changeTool('eyedropper')}}},[_c('i',{staticClass:"fas fa-eye-dropper"})]),_vm._v(" "),_c('button',{staticClass:"tool newRow",class:_vm.isSelected('fillbucket'),on:{"click":function($event){return _vm.changeTool('fillbucket')}}},[_c('i',{staticClass:"fas fa-fill"})])]),_vm._v(" "),_c('div',{staticClass:"gridSettings section"},[_c('span',{staticClass:"heading"},[_vm._v("Grid Settings")]),_vm._v(" "),_c('span',{staticClass:"subHeading"},[_vm._v("Pixel Size (px)")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.pixelSize),expression:"pixelSize"}],attrs:{"type":"number"},domProps:{"value":(_vm.pixelSize)},on:{"input":function($event){if($event.target.composing){ return; }_vm.pixelSize=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"gridSettings section"},[_c('span',{staticClass:"heading"},[_vm._v("Export/Import")]),_vm._v(" "),_c('button',{staticClass:"actionButton",on:{"click":function($event){return _vm.importGrids()}}},[_vm._v("Import")]),_vm._v(" "),_c('button',{staticClass:"actionButton",on:{"click":function($event){return _vm.exportGrids()}}},[_vm._v("Export")])]),_vm._v(" "),_c('div',{staticClass:"watermark section"},[_c('a',{attrs:{"href":"https://github.com/LegendEffects/PixelBot-Designer"}},[_vm._v("Github")]),_vm._v(" "),_c('a',{attrs:{"href":"#"},on:{"click":function($event){return _vm.showCredits()}}},[_vm._v("Credits")])])])}
 __vue__options__.staticRenderFns = []
-__vue__options__._scopeId = "data-v-fa3dd266"
+__vue__options__._scopeId = "data-v-5c97190d"
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-fa3dd266", __vue__options__)
+    hotAPI.createRecord("data-v-5c97190d", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-fa3dd266", __vue__options__)
+    hotAPI.rerender("data-v-5c97190d", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":13,"vueify/lib/insert-css":15}],7:[function(require,module,exports){

@@ -1,7 +1,7 @@
 <template>
     <div class="grid">
         <div class="row" v-for="row in 12" :key="row">
-            <div :style="style" v-for="index in 12" :key="index" @mouseup="toolUse" @mouseover="dragDraw" @mouseleave="dragDraw" class="null" :data-id="getPixelID(row, index)" :data-row="row" :data-index="index"></div>
+            <div :style="style" v-for="index in 12" :key="index" @mouseup="toolUse" @mouseover="dragDraw" @mouseleave="dragDraw" @dragstart="preventDrag" class="null" draggable=false :data-id="getPixelID(row, index)" :data-row="row" :data-index="index"></div>
         </div>
     </div>
 </template>
@@ -25,6 +25,9 @@ export default {
     methods: {
         getPixelID(row, index) {
             return this.pixelGrid[row-1][index-1];
+        },
+        preventDrag(event) {
+            event.preventDefault();
         },
         dragDraw(pixel) {
             if(this.$parent.tool.drawing && this.$parent.tool.selected !== 'fillbucket') {
