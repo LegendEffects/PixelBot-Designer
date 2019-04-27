@@ -6,34 +6,38 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".grid[da
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 exports.default = {
     name: "app",
     data: function data() {
         return {
-            pixelColours: _defineProperty({
-                'w': '#fff',
-                'r': '#ff0000',
-                'g': '#008000',
-                'x': '#000',
-                'y': '#ffff00',
-                'm': '#800000',
-                'p': '#800080',
-                'tp': '#6441a5',
-                'dg': '#006400',
-                'or': '#f0e68c',
-                'pi': '#daa520',
-                'n': '#000080',
-                'b': '#0000ff',
-                'go': '#008080',
-                'k': '#00ced1',
-                'gr': '#00ffff',
-                'cy': '#ffa500',
-                'te': '#ffd700',
-                'do': '#ff8c00'
-            }, 'or', '#ffc0cb'),
+            pixelColours: {
+                a: '#ff0000',
+                b: '#008000',
+                c: '#0000ff',
+                d: '#fff',
+                e: '#000',
+                f: '#ffff00',
+                g: '#800000',
+                h: '#800080',
+                i: '#6441a5',
+                j: '#000080',
+                k: '#006400',
+                l: '#ffd700',
+                m: '#f0e68c',
+                n: '#daa520',
+                o: '#00ffff',
+                p: '#008080',
+                q: '#00ced1',
+                r: '#ffa500',
+                s: '#ff8c00',
+                t: '#ff4500',
+                u: '#ffc0cb',
+                v: '#ff1393',
+                w: '#ffa07a',
+                x: '#858d86',
+                y: '#4c504d'
+
+            },
             grid: {
                 size: 12,
                 pixelSize: 35
@@ -165,7 +169,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-28c80207", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-28c80207", __vue__options__)
+    hotAPI.reload("data-v-28c80207", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":13,"vueify/lib/insert-css":15}],4:[function(require,module,exports){
@@ -202,7 +206,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-4e918356", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-4e918356", __vue__options__)
+    hotAPI.reload("data-v-4e918356", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":13,"vueify/lib/insert-css":15}],5:[function(require,module,exports){
@@ -453,7 +457,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-22a10474", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-22a10474", __vue__options__)
+    hotAPI.reload("data-v-22a10474", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":13,"vueify/lib/insert-css":15}],6:[function(require,module,exports){
@@ -553,7 +557,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-5c97190d", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-5c97190d", __vue__options__)
+    hotAPI.reload("data-v-5c97190d", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":13,"vueify/lib/insert-css":15}],7:[function(require,module,exports){
