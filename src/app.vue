@@ -8,7 +8,7 @@
             <h3 style="border-bottom: 2px solid #202225; padding-bottom: 5px;" slot="header">Export</h3>
             <p slot="body">
                 <span v-for="(pixelbot, index) in show.export.content" :key="pixelbot.id">
-                    <p style="overflow: auto; padding: 20px;">!pb1{{index}}d.{{pixelbot}}</p>
+                    <p style="overflow: auto; padding: 20px;">!pb{{index}}d.{{pixelbot}}</p>
                     <button class="actionButton darker" @click="copyCommand('!pb'+index+'d.'+pixelbot)"><i class="fas fa-copy"></i></button>
                 </span>
                 <span>
@@ -136,8 +136,28 @@
                 this.$copyText(text);
             },
             importText() {
+                let currentText = document.getElementById('importArea').value;
                 let selected = document.getElementById('importGrid').value;
-                this.grids[selected-1].rleImport(document.getElementById('importArea').value);
+                let allowedCommands = [
+                    '!pb1d.', '!pb2d.', '!pb3d.', '!pb4d.'
+                ]
+                if(currentText.substring(0, 5) === '!pbd.') {
+                    let parts = currentText.slice(5).split('.');
+                    if(parts < 1) return; //TODO: Better error handling
+
+                    let count = 0;
+                    for(let part of parts) {
+                        this.grids[count].rleImport(part);
+                        count++;
+                    }
+                
+                } else if(allowedCommands.includes(currentText.substring(0, 6))) {
+                    let smartDetect = currentText.charAt(3);
+                    if(smartDetect < 1 || smartDetect > 4) return;
+                    
+                    if(selected !== '') this.grids[selected-1].rleImport(currentText.substring(6, currentText.length));
+                    else this.grids[smartDetect-1].rleImport(currentText.subString(6, currentText.length));
+                }
             },
             keyPressed(e) {
                 if(e.which === 66) this.tool.selected = 'pen';

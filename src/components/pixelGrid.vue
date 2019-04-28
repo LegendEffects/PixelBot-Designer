@@ -180,8 +180,8 @@ export default {
             });
             
             for(let i=1;i<145;i++) {
-                if(output[i] in this.$parent.pixelColours) {
-                    this.grid[i] = output[i];
+                if(output[i-1] in this.$parent.pixelColours) {
+                    this.grid[i] = output[i-1];
                 } else {
                     this.grid[i] = 'e';
                 }
