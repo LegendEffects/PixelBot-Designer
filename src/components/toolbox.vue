@@ -75,6 +75,9 @@ export default {
             this.$parent.show.export.content = final;
             this.$parent.show.export.show = true;
         },
+        importGrids() {
+            this.$parent.show.import.show = true;
+        },
         lockScrollState() {
             if(this.$parent.tool.lockScroll) return ' active';
             else return '';
