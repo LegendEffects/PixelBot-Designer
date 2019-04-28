@@ -124,8 +124,45 @@ exports.default = {
             this.$copyText(text);
         },
         importText: function importText() {
+            var currentText = document.getElementById('importArea').value;
             var selected = document.getElementById('importGrid').value;
-            this.grids[selected - 1].rleImport(document.getElementById('importArea').value);
+            var allowedCommands = ['!pb1d.', '!pb2d.', '!pb3d.', '!pb4d.'];
+            if (currentText.substring(0, 5) === '!pbd.') {
+                var parts = currentText.slice(5).split('.');
+                if (parts < 1) return;
+
+                var count = 0;
+                var _iteratorNormalCompletion2 = true;
+                var _didIteratorError2 = false;
+                var _iteratorError2 = undefined;
+
+                try {
+                    for (var _iterator2 = parts[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                        var part = _step2.value;
+
+                        this.grids[count].rleImport(part);
+                        count++;
+                    }
+                } catch (err) {
+                    _didIteratorError2 = true;
+                    _iteratorError2 = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                            _iterator2.return();
+                        }
+                    } finally {
+                        if (_didIteratorError2) {
+                            throw _iteratorError2;
+                        }
+                    }
+                }
+            } else if (allowedCommands.includes(currentText.substring(0, 6))) {
+                var smartDetect = currentText.charAt(3);
+                if (smartDetect < 1 || smartDetect > 4) return;
+
+                if (selected !== '') this.grids[selected - 1].rleImport(currentText.substring(6, currentText.length));else this.grids[smartDetect - 1].rleImport(currentText.subString(6, currentText.length));
+            }
         },
         keyPressed: function keyPressed(e) {
             if (e.which === 66) this.tool.selected = 'pen';else if (e.which === 69) this.tool.selected = 'eraser';else if (e.which === 73) this.tool.selected = 'eyedropper';else if (e.which === 71) this.tool.selected = 'fillbucket';
