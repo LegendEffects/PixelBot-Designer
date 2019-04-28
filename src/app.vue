@@ -18,7 +18,7 @@
             </p>
         </modal>
         <modal v-if="show.import.show" @close="show.import.show = false">
-            <h3 style="border-bottom: 2px solid #202225; padding-bottom: 5px;" slot="header">Import <input id="importGrid" type="number" min="1" max="4" value="1"></h3>
+            <h3 style="border-bottom: 2px solid #202225; padding-bottom: 5px;" slot="header">Import <input id="importGrid" type="number" min="1" max="4"></h3>
             <p slot="body">
                 <textarea id="importArea"></textarea>
                 <button class="activeButton darker" @click="importText"><i class="fas fa-upload"></i></button>
@@ -156,7 +156,7 @@
                     if(smartDetect < 1 || smartDetect > 4) return;
                     
                     if(selected !== '') this.grids[selected-1].rleImport(currentText.substring(6, currentText.length));
-                    else this.grids[smartDetect-1].rleImport(currentText.subString(6, currentText.length));
+                    else this.grids[smartDetect-1].rleImport(currentText.substring(6, currentText.length));
                 }
             },
             keyPressed(e) {
