@@ -6,12 +6,12 @@
         </div>
         <div class="toolSelection section">
             <span class="heading">Tool Selection</span>
-            <button class="tool" :class="isSelected('pen')" @click="changeTool('pen')"><i class="fas fa-pen"></i></button>
-            <button class="tool" :class="isSelected('eraser')" @click="changeTool('eraser')"><i class="fas fa-eraser"></i></button>
-            <button class="tool" :class="isSelected('eyedropper')" @click="changeTool('eyedropper')"><i class="fas fa-eye-dropper"></i></button>
-            <button class="tool newRow" :class="isSelected('fillbucket')" @click="changeTool('fillbucket')"><i class="fas fa-fill"></i></button>
+            <button class="tool" title="Pen (b)" :class="isSelected('pen')" @click="changeTool('pen')"><i class="fas fa-pen"></i></button>
+            <button class="tool" title="Eraser (e)" :class="isSelected('eraser')" @click="changeTool('eraser')"><i class="fas fa-eraser"></i></button>
+            <button class="tool" title="Eyedropper (i)" :class="isSelected('eyedropper')" @click="changeTool('eyedropper')"><i class="fas fa-eye-dropper"></i></button>
+            <button class="tool newRow" title="Fill Bucket (g)" :class="isSelected('fillbucket')" @click="changeTool('fillbucket')"><i class="fas fa-fill"></i></button>
 
-            <button class="tool newRow" :class="lockScrollState()" @click="changeScrollState()"><i class="fas fa-lock"></i></button>
+            <button class="tool newRow" title="Lock Scrolling (For Touch)" :class="lockScrollState()" @click="changeScrollState()"><i class="fas fa-lock"></i></button>
         </div>
         <div class="gridSettings section">
             <span class="heading">Grid Settings</span>

@@ -159,7 +159,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-7c6a6a9e", __vue__options__)
   } else {
-    hotAPI.reload("data-v-7c6a6a9e", __vue__options__)
+    hotAPI.rerender("data-v-7c6a6a9e", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":13,"vueify/lib/insert-css":15}],2:[function(require,module,exports){
@@ -206,7 +206,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-28c80207", __vue__options__)
   } else {
-    hotAPI.reload("data-v-28c80207", __vue__options__)
+    hotAPI.rerender("data-v-28c80207", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":13,"vueify/lib/insert-css":15}],4:[function(require,module,exports){
@@ -243,7 +243,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-4e918356", __vue__options__)
   } else {
-    hotAPI.reload("data-v-4e918356", __vue__options__)
+    hotAPI.rerender("data-v-4e918356", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":13,"vueify/lib/insert-css":15}],5:[function(require,module,exports){
@@ -507,7 +507,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-22a10474", __vue__options__)
   } else {
-    hotAPI.reload("data-v-22a10474", __vue__options__)
+    hotAPI.rerender("data-v-22a10474", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":13,"vueify/lib/insert-css":15}],6:[function(require,module,exports){
@@ -599,7 +599,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"toolbar"},[_c('div',{staticClass:"paletteSection"},[_c('span',{staticClass:"heading"},[_vm._v("Colour Palette")]),_vm._v(" "),_c('palette',{attrs:{"colours":_vm.pixelColours}})],1),_vm._v(" "),_c('div',{staticClass:"toolSelection section"},[_c('span',{staticClass:"heading"},[_vm._v("Tool Selection")]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('pen'),on:{"click":function($event){return _vm.changeTool('pen')}}},[_c('i',{staticClass:"fas fa-pen"})]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('eraser'),on:{"click":function($event){return _vm.changeTool('eraser')}}},[_c('i',{staticClass:"fas fa-eraser"})]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('eyedropper'),on:{"click":function($event){return _vm.changeTool('eyedropper')}}},[_c('i',{staticClass:"fas fa-eye-dropper"})]),_vm._v(" "),_c('button',{staticClass:"tool newRow",class:_vm.isSelected('fillbucket'),on:{"click":function($event){return _vm.changeTool('fillbucket')}}},[_c('i',{staticClass:"fas fa-fill"})]),_vm._v(" "),_c('button',{staticClass:"tool newRow",class:_vm.lockScrollState(),on:{"click":function($event){return _vm.changeScrollState()}}},[_c('i',{staticClass:"fas fa-lock"})])]),_vm._v(" "),_c('div',{staticClass:"gridSettings section"},[_c('span',{staticClass:"heading"},[_vm._v("Grid Settings")]),_vm._v(" "),_c('span',{staticClass:"subHeading"},[_vm._v("Pixel Size (px)")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.pixelSize),expression:"pixelSize"}],attrs:{"type":"number"},domProps:{"value":(_vm.pixelSize)},on:{"input":function($event){if($event.target.composing){ return; }_vm.pixelSize=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"gridSettings section"},[_c('span',{staticClass:"heading"},[_vm._v("Import/Export")]),_vm._v(" "),_c('button',{staticClass:"actionButton",on:{"click":function($event){return _vm.importGrids()}}},[_vm._v("Import")]),_vm._v(" "),_c('button',{staticClass:"actionButton",on:{"click":function($event){return _vm.exportGrids()}}},[_vm._v("Export")])]),_vm._v(" "),_c('div',{staticClass:"watermark section"},[_c('a',{attrs:{"href":"https://github.com/LegendEffects/PixelBot-Designer"}},[_vm._v("Github")]),_vm._v(" "),_c('a',{attrs:{"href":"#"},on:{"click":function($event){return _vm.showCredits()}}},[_vm._v("Credits")])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"toolbar"},[_c('div',{staticClass:"paletteSection"},[_c('span',{staticClass:"heading"},[_vm._v("Colour Palette")]),_vm._v(" "),_c('palette',{attrs:{"colours":_vm.pixelColours}})],1),_vm._v(" "),_c('div',{staticClass:"toolSelection section"},[_c('span',{staticClass:"heading"},[_vm._v("Tool Selection")]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('pen'),attrs:{"title":"Pen (b)"},on:{"click":function($event){return _vm.changeTool('pen')}}},[_c('i',{staticClass:"fas fa-pen"})]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('eraser'),attrs:{"title":"Eraser (e)"},on:{"click":function($event){return _vm.changeTool('eraser')}}},[_c('i',{staticClass:"fas fa-eraser"})]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('eyedropper'),attrs:{"title":"Eyedropper (i)"},on:{"click":function($event){return _vm.changeTool('eyedropper')}}},[_c('i',{staticClass:"fas fa-eye-dropper"})]),_vm._v(" "),_c('button',{staticClass:"tool newRow",class:_vm.isSelected('fillbucket'),attrs:{"title":"Fill Bucket (g)"},on:{"click":function($event){return _vm.changeTool('fillbucket')}}},[_c('i',{staticClass:"fas fa-fill"})]),_vm._v(" "),_c('button',{staticClass:"tool newRow",class:_vm.lockScrollState(),attrs:{"title":"Lock Scrolling (For Touch)"},on:{"click":function($event){return _vm.changeScrollState()}}},[_c('i',{staticClass:"fas fa-lock"})])]),_vm._v(" "),_c('div',{staticClass:"gridSettings section"},[_c('span',{staticClass:"heading"},[_vm._v("Grid Settings")]),_vm._v(" "),_c('span',{staticClass:"subHeading"},[_vm._v("Pixel Size (px)")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.pixelSize),expression:"pixelSize"}],attrs:{"type":"number"},domProps:{"value":(_vm.pixelSize)},on:{"input":function($event){if($event.target.composing){ return; }_vm.pixelSize=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"gridSettings section"},[_c('span',{staticClass:"heading"},[_vm._v("Import/Export")]),_vm._v(" "),_c('button',{staticClass:"actionButton",on:{"click":function($event){return _vm.importGrids()}}},[_vm._v("Import")]),_vm._v(" "),_c('button',{staticClass:"actionButton",on:{"click":function($event){return _vm.exportGrids()}}},[_vm._v("Export")])]),_vm._v(" "),_c('div',{staticClass:"watermark section"},[_c('a',{attrs:{"href":"https://github.com/LegendEffects/PixelBot-Designer"}},[_vm._v("Github")]),_vm._v(" "),_c('a',{attrs:{"href":"#"},on:{"click":function($event){return _vm.showCredits()}}},[_vm._v("Credits")])])])}
 __vue__options__.staticRenderFns = []
 __vue__options__._scopeId = "data-v-5c97190d"
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
@@ -610,7 +610,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-5c97190d", __vue__options__)
   } else {
-    hotAPI.reload("data-v-5c97190d", __vue__options__)
+    hotAPI.rerender("data-v-5c97190d", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":13,"vueify/lib/insert-css":15}],7:[function(require,module,exports){
