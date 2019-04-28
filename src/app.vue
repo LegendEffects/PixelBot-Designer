@@ -8,7 +8,7 @@
             <h3 style="border-bottom: 2px solid #202225; padding-bottom: 5px;" slot="header">Export</h3>
             <p slot="body">
                 <span v-for="(pixelbot, index) in show.export.content" :key="pixelbot.id">
-                    <p style="overflow: auto; padding: 20px;">!pb{{index}}{{pixelbot}}</p>
+                    <p style="overflow: auto; padding: 20px;">!pb1{{index}}d.{{pixelbot}}</p>
                     <button class="actionButton darker" @click="copyCommand('!pb'+index+'d.'+pixelbot)"><i class="fas fa-copy"></i></button>
                 </span>
             </p>
