@@ -8,8 +8,8 @@
             <h3 style="border-bottom: 2px solid #202225; padding-bottom: 5px;" slot="header">Export</h3>
             <p slot="body">
                 <span v-for="(pixelbot, index) in show.export.content" :key="pixelbot.id">
-                    <pre style="overflow: auto; padding: 20px;">!pb{{index}}{{pixelbot}}</pre>
-                    <button class="actionButton darker" @click="copyCommand('!pb'+index+pixelbot)"><i class="fas fa-copy"></i></button>
+                    <p style="overflow: auto; padding: 20px;">!pb{{index}}{{pixelbot}}</p>
+                    <button class="actionButton darker" @click="copyCommand('!pb'+index+'d.'+pixelbot)"><i class="fas fa-copy"></i></button>
                 </span>
             </p>
         </modal>

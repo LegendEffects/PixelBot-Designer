@@ -1,7 +1,7 @@
 <template>
     <div class="grid">
         <div class="row" v-for="row in 12" :key="row">
-            <div :style="style" v-for="index in 12" :key="index" @mouseup="toolUse" @mouseover="dragDraw" @mouseleave="dragDraw" @dragstart="preventDrag" class="null" draggable=false :data-id="getPixelID(row, index)" :data-row="row" :data-index="index"></div>
+            <div :style="style" v-for="index in 12" :key="index" @mouseup="toolUse" @mouseover="dragDraw" @mouseleave="dragDraw" @dragstart="preventDrag" class="e" draggable=false :data-id="getPixelID(row, index)" :data-row="row" :data-index="index"></div>
         </div>
     </div>
 </template>
@@ -11,8 +11,8 @@
 export default {
     name: "pixelgrid",
     data: () => {return {
-        grid: [],
         size: 12,
+        grid: [],
         pixelGrid: [],
         style: {
             display: 'table-cell',
@@ -39,19 +39,35 @@ export default {
             if(!preventSrcElement) {
                 pixel = pixel.srcElement;
             }
+            let pixelID = pixel.attributes['data-id'].nodeValue;
 
             if(tool.selected === 'pen' && tool.colour !== "") {
-                pixel.className = tool.colour;
+                this.grid[pixelID] = tool.colour;
+                this.updatePixel(pixelID);
             }
             else if(tool.selected === 'eyedropper' && pixel.className !== "null") {
-                tool.colour = pixel.className;
+                tool.colour = this.grid[pixelID];
             }
             else if(tool.selected === 'eraser') {
-                pixel.className = 'null';
+                this.grid[pixelID] = 'e';
+                this.updatePixel(pixelID);
             }
             else if(tool.selected === 'fillbucket' && tool.colour !== "") {
                 this.fill_checkPixels(pixel);
                 pixel.className = tool.colour;
+
+                this.updateScreen();
+            }
+        },
+        // Why not just let vue do it? It doesn't, there are too many pixels.
+        updatePixel(id) {
+            const el = this.$el.querySelector('[data-id="'+id+'"]');
+            el.className = this.grid[id];
+        },
+        updateScreen() {
+            for(let key in this.grid) {
+                let el = this.$el.querySelector('[data-id="'+key+'"]');
+                el.className = this.grid[key];
             }
         },
         fill_checkPixels(pixel, overrides) {
@@ -69,31 +85,35 @@ export default {
             const tool = this.$parent.tool;
             // Left
             if(pixelInfo.column-1 >= 1) {
-                let newPix = dom.querySelector('[data-id="'+this.pixelGrid[pixelInfo.row-1][pixelInfo.column-2]+'"]');
-                this.fill_checkPixel(pixelInfo.currentColour, tool.colour, newPix);
+                let id = this.pixelGrid[pixelInfo.row-1][pixelInfo.column-2];
+                let newPix = this.grid[id];
+                this.fill_checkPixel(pixelInfo.currentColour, tool.colour, newPix, id);
             }
             // Right
             if(pixelInfo.column+1 <= 12) {
-                let newPix = dom.querySelector('[data-id="'+this.pixelGrid[pixelInfo.row-1][pixelInfo.column]+'"]');
-                this.fill_checkPixel(pixelInfo.currentColour, tool.colour, newPix);
+                let id = this.pixelGrid[pixelInfo.row-1][pixelInfo.column];
+                let newPix = this.grid[id];
+                this.fill_checkPixel(pixelInfo.currentColour, tool.colour, newPix, id);
             }
             // Top
             if(pixelInfo.row-1 >= 1) {
-                let newPix = dom.querySelector('[data-id="'+this.pixelGrid[pixelInfo.row-2][pixelInfo.column-1]+'"]');
-                this.fill_checkPixel(pixelInfo.currentColour, tool.colour, newPix);
+                let id = this.pixelGrid[pixelInfo.row-2][pixelInfo.column-1];
+                let newPix = this.grid[id];
+                this.fill_checkPixel(pixelInfo.currentColour, tool.colour, newPix, id);
             }
             // Bottom
             if(pixelInfo.row+1 <= 12) {
-                let newPix = dom.querySelector('[data-id="'+this.pixelGrid[pixelInfo.row][pixelInfo.column-1]+'"]');
-                this.fill_checkPixel(pixelInfo.currentColour, tool.colour, newPix);
+                let id = this.pixelGrid[pixelInfo.row][pixelInfo.column-1];
+                let newPix = this.grid[id];
+                this.fill_checkPixel(pixelInfo.currentColour, tool.colour, newPix, id);
             }
             return;
         },
-        fill_checkPixel(wantedColour, changeToColour, pixel) {
-            if(pixel.className === wantedColour) {
-                const cache = pixel.className;
-                pixel.className = changeToColour;
-                this.fill_checkPixels(pixel, {colour: cache});
+        fill_checkPixel(wantedColour, changeToColour, pixel, id) {
+            if(pixel === wantedColour) {
+                const cache = pixel;
+                this.grid[id] = changeToColour;
+                this.fill_checkPixels(this.$el.querySelector('[data-id="'+id+'"]'), {colour: cache});
                 return true;
             }
             return;
@@ -109,36 +129,54 @@ export default {
             this.size = size;
         },
         fetchCurrentDisplay() {
-            const gridElement = this.$el;
             let gridCache = [];
-
-            for(let row of gridElement.childNodes) {
-                if(row.className === 'row') {
-                    let rowCache = [];
-                    for(let pixel of row.childNodes) {
-                        rowCache.push(pixel)
-                    }
-                    gridCache.push(rowCache);
+            for(let row of this.pixelGrid) {
+                let rowC = [];
+                for(let pixel of row) {
+                    rowC.push(pixel);
                 }
+                gridCache.push(rowC);
             }
+            
             return gridCache;
         },
         exportAsCommand() {
-            let command = '';
-            let display = this.fetchCurrentDisplay()
+            return this.rle();
+        },
+        rle() {
+            let grid = this.grid;
 
-            for(let row of display) {
-                for(let pixel of row) {
-                    if(pixel.className !== 'null') {
-                        command += '.'+pixel.className+pixel.attributes['data-id'].nodeValue;
-                    }
+            let lastLetter = undefined;
+            let currentLetter = undefined;
+            let currentCount = undefined;
+            let output = '';
+
+            for(let i=0;i<grid.length;i++) {
+                if(typeof lastLetter === 'undefined') {
+                    lastLetter = grid[i];
+                    currentCount = 1;
+
+                    continue;
                 }
-            }
 
-            return command;
+                if(grid[i] !== lastLetter) {
+                    output += currentCount+lastLetter;
+                    lastLetter = grid[i];
+                    currentCount = 1;
+
+                    continue;
+                }
+                currentCount++;
+            }
+            return (output + (currentCount + lastLetter))
         }
     },
     created() {
+        // Preload every single pixel with null
+        for(let i=1;i<145;i++) {
+            this.grid[i] = 'e';
+        }
+
         // Generate the 'serpentine' pattern, this maps the pixel ids
         let final = [];
         for(let i=0;i<12;i++) {
@@ -164,8 +202,5 @@ export default {
 }
 .row {
     display: table-row;
-}
-.null {
-    background: #000;
 }
 </style>

@@ -111,7 +111,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"layout",attrs:{"id":"appContainer"}},[(_vm.show.credits)?_c('modal',{on:{"close":function($event){_vm.show.credits = false}}},[_c('h3',{staticStyle:{"border-bottom":"2px solid #202225","padding-bottom":"5px"},attrs:{"slot":"header"},slot:"header"},[_vm._v("Credits")]),_vm._v(" "),_c('p',{attrs:{"slot":"body"},slot:"body"},[_vm._v("Editor Developed by LegendEffects"),_c('br'),_c('br'),_vm._v("Original Editor by Claw Studios"),_c('br'),_c('br'),_vm._v("Original PixelBot concept invented by Laboratory 424"),_c('br'),_c('br'),_vm._v("First editor concept by CaptainPDA")])]):_vm._e(),_vm._v(" "),(_vm.show.export.show)?_c('modal',{on:{"close":function($event){_vm.show.export.show = false}}},[_c('h3',{staticStyle:{"border-bottom":"2px solid #202225","padding-bottom":"5px"},attrs:{"slot":"header"},slot:"header"},[_vm._v("Export")]),_vm._v(" "),_c('p',{attrs:{"slot":"body"},slot:"body"},_vm._l((_vm.show.export.content),function(pixelbot,index){return _c('span',{key:pixelbot.id},[_c('pre',{staticStyle:{"overflow":"auto","padding":"20px"}},[_vm._v("!pb"+_vm._s(index)+_vm._s(pixelbot))]),_vm._v(" "),_c('button',{staticClass:"actionButton darker",on:{"click":function($event){return _vm.copyCommand('!pb'+index+pixelbot)}}},[_c('i',{staticClass:"fas fa-copy"})])])}),0)]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"combiGrid",style:(_vm.isScrollLocked())},[_c('div',{staticClass:"row"},[_c('pixelgrid',{attrs:{"grid-id":0}}),_vm._v(" "),_c('pixelgrid',{attrs:{"grid-id":1}})],1),_vm._v(" "),_c('div',{staticClass:"row"},[_c('pixelgrid',{attrs:{"grid-id":2}}),_vm._v(" "),_c('pixelgrid',{attrs:{"grid-id":3}})],1)]),_vm._v(" "),_c('toolbox')],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"layout",attrs:{"id":"appContainer"}},[(_vm.show.credits)?_c('modal',{on:{"close":function($event){_vm.show.credits = false}}},[_c('h3',{staticStyle:{"border-bottom":"2px solid #202225","padding-bottom":"5px"},attrs:{"slot":"header"},slot:"header"},[_vm._v("Credits")]),_vm._v(" "),_c('p',{attrs:{"slot":"body"},slot:"body"},[_vm._v("Editor Developed by LegendEffects"),_c('br'),_c('br'),_vm._v("Original Editor by Claw Studios"),_c('br'),_c('br'),_vm._v("Original PixelBot concept invented by Laboratory 424"),_c('br'),_c('br'),_vm._v("First editor concept by CaptainPDA")])]):_vm._e(),_vm._v(" "),(_vm.show.export.show)?_c('modal',{on:{"close":function($event){_vm.show.export.show = false}}},[_c('h3',{staticStyle:{"border-bottom":"2px solid #202225","padding-bottom":"5px"},attrs:{"slot":"header"},slot:"header"},[_vm._v("Export")]),_vm._v(" "),_c('p',{attrs:{"slot":"body"},slot:"body"},_vm._l((_vm.show.export.content),function(pixelbot,index){return _c('span',{key:pixelbot.id},[_c('p',{staticStyle:{"overflow":"auto","padding":"20px"}},[_vm._v("!pb"+_vm._s(index)+_vm._s(pixelbot))]),_vm._v(" "),_c('button',{staticClass:"actionButton darker",on:{"click":function($event){return _vm.copyCommand('!pb'+index+'d.'+pixelbot)}}},[_c('i',{staticClass:"fas fa-copy"})])])}),0)]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"combiGrid",style:(_vm.isScrollLocked())},[_c('div',{staticClass:"row"},[_c('pixelgrid',{attrs:{"grid-id":0}}),_vm._v(" "),_c('pixelgrid',{attrs:{"grid-id":1}})],1),_vm._v(" "),_c('div',{staticClass:"row"},[_c('pixelgrid',{attrs:{"grid-id":2}}),_vm._v(" "),_c('pixelgrid',{attrs:{"grid-id":3}})],1)]),_vm._v(" "),_c('toolbox')],1)}
 __vue__options__.staticRenderFns = []
 __vue__options__._scopeId = "data-v-7c6a6a9e"
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
@@ -122,7 +122,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-7c6a6a9e", __vue__options__)
   } else {
-    hotAPI.reload("data-v-7c6a6a9e", __vue__options__)
+    hotAPI.rerender("data-v-7c6a6a9e", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":13,"vueify/lib/insert-css":15}],2:[function(require,module,exports){
@@ -210,7 +210,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":13,"vueify/lib/insert-css":15}],5:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".grid[data-v-22a10474] {\r\n    display: table;\r\n    border-spacing: 1px;\r\n    background: #37393f;\r\n    border: 5px solid #37393f;\r\n    overflow: auto;\r\n}\r\n.row[data-v-22a10474] {\r\n    display: table-row;\r\n}\r\n.null[data-v-22a10474] {\r\n    background: #000;\r\n}")
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".grid[data-v-22a10474] {\r\n    display: table;\r\n    border-spacing: 1px;\r\n    background: #37393f;\r\n    border: 5px solid #37393f;\r\n    overflow: auto;\r\n}\r\n.row[data-v-22a10474] {\r\n    display: table-row;\r\n}")
 ;(function(){
 'use strict';
 
@@ -221,8 +221,8 @@ exports.default = {
     name: "pixelgrid",
     data: function data() {
         return {
-            grid: [],
             size: 12,
+            grid: [],
             pixelGrid: [],
             style: {
                 display: 'table-cell',
@@ -250,16 +250,31 @@ exports.default = {
             if (!preventSrcElement) {
                 pixel = pixel.srcElement;
             }
+            var pixelID = pixel.attributes['data-id'].nodeValue;
 
             if (tool.selected === 'pen' && tool.colour !== "") {
-                pixel.className = tool.colour;
+                this.grid[pixelID] = tool.colour;
+                this.updatePixel(pixelID);
             } else if (tool.selected === 'eyedropper' && pixel.className !== "null") {
-                tool.colour = pixel.className;
+                tool.colour = this.grid[pixelID];
             } else if (tool.selected === 'eraser') {
-                pixel.className = 'null';
+                this.grid[pixelID] = 'e';
+                this.updatePixel(pixelID);
             } else if (tool.selected === 'fillbucket' && tool.colour !== "") {
                 this.fill_checkPixels(pixel);
                 pixel.className = tool.colour;
+
+                this.updateScreen();
+            }
+        },
+        updatePixel: function updatePixel(id) {
+            var el = this.$el.querySelector('[data-id="' + id + '"]');
+            el.className = this.grid[id];
+        },
+        updateScreen: function updateScreen() {
+            for (var key in this.grid) {
+                var el = this.$el.querySelector('[data-id="' + key + '"]');
+                el.className = this.grid[key];
             }
         },
         fill_checkPixels: function fill_checkPixels(pixel, overrides) {
@@ -277,31 +292,35 @@ exports.default = {
             var tool = this.$parent.tool;
 
             if (pixelInfo.column - 1 >= 1) {
-                var newPix = dom.querySelector('[data-id="' + this.pixelGrid[pixelInfo.row - 1][pixelInfo.column - 2] + '"]');
-                this.fill_checkPixel(pixelInfo.currentColour, tool.colour, newPix);
+                var id = this.pixelGrid[pixelInfo.row - 1][pixelInfo.column - 2];
+                var newPix = this.grid[id];
+                this.fill_checkPixel(pixelInfo.currentColour, tool.colour, newPix, id);
             }
 
             if (pixelInfo.column + 1 <= 12) {
-                var _newPix = dom.querySelector('[data-id="' + this.pixelGrid[pixelInfo.row - 1][pixelInfo.column] + '"]');
-                this.fill_checkPixel(pixelInfo.currentColour, tool.colour, _newPix);
+                var _id = this.pixelGrid[pixelInfo.row - 1][pixelInfo.column];
+                var _newPix = this.grid[_id];
+                this.fill_checkPixel(pixelInfo.currentColour, tool.colour, _newPix, _id);
             }
 
             if (pixelInfo.row - 1 >= 1) {
-                var _newPix2 = dom.querySelector('[data-id="' + this.pixelGrid[pixelInfo.row - 2][pixelInfo.column - 1] + '"]');
-                this.fill_checkPixel(pixelInfo.currentColour, tool.colour, _newPix2);
+                var _id2 = this.pixelGrid[pixelInfo.row - 2][pixelInfo.column - 1];
+                var _newPix2 = this.grid[_id2];
+                this.fill_checkPixel(pixelInfo.currentColour, tool.colour, _newPix2, _id2);
             }
 
             if (pixelInfo.row + 1 <= 12) {
-                var _newPix3 = dom.querySelector('[data-id="' + this.pixelGrid[pixelInfo.row][pixelInfo.column - 1] + '"]');
-                this.fill_checkPixel(pixelInfo.currentColour, tool.colour, _newPix3);
+                var _id3 = this.pixelGrid[pixelInfo.row][pixelInfo.column - 1];
+                var _newPix3 = this.grid[_id3];
+                this.fill_checkPixel(pixelInfo.currentColour, tool.colour, _newPix3, _id3);
             }
             return;
         },
-        fill_checkPixel: function fill_checkPixel(wantedColour, changeToColour, pixel) {
-            if (pixel.className === wantedColour) {
-                var cache = pixel.className;
-                pixel.className = changeToColour;
-                this.fill_checkPixels(pixel, { colour: cache });
+        fill_checkPixel: function fill_checkPixel(wantedColour, changeToColour, pixel, id) {
+            if (pixel === wantedColour) {
+                var cache = pixel;
+                this.grid[id] = changeToColour;
+                this.fill_checkPixels(this.$el.querySelector('[data-id="' + id + '"]'), { colour: cache });
                 return true;
             }
             return;
@@ -317,46 +336,42 @@ exports.default = {
             this.size = size;
         },
         fetchCurrentDisplay: function fetchCurrentDisplay() {
-            var gridElement = this.$el;
             var gridCache = [];
-
             var _iteratorNormalCompletion = true;
             var _didIteratorError = false;
             var _iteratorError = undefined;
 
             try {
-                for (var _iterator = gridElement.childNodes[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                for (var _iterator = this.pixelGrid[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                     var row = _step.value;
 
-                    if (row.className === 'row') {
-                        var rowCache = [];
-                        var _iteratorNormalCompletion2 = true;
-                        var _didIteratorError2 = false;
-                        var _iteratorError2 = undefined;
+                    var rowC = [];
+                    var _iteratorNormalCompletion2 = true;
+                    var _didIteratorError2 = false;
+                    var _iteratorError2 = undefined;
 
+                    try {
+                        for (var _iterator2 = row[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                            var pixel = _step2.value;
+
+                            rowC.push(pixel);
+                        }
+                    } catch (err) {
+                        _didIteratorError2 = true;
+                        _iteratorError2 = err;
+                    } finally {
                         try {
-                            for (var _iterator2 = row.childNodes[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                                var pixel = _step2.value;
-
-                                rowCache.push(pixel);
+                            if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                                _iterator2.return();
                             }
-                        } catch (err) {
-                            _didIteratorError2 = true;
-                            _iteratorError2 = err;
                         } finally {
-                            try {
-                                if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                                    _iterator2.return();
-                                }
-                            } finally {
-                                if (_didIteratorError2) {
-                                    throw _iteratorError2;
-                                }
+                            if (_didIteratorError2) {
+                                throw _iteratorError2;
                             }
                         }
-
-                        gridCache.push(rowCache);
                     }
+
+                    gridCache.push(rowC);
                 }
             } catch (err) {
                 _didIteratorError = true;
@@ -376,68 +391,47 @@ exports.default = {
             return gridCache;
         },
         exportAsCommand: function exportAsCommand() {
-            var command = '';
-            var display = this.fetchCurrentDisplay();
+            return this.rle();
+        },
+        rle: function rle() {
+            var grid = this.grid;
 
-            var _iteratorNormalCompletion3 = true;
-            var _didIteratorError3 = false;
-            var _iteratorError3 = undefined;
+            var lastLetter = undefined;
+            var currentLetter = undefined;
+            var currentCount = undefined;
+            var output = '';
 
-            try {
-                for (var _iterator3 = display[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                    var row = _step3.value;
-                    var _iteratorNormalCompletion4 = true;
-                    var _didIteratorError4 = false;
-                    var _iteratorError4 = undefined;
+            for (var i = 0; i < grid.length; i++) {
+                if (typeof lastLetter === 'undefined') {
+                    lastLetter = grid[i];
+                    currentCount = 1;
 
-                    try {
-                        for (var _iterator4 = row[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-                            var pixel = _step4.value;
-
-                            if (pixel.className !== 'null') {
-                                command += '.' + pixel.className + pixel.attributes['data-id'].nodeValue;
-                            }
-                        }
-                    } catch (err) {
-                        _didIteratorError4 = true;
-                        _iteratorError4 = err;
-                    } finally {
-                        try {
-                            if (!_iteratorNormalCompletion4 && _iterator4.return) {
-                                _iterator4.return();
-                            }
-                        } finally {
-                            if (_didIteratorError4) {
-                                throw _iteratorError4;
-                            }
-                        }
-                    }
+                    continue;
                 }
-            } catch (err) {
-                _didIteratorError3 = true;
-                _iteratorError3 = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion3 && _iterator3.return) {
-                        _iterator3.return();
-                    }
-                } finally {
-                    if (_didIteratorError3) {
-                        throw _iteratorError3;
-                    }
+
+                if (grid[i] !== lastLetter) {
+                    output += currentCount + lastLetter;
+                    lastLetter = grid[i];
+                    currentCount = 1;
+
+                    continue;
                 }
+                currentCount++;
             }
-
-            return command;
+            return output + (currentCount + lastLetter);
         }
     },
     created: function created() {
+        for (var i = 1; i < 145; i++) {
+            this.grid[i] = 'e';
+        }
+
         var final = [];
-        for (var i = 0; i < 12; i++) {
+        for (var _i = 0; _i < 12; _i++) {
             var row = [];
             for (var r = 1; r < 13; r++) {
-                row.push(i * 12 + r);
-            }if (i % 2 === 1) final[i] = row.reverse();else final[i] = row;
+                row.push(_i * 12 + r);
+            }if (_i % 2 === 1) final[_i] = row.reverse();else final[_i] = row;
         }
         this.pixelGrid = final.reverse();
     }
@@ -446,7 +440,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"grid"},_vm._l((12),function(row){return _c('div',{key:row,staticClass:"row"},_vm._l((12),function(index){return _c('div',{key:index,staticClass:"null",style:(_vm.style),attrs:{"draggable":"false","data-id":_vm.getPixelID(row, index),"data-row":row,"data-index":index},on:{"mouseup":_vm.toolUse,"mouseover":_vm.dragDraw,"mouseleave":_vm.dragDraw,"dragstart":_vm.preventDrag}})}),0)}),0)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"grid"},_vm._l((12),function(row){return _c('div',{key:row,staticClass:"row"},_vm._l((12),function(index){return _c('div',{key:index,staticClass:"e",style:(_vm.style),attrs:{"draggable":"false","data-id":_vm.getPixelID(row, index),"data-row":row,"data-index":index},on:{"mouseup":_vm.toolUse,"mouseover":_vm.dragDraw,"mouseleave":_vm.dragDraw,"dragstart":_vm.preventDrag}})}),0)}),0)}
 __vue__options__.staticRenderFns = []
 __vue__options__._scopeId = "data-v-22a10474"
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
