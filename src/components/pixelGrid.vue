@@ -171,7 +171,6 @@ export default {
             return (output + (currentCount + lastLetter))
         },
         rleImport(str) {
-            console.log(str);
             let output = str.replace(/(\d+)([a-zA-A])/g, function (match, num, letter) {
                 var ret = '', i;
                 for (i = 0; i < parseInt(num, 10); i++) {
@@ -179,8 +178,7 @@ export default {
                 }
                 return ret;
             });
-
-            console.log(output);
+            
             for(let i=1;i<145;i++) {
                 if(output[i] in this.$parent.pixelColours) {
                     this.grid[i] = output[i];

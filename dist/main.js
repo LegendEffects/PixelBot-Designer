@@ -458,7 +458,6 @@ exports.default = {
             return output + (currentCount + lastLetter);
         },
         rleImport: function rleImport(str) {
-            console.log(str);
             var output = str.replace(/(\d+)([a-zA-A])/g, function (match, num, letter) {
                 var ret = '',
                     i;
@@ -468,7 +467,6 @@ exports.default = {
                 return ret;
             });
 
-            console.log(output);
             for (var i = 1; i < 145; i++) {
                 if (output[i] in this.$parent.pixelColours) {
                     this.grid[i] = output[i];
@@ -509,7 +507,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-22a10474", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-22a10474", __vue__options__)
+    hotAPI.reload("data-v-22a10474", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":13,"vueify/lib/insert-css":15}],6:[function(require,module,exports){
