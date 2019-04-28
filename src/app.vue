@@ -11,8 +11,20 @@
                     <p style="overflow: auto; padding: 20px;">!pb1{{index}}d.{{pixelbot}}</p>
                     <button class="actionButton darker" @click="copyCommand('!pb'+index+'d.'+pixelbot)"><i class="fas fa-copy"></i></button>
                 </span>
+                <span>
+                    <p style="overflow: auto; padding: 20px;">!pbd{{getAllGrids()}}</p>
+                    <button class="actionButton darker" @click="copyCommand('!pbd'+getAllGrids())"><i class="fas fa-copy"></i></button>
+                </span>
             </p>
         </modal>
+        <modal v-if="show.import.show" @close="show.import.show = false">
+            <h3 style="border-bottom: 2px solid #202225; padding-bottom: 5px;" slot="header">Import <input id="importGrid" type="number" min="1" max="4" value="1"></h3>
+            <p slot="body">
+                <textarea id="importArea"></textarea>
+                <button class="activeButton darker" @click="importText"><i class="fas fa-upload"></i></button>
+            </p>
+        </modal>
+
 
         <div class="combiGrid" :style="isScrollLocked()">
             <div class="row">
@@ -76,6 +88,10 @@
                 export: {
                     show: false,
                     content: []
+                },
+                import: {
+                    show: false,
+                    content: ''
                 }
             }
         }},
@@ -105,12 +121,23 @@
                     }
                 }
             },
+            getAllGrids() {
+                let final = '';
+                for(let grid of this.grids) {
+                    final += '.'+grid.exportAsCommand();
+                }
+                return final;
+            },
             isScrollLocked() {
                 if(this.tool.lockScroll === true) return {overflow: 'hidden'};
                 else return {overflow: 'auto'};
             },
             copyCommand(text) {
                 this.$copyText(text);
+            },
+            importText() {
+                let selected = document.getElementById('importGrid').value;
+                this.grids[selected-1].rleImport(document.getElementById('importArea').value);
             },
             keyPressed(e) {
                 if(e.which === 66) this.tool.selected = 'pen';

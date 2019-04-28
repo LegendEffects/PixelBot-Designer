@@ -54,6 +54,10 @@ exports.default = {
                 export: {
                     show: false,
                     content: []
+                },
+                import: {
+                    show: false,
+                    content: ''
                 }
             }
         };
@@ -84,11 +88,44 @@ exports.default = {
                 }
             }
         },
+        getAllGrids: function getAllGrids() {
+            var final = '';
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = this.grids[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var grid = _step.value;
+
+                    final += '.' + grid.exportAsCommand();
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+
+            return final;
+        },
         isScrollLocked: function isScrollLocked() {
             if (this.tool.lockScroll === true) return { overflow: 'hidden' };else return { overflow: 'auto' };
         },
         copyCommand: function copyCommand(text) {
             this.$copyText(text);
+        },
+        importText: function importText() {
+            var selected = document.getElementById('importGrid').value;
+            this.grids[selected - 1].rleImport(document.getElementById('importArea').value);
         },
         keyPressed: function keyPressed(e) {
             if (e.which === 66) this.tool.selected = 'pen';else if (e.which === 69) this.tool.selected = 'eraser';else if (e.which === 73) this.tool.selected = 'eyedropper';else if (e.which === 71) this.tool.selected = 'fillbucket';
@@ -111,7 +148,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"layout",attrs:{"id":"appContainer"}},[(_vm.show.credits)?_c('modal',{on:{"close":function($event){_vm.show.credits = false}}},[_c('h3',{staticStyle:{"border-bottom":"2px solid #202225","padding-bottom":"5px"},attrs:{"slot":"header"},slot:"header"},[_vm._v("Credits")]),_vm._v(" "),_c('p',{attrs:{"slot":"body"},slot:"body"},[_vm._v("Editor Developed by LegendEffects"),_c('br'),_c('br'),_vm._v("Original Editor by Claw Studios"),_c('br'),_c('br'),_vm._v("Original PixelBot concept invented by Laboratory 424"),_c('br'),_c('br'),_vm._v("First editor concept by CaptainPDA")])]):_vm._e(),_vm._v(" "),(_vm.show.export.show)?_c('modal',{on:{"close":function($event){_vm.show.export.show = false}}},[_c('h3',{staticStyle:{"border-bottom":"2px solid #202225","padding-bottom":"5px"},attrs:{"slot":"header"},slot:"header"},[_vm._v("Export")]),_vm._v(" "),_c('p',{attrs:{"slot":"body"},slot:"body"},_vm._l((_vm.show.export.content),function(pixelbot,index){return _c('span',{key:pixelbot.id},[_c('p',{staticStyle:{"overflow":"auto","padding":"20px"}},[_vm._v("!pb1"+_vm._s(index)+"d."+_vm._s(pixelbot))]),_vm._v(" "),_c('button',{staticClass:"actionButton darker",on:{"click":function($event){return _vm.copyCommand('!pb'+index+'d.'+pixelbot)}}},[_c('i',{staticClass:"fas fa-copy"})])])}),0)]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"combiGrid",style:(_vm.isScrollLocked())},[_c('div',{staticClass:"row"},[_c('pixelgrid',{attrs:{"grid-id":0}}),_vm._v(" "),_c('pixelgrid',{attrs:{"grid-id":1}})],1),_vm._v(" "),_c('div',{staticClass:"row"},[_c('pixelgrid',{attrs:{"grid-id":2}}),_vm._v(" "),_c('pixelgrid',{attrs:{"grid-id":3}})],1)]),_vm._v(" "),_c('toolbox')],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"layout",attrs:{"id":"appContainer"}},[(_vm.show.credits)?_c('modal',{on:{"close":function($event){_vm.show.credits = false}}},[_c('h3',{staticStyle:{"border-bottom":"2px solid #202225","padding-bottom":"5px"},attrs:{"slot":"header"},slot:"header"},[_vm._v("Credits")]),_vm._v(" "),_c('p',{attrs:{"slot":"body"},slot:"body"},[_vm._v("Editor Developed by LegendEffects"),_c('br'),_c('br'),_vm._v("Original Editor by Claw Studios"),_c('br'),_c('br'),_vm._v("Original PixelBot concept invented by Laboratory 424"),_c('br'),_c('br'),_vm._v("First editor concept by CaptainPDA")])]):_vm._e(),_vm._v(" "),(_vm.show.export.show)?_c('modal',{on:{"close":function($event){_vm.show.export.show = false}}},[_c('h3',{staticStyle:{"border-bottom":"2px solid #202225","padding-bottom":"5px"},attrs:{"slot":"header"},slot:"header"},[_vm._v("Export")]),_vm._v(" "),_c('p',{attrs:{"slot":"body"},slot:"body"},[_vm._l((_vm.show.export.content),function(pixelbot,index){return _c('span',{key:pixelbot.id},[_c('p',{staticStyle:{"overflow":"auto","padding":"20px"}},[_vm._v("!pb1"+_vm._s(index)+"d."+_vm._s(pixelbot))]),_vm._v(" "),_c('button',{staticClass:"actionButton darker",on:{"click":function($event){return _vm.copyCommand('!pb'+index+'d.'+pixelbot)}}},[_c('i',{staticClass:"fas fa-copy"})])])}),_vm._v(" "),_c('span',[_c('p',{staticStyle:{"overflow":"auto","padding":"20px"}},[_vm._v("!pbd"+_vm._s(_vm.getAllGrids()))]),_vm._v(" "),_c('button',{staticClass:"actionButton darker",on:{"click":function($event){_vm.copyCommand('!pbd'+_vm.getAllGrids())}}},[_c('i',{staticClass:"fas fa-copy"})])])],2)]):_vm._e(),_vm._v(" "),(_vm.show.import.show)?_c('modal',{on:{"close":function($event){_vm.show.import.show = false}}},[_c('h3',{staticStyle:{"border-bottom":"2px solid #202225","padding-bottom":"5px"},attrs:{"slot":"header"},slot:"header"},[_vm._v("Import "),_c('input',{attrs:{"id":"importGrid","type":"number","min":"1","max":"4","value":"1"}})]),_vm._v(" "),_c('p',{attrs:{"slot":"body"},slot:"body"},[_c('textarea',{attrs:{"id":"importArea"}}),_vm._v(" "),_c('button',{staticClass:"activeButton darker",on:{"click":_vm.importText}},[_c('i',{staticClass:"fas fa-upload"})])])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"combiGrid",style:(_vm.isScrollLocked())},[_c('div',{staticClass:"row"},[_c('pixelgrid',{attrs:{"grid-id":0}}),_vm._v(" "),_c('pixelgrid',{attrs:{"grid-id":1}})],1),_vm._v(" "),_c('div',{staticClass:"row"},[_c('pixelgrid',{attrs:{"grid-id":2}}),_vm._v(" "),_c('pixelgrid',{attrs:{"grid-id":3}})],1)]),_vm._v(" "),_c('toolbox')],1)}
 __vue__options__.staticRenderFns = []
 __vue__options__._scopeId = "data-v-7c6a6a9e"
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
@@ -419,6 +456,27 @@ exports.default = {
                 currentCount++;
             }
             return output + (currentCount + lastLetter);
+        },
+        rleImport: function rleImport(str) {
+            console.log(str);
+            var output = str.replace(/(\d+)([a-zA-A])/g, function (match, num, letter) {
+                var ret = '',
+                    i;
+                for (i = 0; i < parseInt(num, 10); i++) {
+                    ret += letter;
+                }
+                return ret;
+            });
+
+            console.log(output);
+            for (var i = 1; i < 145; i++) {
+                if (output[i] in this.$parent.pixelColours) {
+                    this.grid[i] = output[i];
+                } else {
+                    this.grid[i] = 'e';
+                }
+            }
+            this.updateScreen();
         }
     },
     created: function created() {
@@ -517,6 +575,9 @@ exports.default = {
 
             this.$parent.show.export.content = final;
             this.$parent.show.export.show = true;
+        },
+        importGrids: function importGrids() {
+            this.$parent.show.import.show = true;
         },
         lockScrollState: function lockScrollState() {
             if (this.$parent.tool.lockScroll) return ' active';else return '';
