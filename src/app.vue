@@ -56,7 +56,8 @@
             },
             grid: {
                 size: 12,
-                pixelSize: 35
+                pixelSize: 35,
+                pixelMap: [],
             },
             grids: null,
             tool: {
@@ -66,11 +67,7 @@
                 lockScroll: false,
             },
             show: {
-                credits: false,
-                export: {
-                    show: false,
-                    content: []
-                },
+                credits: false
             }
         }},
         watch: {
@@ -83,13 +80,13 @@
         methods: {
             startDrag() {
                 this.tool.drawing = true;
-                window.addEventListener('touchmove', this.touchdraw);
+                window.addEventListener('touchmove', this.touchDraw);
             },
             stopDrag() {
                 this.tool.drawing = false;
-                window.removeEventListener('touchmove', this.touchdraw);
+                window.removeEventListener('touchmove', this.touchDraw);
             },
-            touchdraw(e) {
+            touchDraw(e) {
                 if(this.tool.drawing && this.tool.lockScroll) {
                     let element = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
                     let backelement = element.parentElement.parentElement;
@@ -116,12 +113,25 @@
             window.addEventListener('touchstart', this.startDrag);
             window.addEventListener('touchend', this.stopDrag);
 
+            // Fetch grids that are currently mounted in the dom
             this.grids = this.$children.filter(function(val) {
                 if(val.grid) return true;
                 else return false;
             });
 
             document.onkeyup = this.keyPressed;
+        },
+        created() {
+            // Generate pixel map
+            let final = [];
+            for(let i=0;i<12;i++) {
+                let row = [];
+                for(let r=1;r<13;r++) row.push((i*12)+r);
+
+                if(i % 2 === 1) final[i] = row.reverse();
+                else final[i] = row;
+            }
+            this.grid.pixelMap = final.reverse();
         }
     }
 </script>

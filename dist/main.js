@@ -40,7 +40,8 @@ exports.default = {
             },
             grid: {
                 size: 12,
-                pixelSize: 35
+                pixelSize: 35,
+                pixelMap: []
             },
             grids: null,
             tool: {
@@ -50,11 +51,7 @@ exports.default = {
                 lockScroll: false
             },
             show: {
-                credits: false,
-                export: {
-                    show: false,
-                    content: []
-                }
+                credits: false
             }
         };
     },
@@ -68,13 +65,13 @@ exports.default = {
     methods: {
         startDrag: function startDrag() {
             this.tool.drawing = true;
-            window.addEventListener('touchmove', this.touchdraw);
+            window.addEventListener('touchmove', this.touchDraw);
         },
         stopDrag: function stopDrag() {
             this.tool.drawing = false;
-            window.removeEventListener('touchmove', this.touchdraw);
+            window.removeEventListener('touchmove', this.touchDraw);
         },
-        touchdraw: function touchdraw(e) {
+        touchDraw: function touchDraw(e) {
             if (this.tool.drawing && this.tool.lockScroll) {
                 var element = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
                 var backelement = element.parentElement.parentElement;
@@ -102,6 +99,16 @@ exports.default = {
         });
 
         document.onkeyup = this.keyPressed;
+    },
+    created: function created() {
+        var final = [];
+        for (var i = 0; i < 12; i++) {
+            var row = [];
+            for (var r = 1; r < 13; r++) {
+                row.push(i * 12 + r);
+            }if (i % 2 === 1) final[i] = row.reverse();else final[i] = row;
+        }
+        this.grid.pixelMap = final.reverse();
     }
 };
 })()
@@ -226,7 +233,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-d79d2f0e", __vue__options__)
   } else {
-    hotAPI.reload("data-v-d79d2f0e", __vue__options__)
+    hotAPI.rerender("data-v-d79d2f0e", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":15}],3:[function(require,module,exports){
@@ -413,7 +420,7 @@ exports.default = {
         return {
             size: 12,
             grid: [],
-            pixelGrid: [],
+            root: null,
             style: {
                 display: 'table-cell',
                 width: '35px',
@@ -425,7 +432,7 @@ exports.default = {
     },
     methods: {
         getPixelID: function getPixelID(row, index) {
-            return this.pixelGrid[row - 1][index - 1];
+            return this.root.grid.pixelMap[row - 1][index - 1];
         },
         preventDrag: function preventDrag(event) {
             event.preventDefault();
@@ -451,8 +458,10 @@ exports.default = {
                 this.grid[pixelID] = 'e';
                 this.updatePixel(pixelID);
             } else if (tool.selected === 'fillbucket' && tool.colour !== "") {
+                if (tool.colour === pixel.className) return;
+
                 this.fill_checkPixels(pixel);
-                pixel.className = tool.colour;
+                this.grid[pixel.attributes['data-id'].nodeValue] = tool.colour;
 
                 this.updateScreen();
             }
@@ -482,25 +491,25 @@ exports.default = {
             var tool = this.$parent.tool;
 
             if (pixelInfo.column - 1 >= 1) {
-                var id = this.pixelGrid[pixelInfo.row - 1][pixelInfo.column - 2];
+                var id = this.root.grid.pixelMap[pixelInfo.row - 1][pixelInfo.column - 2];
                 var newPix = this.grid[id];
                 this.fill_checkPixel(pixelInfo.currentColour, tool.colour, newPix, id);
             }
 
             if (pixelInfo.column + 1 <= 12) {
-                var _id = this.pixelGrid[pixelInfo.row - 1][pixelInfo.column];
+                var _id = this.root.grid.pixelMap[pixelInfo.row - 1][pixelInfo.column];
                 var _newPix = this.grid[_id];
                 this.fill_checkPixel(pixelInfo.currentColour, tool.colour, _newPix, _id);
             }
 
             if (pixelInfo.row - 1 >= 1) {
-                var _id2 = this.pixelGrid[pixelInfo.row - 2][pixelInfo.column - 1];
+                var _id2 = this.root.grid.pixelMap[pixelInfo.row - 2][pixelInfo.column - 1];
                 var _newPix2 = this.grid[_id2];
                 this.fill_checkPixel(pixelInfo.currentColour, tool.colour, _newPix2, _id2);
             }
 
             if (pixelInfo.row + 1 <= 12) {
-                var _id3 = this.pixelGrid[pixelInfo.row][pixelInfo.column - 1];
+                var _id3 = this.root.grid.pixelMap[pixelInfo.row][pixelInfo.column - 1];
                 var _newPix3 = this.grid[_id3];
                 this.fill_checkPixel(pixelInfo.currentColour, tool.colour, _newPix3, _id3);
             }
@@ -524,61 +533,6 @@ exports.default = {
         },
         changeGridSize: function changeGridSize(size) {
             this.size = size;
-        },
-        fetchCurrentDisplay: function fetchCurrentDisplay() {
-            var gridCache = [];
-            var _iteratorNormalCompletion = true;
-            var _didIteratorError = false;
-            var _iteratorError = undefined;
-
-            try {
-                for (var _iterator = this.pixelGrid[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    var row = _step.value;
-
-                    var rowC = [];
-                    var _iteratorNormalCompletion2 = true;
-                    var _didIteratorError2 = false;
-                    var _iteratorError2 = undefined;
-
-                    try {
-                        for (var _iterator2 = row[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                            var pixel = _step2.value;
-
-                            rowC.push(pixel);
-                        }
-                    } catch (err) {
-                        _didIteratorError2 = true;
-                        _iteratorError2 = err;
-                    } finally {
-                        try {
-                            if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                                _iterator2.return();
-                            }
-                        } finally {
-                            if (_didIteratorError2) {
-                                throw _iteratorError2;
-                            }
-                        }
-                    }
-
-                    gridCache.push(rowC);
-                }
-            } catch (err) {
-                _didIteratorError = true;
-                _iteratorError = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion && _iterator.return) {
-                        _iterator.return();
-                    }
-                } finally {
-                    if (_didIteratorError) {
-                        throw _iteratorError;
-                    }
-                }
-            }
-
-            return gridCache;
         },
         exportAsCommand: function exportAsCommand() {
             return this.rle();
@@ -630,19 +584,11 @@ exports.default = {
             this.updateScreen();
         }
     },
-    created: function created() {
+    beforeMount: function beforeMount() {
+        this.root = this.$root.$children[0];
         for (var i = 1; i < 145; i++) {
             this.grid[i] = 'e';
         }
-
-        var final = [];
-        for (var _i = 0; _i < 12; _i++) {
-            var row = [];
-            for (var r = 1; r < 13; r++) {
-                row.push(_i * 12 + r);
-            }if (_i % 2 === 1) final[_i] = row.reverse();else final[_i] = row;
-        }
-        this.pixelGrid = final.reverse();
     }
 };
 })()
@@ -660,7 +606,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-ad742a16", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-ad742a16", __vue__options__)
+    hotAPI.reload("data-v-ad742a16", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":15,"vueify/lib/insert-css":17}],8:[function(require,module,exports){

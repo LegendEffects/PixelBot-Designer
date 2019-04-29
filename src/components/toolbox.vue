@@ -60,20 +60,6 @@ export default {
             this.$parent.show.credits = true;
         },
         exportGrids() {
-            // const grids = this.$parent.$children.filter(function(val) {
-            //     if(val.grid) return true;
-            //     else return false;
-            // });
-
-            // let final = {};
-            // let count = 0;
-            // for(let grid of grids) {
-            //     count++;
-            //     final[count] = grid.exportAsCommand();
-            // }
-
-            // this.$parent.show.export.content = final;
-            // this.$parent.show.export.show = true;
             this.$parent.$emit('toggleExportPanel');
         },
         importGrids() {
