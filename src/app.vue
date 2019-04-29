@@ -4,27 +4,9 @@
             <h3 style="border-bottom: 2px solid #202225; padding-bottom: 5px;" slot="header">Credits</h3>
             <p slot="body">Editor Developed by LegendEffects<br><br>Original Editor by Claw Studios<br><br>Original PixelBot concept invented by Laboratory 424<br><br>First editor concept by CaptainPDA</p>
         </modal>
-        <modal v-if="show.export.show" @close="show.export.show = false">
-            <h3 style="border-bottom: 2px solid #202225; padding-bottom: 5px;" slot="header">Export</h3>
-            <p slot="body">
-                <span v-for="(pixelbot, index) in show.export.content" :key="pixelbot.id">
-                    <p style="overflow: auto; padding: 20px;">!pb{{index}}d.{{pixelbot}}</p>
-                    <button class="actionButton darker" @click="copyCommand('!pb'+index+'d.'+pixelbot)"><i class="fas fa-copy"></i></button>
-                </span>
-                <span>
-                    <p style="overflow: auto; padding: 20px;">!pbd{{getAllGrids()}}</p>
-                    <button class="actionButton darker" @click="copyCommand('!pbd'+getAllGrids())"><i class="fas fa-copy"></i></button>
-                </span>
-            </p>
-        </modal>
-        <modal v-if="show.import.show" @close="show.import.show = false">
-            <h3 style="border-bottom: 2px solid #202225; padding-bottom: 5px;" slot="header">Import <input id="importGrid" type="number" min="1" max="4"></h3>
-            <p slot="body">
-                <textarea id="importArea"></textarea>
-                <button class="activeButton darker" @click="importText"><i class="fas fa-upload"></i></button>
-            </p>
-        </modal>
-
+        
+        <importpanel></importpanel>
+        <exportpanel></exportpanel>
 
         <div class="combiGrid" :style="isScrollLocked()">
             <div class="row">
@@ -89,10 +71,6 @@
                     show: false,
                     content: []
                 },
-                import: {
-                    show: false,
-                    content: ''
-                }
             }
         }},
         watch: {
@@ -121,43 +99,9 @@
                     }
                 }
             },
-            getAllGrids() {
-                let final = '';
-                for(let grid of this.grids) {
-                    final += '.'+grid.exportAsCommand();
-                }
-                return final;
-            },
             isScrollLocked() {
                 if(this.tool.lockScroll === true) return {overflow: 'hidden'};
                 else return {overflow: 'auto'};
-            },
-            copyCommand(text) {
-                this.$copyText(text);
-            },
-            importText() {
-                let currentText = document.getElementById('importArea').value;
-                let selected = document.getElementById('importGrid').value;
-                let allowedCommands = [
-                    '!pb1d.', '!pb2d.', '!pb3d.', '!pb4d.'
-                ]
-                if(currentText.substring(0, 5) === '!pbd.') {
-                    let parts = currentText.slice(5).split('.');
-                    if(parts < 1) return; //TODO: Better error handling
-
-                    let count = 0;
-                    for(let part of parts) {
-                        this.grids[count].rleImport(part);
-                        count++;
-                    }
-                
-                } else if(allowedCommands.includes(currentText.substring(0, 6))) {
-                    let smartDetect = currentText.charAt(3);
-                    if(smartDetect < 1 || smartDetect > 4) return;
-                    
-                    if(selected !== '') this.grids[selected-1].rleImport(currentText.substring(6, currentText.length));
-                    else this.grids[smartDetect-1].rleImport(currentText.substring(6, currentText.length));
-                }
             },
             keyPressed(e) {
                 if(e.which === 66) this.tool.selected = 'pen';
