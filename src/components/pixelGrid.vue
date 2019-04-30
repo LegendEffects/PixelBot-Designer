@@ -13,7 +13,7 @@ export default {
     data: () => {return {
         size: 12,
         grid: [],
-        pixelGrid: [],
+        root: null,
         style: {
             display: 'table-cell',
             width: '35px',
@@ -24,7 +24,7 @@ export default {
     }},
     methods: {
         getPixelID(row, index) {
-            return this.pixelGrid[row-1][index-1];
+            return this.root.grid.pixelMap[row-1][index-1];
         },
         preventDrag(event) {
             event.preventDefault();
@@ -53,17 +53,21 @@ export default {
                 this.updatePixel(pixelID);
             }
             else if(tool.selected === 'fillbucket' && tool.colour !== "") {
+                if(tool.colour === pixel.className) return; // It is already the colour, prevent making a callstack overflow.
+
                 this.fill_checkPixels(pixel);
-                pixel.className = tool.colour;
+                this.grid[pixel.attributes['data-id'].nodeValue] = tool.colour;
 
                 this.updateScreen();
             }
         },
         // Why not just let vue do it? It doesn't, there are too many pixels.
+        // Update an individual pixel ID from the backend grid
         updatePixel(id) {
             const el = this.$el.querySelector('[data-id="'+id+'"]');
             el.className = this.grid[id];
         },
+        // Update the entire grid from the backend
         updateScreen() {
             for(let key in this.grid) {
                 let el = this.$el.querySelector('[data-id="'+key+'"]');
@@ -85,25 +89,25 @@ export default {
             const tool = this.$parent.tool;
             // Left
             if(pixelInfo.column-1 >= 1) {
-                let id = this.pixelGrid[pixelInfo.row-1][pixelInfo.column-2];
+                let id = this.root.grid.pixelMap[pixelInfo.row-1][pixelInfo.column-2];
                 let newPix = this.grid[id];
                 this.fill_checkPixel(pixelInfo.currentColour, tool.colour, newPix, id);
             }
             // Right
             if(pixelInfo.column+1 <= 12) {
-                let id = this.pixelGrid[pixelInfo.row-1][pixelInfo.column];
+                let id = this.root.grid.pixelMap[pixelInfo.row-1][pixelInfo.column];
                 let newPix = this.grid[id];
                 this.fill_checkPixel(pixelInfo.currentColour, tool.colour, newPix, id);
             }
             // Top
             if(pixelInfo.row-1 >= 1) {
-                let id = this.pixelGrid[pixelInfo.row-2][pixelInfo.column-1];
+                let id = this.root.grid.pixelMap[pixelInfo.row-2][pixelInfo.column-1];
                 let newPix = this.grid[id];
                 this.fill_checkPixel(pixelInfo.currentColour, tool.colour, newPix, id);
             }
             // Bottom
             if(pixelInfo.row+1 <= 12) {
-                let id = this.pixelGrid[pixelInfo.row][pixelInfo.column-1];
+                let id = this.root.grid.pixelMap[pixelInfo.row][pixelInfo.column-1];
                 let newPix = this.grid[id];
                 this.fill_checkPixel(pixelInfo.currentColour, tool.colour, newPix, id);
             }
@@ -128,22 +132,7 @@ export default {
         changeGridSize(size) {
             this.size = size;
         },
-        fetchCurrentDisplay() {
-            let gridCache = [];
-            for(let row of this.pixelGrid) {
-                let rowC = [];
-                for(let pixel of row) {
-                    rowC.push(pixel);
-                }
-                gridCache.push(rowC);
-            }
-            
-            return gridCache;
-        },
-        exportAsCommand() {
-            return this.rle();
-        },
-        rle() {
+        export() {
             let grid = this.grid;
 
             let lastLetter = undefined;
@@ -170,7 +159,7 @@ export default {
             }
             return (output + (currentCount + lastLetter))
         },
-        rleImport(str) {
+        import(str) {
             let output = str.replace(/(\d+)([a-zA-A])/g, function (match, num, letter) {
                 var ret = '', i;
                 for (i = 0; i < parseInt(num, 10); i++) {
@@ -187,24 +176,16 @@ export default {
                 }
             }
             this.updateScreen();
+        },
+        eraseGrid() {
+            for(let i=1;i<145;i++) {
+                this.grid[i] = 'e';
+            }
+            this.updateScreen();
         }
     },
-    created() {
-        // Preload every single pixel with null
-        for(let i=1;i<145;i++) {
-            this.grid[i] = 'e';
-        }
-
-        // Generate the 'serpentine' pattern, this maps the pixel ids
-        let final = [];
-        for(let i=0;i<12;i++) {
-            let row = [];
-            for(let r=1;r<13;r++) row.push((i*12)+r);
-
-            if(i % 2 === 1) final[i] = row.reverse();
-            else final[i] = row;
-        }
-        this.pixelGrid = final.reverse();
+    beforeMount() {
+        this.root = this.$root.$children[0];
     }
 }
 

@@ -25,6 +25,13 @@ body, html {
     border-radius: 5px;
     background: #2f3136;
 }
+.actionButton:disabled {
+    background: #16171a;
+    color: #cacaca;
+}
+.actionButton:disabled:hover {
+    cursor: not-allowed;
+}
 .actionButton:hover {
     cursor: pointer;
 }
@@ -33,7 +40,7 @@ body, html {
     background: #202225;
 }
 .forceCenter {
-    position: relative;
+    position: absolute;
     top: 50%;
     transform: translateY(-50%);
     width: 100%;

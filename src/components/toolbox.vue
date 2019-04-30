@@ -1,22 +1,33 @@
 <template>
     <div class="toolbar">
         <div class="paletteSection">
-            <span class="heading">Colour Palette</span>
-            <palette :colours="pixelColours"></palette>
+            <span class="heading" @click="toggleExpandedState('palette')">Colour Palette<i class="stateChevron" :class="isExpanded('palette')"></i></span>
+            <div v-if="sections.palette.expanded">
+                <palette :colours="pixelColours"></palette>
+            </div>
         </div>
         <div class="toolSelection section">
-            <span class="heading">Tool Selection</span>
-            <button class="tool" title="Pen (b)" :class="isSelected('pen')" @click="changeTool('pen')"><i class="fas fa-pen"></i></button>
-            <button class="tool" title="Eraser (e)" :class="isSelected('eraser')" @click="changeTool('eraser')"><i class="fas fa-eraser"></i></button>
-            <button class="tool" title="Eyedropper (i)" :class="isSelected('eyedropper')" @click="changeTool('eyedropper')"><i class="fas fa-eye-dropper"></i></button>
-            <button class="tool newRow" title="Fill Bucket (g)" :class="isSelected('fillbucket')" @click="changeTool('fillbucket')"><i class="fas fa-fill"></i></button>
-
-            <button class="tool newRow" title="Lock Scrolling (For Touch)" :class="lockScrollState()" @click="changeScrollState()"><i class="fas fa-lock"></i></button>
+            <span class="heading" @click="toggleExpandedState('tools')">Tools <i class="stateChevron" :class="isExpanded('tools')"></i></span>
+            <div v-if="sections.tools.expanded">
+                <button class="tool" title="Pen (b)" :class="isSelected('pen')" @click="changeTool('pen')"><i class="fas fa-pen"></i></button>
+                <button class="tool" title="Eraser (e)" :class="isSelected('eraser')" @click="changeTool('eraser')"><i class="fas fa-eraser"></i></button>
+                <button class="tool" title="Eyedropper (i)" :class="isSelected('eyedropper')" @click="changeTool('eyedropper')"><i class="fas fa-eye-dropper"></i></button>
+                <button class="tool newRow" title="Fill Bucket (g)" :class="isSelected('fillbucket')" @click="changeTool('fillbucket')"><i class="fas fa-fill"></i></button>
+            </div>
+        </div>
+        <div class="toolSelection section">
+            <span class="heading" @click="toggleExpandedState('commands')">Commands <i class="stateChevron" :class="isExpanded('commands')"></i></span>
+            <div v-if="sections.commands.expanded">
+                <button class="tool" title="Lock Scrolling (For Touch)" :class="isScrollLocked()" @click="changeScrollState()"><i class="fas fa-lock"></i></button>
+                <button class="tool" title="Clear Grid(s)" @click="root.$emit('toggleClearPanel')"><i class="fas fa-trash"></i></button>
+            </div>
         </div>
         <div class="gridSettings section">
-            <span class="heading">Grid Settings</span>
-            <span class="subHeading">Pixel Size (px)</span>
-            <input type="number" v-model="pixelSize">
+            <span class="heading" @click="toggleExpandedState('gridSettings')">Grid Settings <i class="stateChevron" :class="isExpanded('gridSettings')"></i></span>
+            <div v-if="sections.gridSettings.expanded">
+                <span class="subHeading">Pixel Size (px)</span>
+                <input type="number" v-model="pixelSize">
+            </div>
         </div>
         <!-- <div class="gridSettings section">
             <span class="heading">Animation</span>
@@ -25,15 +36,16 @@
             <button class="actionButton" style="margin-top: 10px;">Play</button>
         </div> -->
         <div class="gridSettings section">
-            <span class="heading">Import/Export</span>
-
-            <button class="actionButton" @click="importGrids()">Import</button>
-            <button class="actionButton" @click="exportGrids()">Export</button>
+            <span class="heading" @click="toggleExpandedState('import_export')">Import/Export <i class="stateChevron" :class="isExpanded('import_export')"></i></span>
+            <div v-if="sections.import_export.expanded">
+                <button class="actionButton" @click="root.$emit('toggleImportPanel')">Import</button>
+                <button class="actionButton" @click="root.$emit('toggleExportPanel')">Export</button>
+            </div>
         </div>
 
         <div class="watermark section">
             <a href="https://github.com/LegendEffects/PixelBot-Designer">Github</a>
-            <a href="#" @click="showCredits()">Credits</a>
+            <a href="#" @click="root.show.credits = true">Credits</a>
         </div>
     </div>
 </template>
@@ -43,57 +55,69 @@ export default {
     name: 'toolbox',
     data() {
         return {
+            root: null,
             pixelColours: this.$parent.pixelColours,
             pixelSize: 35,
-            gridSize: 12
+            gridSize: 12,
+
+            sections: {
+                palette: {
+                    expanded: true,
+                },
+                tools: {
+                    expanded: true,
+                },
+                commands: {
+                    expanded: true,
+                },
+                gridSettings: {
+                    expanded: false,
+                },
+                import_export: {
+                    expanded: true,
+                }
+            }
         }
     },
     methods: {
+        // Section Managers
+        isExpanded(section) {
+            if(this.sections[section].expanded) return 'fas fa-chevron-down';
+            else return 'fas fa-chevron-right';
+        },
+        toggleExpandedState(section) {
+            this.sections[section].expanded = !this.sections[section].expanded;
+        },
+
+        // Tool Management
         isSelected(tool) {
-            if(this.$parent.tool.selected === tool) return ' active';
+            if(this.root.tool.selected === tool) return ' active';
             else return '';
         },
         changeTool(tool) {
-            this.$parent.tool.selected = tool;
+            this.root.tool.selected = tool;
         },
-        showCredits() {
-            this.$parent.show.credits = true;
-        },
-        exportGrids() {
-            const grids = this.$parent.$children.filter(function(val) {
-                if(val.grid) return true;
-                else return false;
-            });
 
-            let final = {};
-            let count = 0;
-            for(let grid of grids) {
-                count++;
-                final[count] = grid.exportAsCommand();
-            }
-
-            this.$parent.show.export.content = final;
-            this.$parent.show.export.show = true;
-        },
-        importGrids() {
-            this.$parent.show.import.show = true;
-        },
-        lockScrollState() {
-            if(this.$parent.tool.lockScroll) return ' active';
+        // Scroll Locking
+        isScrollLocked() {
+            if(this.root.tool.lockScroll) return ' active';
             else return '';
         },
         changeScrollState() {
-            this.$parent.tool.lockScroll = !this.$parent.tool.lockScroll;
-            this.$parent.tool.drawing = this.$parent.tool.lockScroll;
-        }
+            this.root.tool.lockScroll = !this.root.tool.lockScroll;
+            this.root.tool.drawing = this.root.tool.lockScroll;
+        },
     },
     watch: {
         pixelSize() {
-            this.$parent.grid.pixelSize = this.pixelSize;
+            this.root.grid.pixelSize = this.pixelSize;
         },
         gridSize() {
-            this.$parent.grid.size = this.gridSize;
+            this.root.grid.size = this.gridSize;
         },
+    },
+    beforeMount() {
+        this.root = this.$root.$children[0];
     }
 
 }
@@ -117,5 +141,8 @@ export default {
     .tool i {
         color: #d6d6d6;
         font-size: 32px;
+    }
+    .stateChevron {
+        float: right;
     }
 </style>
