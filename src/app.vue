@@ -73,9 +73,7 @@
         }},
         watch: {
             'grid.pixelSize': function() {
-                for(let i=0; i<4; i++) {
-                    this.$children[i].changePixelDimensions(this.grid.pixelSize);
-                }
+                for(let grid of this.grids) grid.changePixelDimensions(this.grid.pixelSize);
             }
         },
         methods: {

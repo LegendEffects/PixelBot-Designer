@@ -57,8 +57,28 @@ exports.default = {
     },
     watch: {
         'grid.pixelSize': function gridPixelSize() {
-            for (var i = 0; i < 4; i++) {
-                this.$children[i].changePixelDimensions(this.grid.pixelSize);
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = this.grids[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var grid = _step.value;
+                    grid.changePixelDimensions(this.grid.pixelSize);
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
             }
         }
     },
@@ -126,7 +146,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-e5c4c762", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-e5c4c762", __vue__options__)
+    hotAPI.reload("data-v-e5c4c762", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":16,"vueify/lib/insert-css":18}],2:[function(require,module,exports){
@@ -282,7 +302,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-f66f3398", __vue__options__)
   } else {
-    hotAPI.reload("data-v-f66f3398", __vue__options__)
+    hotAPI.rerender("data-v-f66f3398", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":16,"vueify/lib/insert-css":18}],6:[function(require,module,exports){
