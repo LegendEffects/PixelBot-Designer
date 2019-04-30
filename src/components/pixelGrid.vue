@@ -184,6 +184,9 @@ export default {
             this.updateScreen();
         }
     },
+    mounted() {
+        this.eraseGrid();
+    },
     beforeMount() {
         this.root = this.$root.$children[0];
     }

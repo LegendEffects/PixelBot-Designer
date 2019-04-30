@@ -146,7 +146,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-e5c4c762", __vue__options__)
   } else {
-    hotAPI.reload("data-v-e5c4c762", __vue__options__)
+    hotAPI.rerender("data-v-e5c4c762", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":16,"vueify/lib/insert-css":18}],2:[function(require,module,exports){
@@ -677,6 +677,9 @@ exports.default = {
             this.updateScreen();
         }
     },
+    mounted: function mounted() {
+        this.eraseGrid();
+    },
     beforeMount: function beforeMount() {
         this.root = this.$root.$children[0];
     }
@@ -696,7 +699,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-ad742a16", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-ad742a16", __vue__options__)
+    hotAPI.reload("data-v-ad742a16", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":16,"vueify/lib/insert-css":18}],9:[function(require,module,exports){
