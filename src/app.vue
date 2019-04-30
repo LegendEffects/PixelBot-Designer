@@ -7,6 +7,7 @@
         
         <importpanel></importpanel>
         <exportpanel></exportpanel>
+        <clearpanel></clearpanel>
 
         <div class="combiGrid" :style="isScrollLocked()">
             <div class="row">

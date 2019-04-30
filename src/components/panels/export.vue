@@ -32,7 +32,7 @@ export default {
 
             for(let grid of this.root.grids) {
                 count++;
-                final[count] = grid.exportAsCommand();
+                final[count] = grid.export();
             }
 
             this.data = final;
@@ -41,7 +41,7 @@ export default {
         exportAll() {
             let final = '';
             for(let grid of this.root.grids) {
-                final += '.'+grid.exportAsCommand();
+                final += '.'+grid.export();
             }
             return final;
         },

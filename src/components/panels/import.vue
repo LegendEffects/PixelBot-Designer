@@ -28,7 +28,7 @@ export default {
 
                 let count = 0;
                 for(let part of parts) {
-                    this.root.grids[count].rleImport(part);
+                    this.root.grids[count].import(part);
                     count++;
                 }
             } else if(allowedCommands.includes(this.importText.substring(0,6))) {
@@ -36,8 +36,8 @@ export default {
                 let smartDetect = this.importText.charAt(3);
                 if(smartDetect < 1 || smartDetect > 4) return;
 
-                if(this.selectedGrid !== '' || this.selectedGrid !== null) this.root.grids[selected-1].rleImport(importString);
-                else this.root.grids[smartDetect-1].rleImport(importString);
+                if(this.selectedGrid !== '' || this.selectedGrid !== null) this.root.grids[selected-1].import(importString);
+                else this.root.grids[smartDetect-1].import(importString);
             }
         },
         toggleState() {

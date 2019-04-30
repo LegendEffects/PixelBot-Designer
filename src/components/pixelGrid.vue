@@ -62,10 +62,12 @@ export default {
             }
         },
         // Why not just let vue do it? It doesn't, there are too many pixels.
+        // Update an individual pixel ID from the backend grid
         updatePixel(id) {
             const el = this.$el.querySelector('[data-id="'+id+'"]');
             el.className = this.grid[id];
         },
+        // Update the entire grid from the backend
         updateScreen() {
             for(let key in this.grid) {
                 let el = this.$el.querySelector('[data-id="'+key+'"]');
@@ -130,10 +132,7 @@ export default {
         changeGridSize(size) {
             this.size = size;
         },
-        exportAsCommand() {
-            return this.rle();
-        },
-        rle() {
+        export() {
             let grid = this.grid;
 
             let lastLetter = undefined;
@@ -160,7 +159,7 @@ export default {
             }
             return (output + (currentCount + lastLetter))
         },
-        rleImport(str) {
+        import(str) {
             let output = str.replace(/(\d+)([a-zA-A])/g, function (match, num, letter) {
                 var ret = '', i;
                 for (i = 0; i < parseInt(num, 10); i++) {
@@ -177,13 +176,16 @@ export default {
                 }
             }
             this.updateScreen();
+        },
+        eraseGrid() {
+            for(let i=1;i<145;i++) {
+                this.grid[i] = 'e';
+            }
+            this.updateScreen();
         }
     },
     beforeMount() {
         this.root = this.$root.$children[0];
-        for(let i=1;i<145;i++) {
-            this.grid[i] = 'e';
-        }
     }
 }
 
