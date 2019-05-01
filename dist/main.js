@@ -535,7 +535,7 @@ exports.default = {
             localStorage.setItem('changeOnColourChange', this.root.settings.changeOnColourChange);
         },
         loadSettings: function loadSettings() {
-            if (localStorage.getItem('previousLoad') === false) this.updateSettings();
+            if (!localStorage.getItem('previousLoad')) this.updateSettings();
             this.root.settings.changeOnColourChange = this.strToBool(localStorage.getItem('changeOnColourChange'));
             this.root.settings.gridPixelSize = parseInt(localStorage.getItem('gridPixelSize'));
         },
@@ -566,7 +566,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-47c0f30c", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-47c0f30c", __vue__options__)
+    hotAPI.reload("data-v-47c0f30c", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":17,"vueify/lib/insert-css":19}],9:[function(require,module,exports){
@@ -852,7 +852,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-36f505fc", __vue__options__)
   } else {
-    hotAPI.reload("data-v-36f505fc", __vue__options__)
+    hotAPI.rerender("data-v-36f505fc", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":17,"vueify/lib/insert-css":19}],11:[function(require,module,exports){

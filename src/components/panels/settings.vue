@@ -36,7 +36,7 @@ export default {
             localStorage.setItem('changeOnColourChange', this.root.settings.changeOnColourChange);
         },
         loadSettings() {
-            if(localStorage.getItem('previousLoad') === false) this.updateSettings();
+            if(!localStorage.getItem('previousLoad')) this.updateSettings();
             this.root.settings.changeOnColourChange = this.strToBool(localStorage.getItem('changeOnColourChange'));
             this.root.settings.gridPixelSize = parseInt(localStorage.getItem('gridPixelSize'));
         },
