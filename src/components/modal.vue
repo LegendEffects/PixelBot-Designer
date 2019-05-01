@@ -17,9 +17,7 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button class="actionButton darker" @click="$emit('close')">
-                                Close
-                            </button>
+                            <button class="actionButton darker" @click="$emit('close')">Close</button>
                         </div>
                     </div>
                 </div>

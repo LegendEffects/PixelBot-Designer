@@ -8,6 +8,7 @@
         <importpanel></importpanel>
         <exportpanel></exportpanel>
         <clearpanel></clearpanel>
+        <settingspanel></settingspanel>
 
         <div class="combiGrid" :style="isScrollLocked()">
             <div class="row">
@@ -57,10 +58,13 @@
             },
             grid: {
                 size: 12,
-                pixelSize: 35,
                 pixelMap: [],
             },
             grids: null,
+            settings: {
+                changeOnColourChange: false,
+                gridPixelSize: 35,
+            },
             tool: {
                 drawing: false,
                 selected: 'pen',
@@ -72,8 +76,8 @@
             }
         }},
         watch: {
-            'grid.pixelSize': function() {
-                for(let grid of this.grids) grid.changePixelDimensions(this.grid.pixelSize);
+            'settings.gridPixelSize': function() {
+                for(let grid of this.grids) grid.changePixelDimensions(this.settings.gridPixelSize);
             }
         },
         methods: {

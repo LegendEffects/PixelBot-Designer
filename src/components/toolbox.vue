@@ -1,12 +1,12 @@
 <template>
     <div class="toolbar">
-        <div class="paletteSection">
+        <div>
             <span class="heading" @click="toggleExpandedState('palette')">Colour Palette<i class="stateChevron" :class="isExpanded('palette')"></i></span>
             <div v-if="sections.palette.expanded">
-                <palette :colours="pixelColours"></palette>
+                <palette></palette>
             </div>
         </div>
-        <div class="toolSelection section">
+        <div class="section">
             <span class="heading" @click="toggleExpandedState('tools')">Tools <i class="stateChevron" :class="isExpanded('tools')"></i></span>
             <div v-if="sections.tools.expanded">
                 <button class="tool" title="Pen (b)" :class="isSelected('pen')" @click="changeTool('pen')"><i class="fas fa-pen"></i></button>
@@ -15,27 +15,20 @@
                 <button class="tool newRow" title="Fill Bucket (g)" :class="isSelected('fillbucket')" @click="changeTool('fillbucket')"><i class="fas fa-fill"></i></button>
             </div>
         </div>
-        <div class="toolSelection section">
+        <div class="section">
             <span class="heading" @click="toggleExpandedState('commands')">Commands <i class="stateChevron" :class="isExpanded('commands')"></i></span>
             <div v-if="sections.commands.expanded">
                 <button class="tool" title="Lock Scrolling (For Touch)" :class="isScrollLocked()" @click="changeScrollState()"><i class="fas fa-lock"></i></button>
                 <button class="tool" title="Clear Grid(s)" @click="root.$emit('toggleClearPanel')"><i class="fas fa-trash"></i></button>
             </div>
         </div>
-        <div class="gridSettings section">
-            <span class="heading" @click="toggleExpandedState('gridSettings')">Grid Settings <i class="stateChevron" :class="isExpanded('gridSettings')"></i></span>
-            <div v-if="sections.gridSettings.expanded">
-                <span class="subHeading">Pixel Size (px)</span>
-                <input type="number" v-model="pixelSize">
-            </div>
-        </div>
-        <!-- <div class="gridSettings section">
+        <!-- <div class="section">
             <span class="heading">Animation</span>
             <span class="subHeading">Frame</span>
             <input type="number" value="1">
             <button class="actionButton" style="margin-top: 10px;">Play</button>
         </div> -->
-        <div class="gridSettings section">
+        <div class="section">
             <span class="heading" @click="toggleExpandedState('import_export')">Import/Export <i class="stateChevron" :class="isExpanded('import_export')"></i></span>
             <div v-if="sections.import_export.expanded">
                 <button class="actionButton" @click="root.$emit('toggleImportPanel')">Import</button>
@@ -44,6 +37,7 @@
         </div>
 
         <div class="watermark section">
+            <a href="#" @click="root.$emit('toggleSettingsPanel')">Settings</a>
             <a href="https://github.com/LegendEffects/PixelBot-Designer">Github</a>
             <a href="#" @click="root.show.credits = true">Credits</a>
         </div>
@@ -56,8 +50,6 @@ export default {
     data() {
         return {
             root: null,
-            pixelColours: this.$parent.pixelColours,
-            pixelSize: 35,
             gridSize: 12,
 
             sections: {
@@ -69,9 +61,6 @@ export default {
                 },
                 commands: {
                     expanded: true,
-                },
-                gridSettings: {
-                    expanded: false,
                 },
                 import_export: {
                     expanded: true,
@@ -109,9 +98,6 @@ export default {
         },
     },
     watch: {
-        pixelSize() {
-            this.root.grid.pixelSize = this.pixelSize;
-        },
         gridSize() {
             this.root.grid.size = this.gridSize;
         },

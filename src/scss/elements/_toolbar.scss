@@ -21,20 +21,14 @@
 .toolbar .heading:hover {
     cursor: pointer;
 }
-.toolbar .subHeading {
-    font-family: Arial, Helvetica, sans-serif;
-    color: rgba(255, 255, 255, 0.8);
-    display: block;
-    font-size: .9rem;
-    padding-bottom: 5px;
-}
 .toolbar .watermark {
     color: #fff;
     font-family: Arial, Helvetica, sans-serif;
-    text-align: right;
+    text-align: center;
 }
 .toolbar .watermark a {
     color: #fff;
-    margin-left: 5px;
+    margin-left: 2px;
+    margin-right: 2px;
     text-decoration: none;
 }

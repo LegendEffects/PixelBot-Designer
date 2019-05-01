@@ -9,5 +9,6 @@ module.exports = {
         'importpanel': Vue.component('importpanel', require('./panels/import.vue')),
         'exportpanel': Vue.component('exportpanel', require('./panels/export.vue')),
         'clearpanel': Vue.component('clearpanel', require('./panels/clear.vue')),
+        'settingspanel': Vue.component('settingspanel', require('./panels/settings.vue')),
     }
 }

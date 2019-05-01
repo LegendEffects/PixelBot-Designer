@@ -40,10 +40,13 @@ exports.default = {
             },
             grid: {
                 size: 12,
-                pixelSize: 35,
                 pixelMap: []
             },
             grids: null,
+            settings: {
+                changeOnColourChange: false,
+                gridPixelSize: 35
+            },
             tool: {
                 drawing: false,
                 selected: 'pen',
@@ -56,7 +59,7 @@ exports.default = {
         };
     },
     watch: {
-        'grid.pixelSize': function gridPixelSize() {
+        'settings.gridPixelSize': function settingsGridPixelSize() {
             var _iteratorNormalCompletion = true;
             var _didIteratorError = false;
             var _iteratorError = undefined;
@@ -64,7 +67,7 @@ exports.default = {
             try {
                 for (var _iterator = this.grids[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                     var grid = _step.value;
-                    grid.changePixelDimensions(this.grid.pixelSize);
+                    grid.changePixelDimensions(this.settings.gridPixelSize);
                 }
             } catch (err) {
                 _didIteratorError = true;
@@ -135,7 +138,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"layout",attrs:{"id":"appContainer"}},[(_vm.show.credits)?_c('modal',{on:{"close":function($event){_vm.show.credits = false}}},[_c('h3',{staticStyle:{"border-bottom":"2px solid #202225","padding-bottom":"5px"},attrs:{"slot":"header"},slot:"header"},[_vm._v("Credits")]),_vm._v(" "),_c('p',{attrs:{"slot":"body"},slot:"body"},[_vm._v("Editor Developed by LegendEffects"),_c('br'),_c('br'),_vm._v("Original Editor by Claw Studios"),_c('br'),_c('br'),_vm._v("Original PixelBot concept invented by Laboratory 424"),_c('br'),_c('br'),_vm._v("First editor concept by CaptainPDA")])]):_vm._e(),_vm._v(" "),_c('importpanel'),_vm._v(" "),_c('exportpanel'),_vm._v(" "),_c('clearpanel'),_vm._v(" "),_c('div',{staticClass:"combiGrid",style:(_vm.isScrollLocked())},[_c('div',{staticClass:"row"},[_c('pixelgrid',{attrs:{"grid-id":0}}),_vm._v(" "),_c('pixelgrid',{attrs:{"grid-id":1}})],1),_vm._v(" "),_c('div',{staticClass:"row"},[_c('pixelgrid',{attrs:{"grid-id":2}}),_vm._v(" "),_c('pixelgrid',{attrs:{"grid-id":3}})],1)]),_vm._v(" "),_c('toolbox')],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"layout",attrs:{"id":"appContainer"}},[(_vm.show.credits)?_c('modal',{on:{"close":function($event){_vm.show.credits = false}}},[_c('h3',{staticStyle:{"border-bottom":"2px solid #202225","padding-bottom":"5px"},attrs:{"slot":"header"},slot:"header"},[_vm._v("Credits")]),_vm._v(" "),_c('p',{attrs:{"slot":"body"},slot:"body"},[_vm._v("Editor Developed by LegendEffects"),_c('br'),_c('br'),_vm._v("Original Editor by Claw Studios"),_c('br'),_c('br'),_vm._v("Original PixelBot concept invented by Laboratory 424"),_c('br'),_c('br'),_vm._v("First editor concept by CaptainPDA")])]):_vm._e(),_vm._v(" "),_c('importpanel'),_vm._v(" "),_c('exportpanel'),_vm._v(" "),_c('clearpanel'),_vm._v(" "),_c('settingspanel'),_vm._v(" "),_c('div',{staticClass:"combiGrid",style:(_vm.isScrollLocked())},[_c('div',{staticClass:"row"},[_c('pixelgrid',{attrs:{"grid-id":0}}),_vm._v(" "),_c('pixelgrid',{attrs:{"grid-id":1}})],1),_vm._v(" "),_c('div',{staticClass:"row"},[_c('pixelgrid',{attrs:{"grid-id":2}}),_vm._v(" "),_c('pixelgrid',{attrs:{"grid-id":3}})],1)]),_vm._v(" "),_c('toolbox')],1)}
 __vue__options__.staticRenderFns = []
 __vue__options__._scopeId = "data-v-e5c4c762"
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
@@ -149,7 +152,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.rerender("data-v-e5c4c762", __vue__options__)
   }
 })()}
-},{"vue":"vue","vue-hot-reload-api":16,"vueify/lib/insert-css":18}],2:[function(require,module,exports){
+},{"vue":"vue","vue-hot-reload-api":17,"vueify/lib/insert-css":19}],2:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -166,11 +169,12 @@ module.exports = {
         'toolbox': _vue2.default.component('toolbox', require('./toolbox.vue')),
         'importpanel': _vue2.default.component('importpanel', require('./panels/import.vue')),
         'exportpanel': _vue2.default.component('exportpanel', require('./panels/export.vue')),
-        'clearpanel': _vue2.default.component('clearpanel', require('./panels/clear.vue'))
+        'clearpanel': _vue2.default.component('clearpanel', require('./panels/clear.vue')),
+        'settingspanel': _vue2.default.component('settingspanel', require('./panels/settings.vue'))
     }
 };
 
-},{"./modal.vue":3,"./palette.vue":4,"./panels/clear.vue":5,"./panels/export.vue":6,"./panels/import.vue":7,"./pixelGrid.vue":8,"./toolbox.vue":9,"vue":"vue"}],3:[function(require,module,exports){
+},{"./modal.vue":3,"./palette.vue":4,"./panels/clear.vue":5,"./panels/export.vue":6,"./panels/import.vue":7,"./panels/settings.vue":8,"./pixelGrid.vue":9,"./toolbox.vue":10,"vue":"vue"}],3:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".modal-mask[data-v-5a4a5eb6] {\n    position: fixed;\n    z-index: 9998;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, .5);\n    display: table;\n    transition: opacity .3s ease;\n}\n.modal-wrapper[data-v-5a4a5eb6] {\n    display: table-cell;\n    vertical-align: middle;\n}\n.modal-container[data-v-5a4a5eb6] {\n    width: 300px;\n    margin: 0px auto;\n    padding: 20px 30px;\n    background-color: #2f3136;\n    color: #fff;\n    border-radius: 2px;\n    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);\n    transition: all .3s ease;\n    font-family: Helvetica, Arial, sans-serif;\n}\n.modal-footer[data-v-5a4a5eb6] {\n    text-align: right;\n}\n.modal-body[data-v-5a4a5eb6] {\n    margin: 20px 0;\n}\n.modal-enter[data-v-5a4a5eb6] {\n    opacity: 0;\n}\n.modal-leave-active[data-v-5a4a5eb6] {\n    opacity: 0;\n}\n.modal-enter .modal-container[data-v-5a4a5eb6],\n.modal-leave-active .modal-container[data-v-5a4a5eb6] {\n    -webkit-transform: scale(1.1);\n    transform: scale(1.1);\n}")
 ;(function(){
 'use strict';
@@ -185,7 +189,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"modal-template"}},[_c('transition',{attrs:{"name":"modal"}},[_c('div',{staticClass:"modal-mask"},[_c('div',{staticClass:"modal-wrapper"},[_c('div',{staticClass:"modal-container"},[_c('div',{staticClass:"modal-header"},[_vm._t("header",[_vm._v("\n                        default header\n                        ")])],2),_vm._v(" "),_c('div',{staticClass:"modal-body"},[_vm._t("body",[_vm._v("\n                        default body\n                        ")])],2),_vm._v(" "),_c('div',{staticClass:"modal-footer"},[_c('button',{staticClass:"actionButton darker",on:{"click":function($event){return _vm.$emit('close')}}},[_vm._v("\n                            Close\n                        ")])])])])])])],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"modal-template"}},[_c('transition',{attrs:{"name":"modal"}},[_c('div',{staticClass:"modal-mask"},[_c('div',{staticClass:"modal-wrapper"},[_c('div',{staticClass:"modal-container"},[_c('div',{staticClass:"modal-header"},[_vm._t("header",[_vm._v("\n                        default header\n                        ")])],2),_vm._v(" "),_c('div',{staticClass:"modal-body"},[_vm._t("body",[_vm._v("\n                        default body\n                        ")])],2),_vm._v(" "),_c('div',{staticClass:"modal-footer"},[_c('button',{staticClass:"actionButton darker",on:{"click":function($event){return _vm.$emit('close')}}},[_vm._v("Close")])])])])])])],1)}
 __vue__options__.staticRenderFns = []
 __vue__options__._scopeId = "data-v-5a4a5eb6"
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
@@ -199,7 +203,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.rerender("data-v-5a4a5eb6", __vue__options__)
   }
 })()}
-},{"vue":"vue","vue-hot-reload-api":16,"vueify/lib/insert-css":18}],4:[function(require,module,exports){
+},{"vue":"vue","vue-hot-reload-api":17,"vueify/lib/insert-css":19}],4:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".colour[data-v-99d5a978] {\n    display: inline-block;\n\n    width: 50px;\n    height: 50px;\n    margin-right: 5px;\n}\n.colour[data-v-99d5a978]:nth-child(3n+3) {\n    margin-right: 0;\n}\n.colour[data-v-99d5a978]:hover {\n    cursor: pointer;\n}\n.active[data-v-99d5a978] {\n    width: 46px;\n    height: 46px;\n}")
 ;(function(){
 'use strict';
@@ -208,21 +212,29 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = {
-    props: ['colours'],
+    data: function data() {
+        return {
+            root: null
+        };
+    },
     methods: {
         checkActive: function checkActive(swatchName) {
-            if (this.$root.$children[0].tool.colour === swatchName) return ' active';else return '';
+            if (this.root.tool.colour === swatchName) return ' active';else return '';
         },
         makeActive: function makeActive(swatchName) {
-            this.$root.$children[0].tool.colour = swatchName;
+            this.root.tool.colour = swatchName;
+            if (this.root.settings.changeOnColourChange && this.root.tool.selected === 'eraser') this.root.tool.selected = 'pen';
         }
+    },
+    beforeMount: function beforeMount() {
+        this.root = this.$root.$children[0];
     }
 };
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"palette"}},_vm._l((_vm.colours),function(name,swatch){return _c('div',{key:swatch,staticClass:"colour",class:swatch + _vm.checkActive(swatch),on:{"click":function($event){return _vm.makeActive(swatch)}}})}),0)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"palette"}},_vm._l((_vm.root.pixelColours),function(name,swatch){return _c('div',{key:swatch,staticClass:"colour",class:swatch + _vm.checkActive(swatch),on:{"click":function($event){return _vm.makeActive(swatch)}}})}),0)}
 __vue__options__.staticRenderFns = []
 __vue__options__._scopeId = "data-v-99d5a978"
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
@@ -236,7 +248,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.rerender("data-v-99d5a978", __vue__options__)
   }
 })()}
-},{"vue":"vue","vue-hot-reload-api":16,"vueify/lib/insert-css":18}],5:[function(require,module,exports){
+},{"vue":"vue","vue-hot-reload-api":17,"vueify/lib/insert-css":19}],5:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".gridSelect[data-v-f66f3398] {\n    display: block;\n}\n.gridRow[data-v-f66f3398] {\n    display: block;\n}\n.modelGrid[data-v-f66f3398] {\n    background: #202225;\n    width: 40px;\n    min-width: 40px;\n\n    height: 40px;\n    min-height: 40px;\n    display: inline-block;\n\n    border: 2px solid #202225;\n}\n.modelGrid.active[data-v-f66f3398] {\n    background: gold;\n}\n.modelGrid[data-v-f66f3398]:hover {\n    cursor: pointer;\n}")
 ;(function(){
 'use strict';
@@ -305,7 +317,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.rerender("data-v-f66f3398", __vue__options__)
   }
 })()}
-},{"vue":"vue","vue-hot-reload-api":16,"vueify/lib/insert-css":18}],6:[function(require,module,exports){
+},{"vue":"vue","vue-hot-reload-api":17,"vueify/lib/insert-css":19}],6:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -412,7 +424,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.rerender("data-v-4f0a5a5d", __vue__options__)
   }
 })()}
-},{"vue":"vue","vue-hot-reload-api":16}],7:[function(require,module,exports){
+},{"vue":"vue","vue-hot-reload-api":17}],7:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -496,7 +508,68 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.rerender("data-v-7d814c64", __vue__options__)
   }
 })()}
-},{"vue":"vue","vue-hot-reload-api":16}],8:[function(require,module,exports){
+},{"vue":"vue","vue-hot-reload-api":17}],8:[function(require,module,exports){
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".alert[data-v-47c0f30c] {\n    padding: 1rem 1.5rem;\n    margin-bottom: 20px;\n    border-radius: 5px;\n}\n.alert span[data-v-47c0f30c] {\n    display: block; \n    margin-top: 5px;\n}\n.alert.warn[data-v-47c0f30c] {\n    background: #ffa500;\n    color: #fff;\n}")
+;(function(){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    name: 'settingspanel',
+    data: function data() {
+        return {
+            shown: false,
+            root: null,
+            localStorageEnabled: true
+        };
+    },
+    methods: {
+        toggleState: function toggleState() {
+            this.shown = !this.shown;
+        },
+        updateSettings: function updateSettings() {
+            localStorage.setItem('previousLoad', true);
+            localStorage.setItem('gridPixelSize', this.root.settings.gridPixelSize);
+            localStorage.setItem('changeOnColourChange', this.root.settings.changeOnColourChange);
+        },
+        loadSettings: function loadSettings() {
+            if (localStorage.getItem('previousLoad') === false) this.updateSettings();
+            this.root.settings.changeOnColourChange = this.strToBool(localStorage.getItem('changeOnColourChange'));
+            this.root.settings.gridPixelSize = parseInt(localStorage.getItem('gridPixelSize'));
+        },
+        strToBool: function strToBool(str) {
+            return str === 'true';
+        }
+    },
+    mounted: function mounted() {
+        this.root = this.$root.$children[0];
+        this.root.$on('toggleSettingsPanel', this.toggleState);
+
+        if (typeof Storage === "undefined") this.localStorageEnabled = false;else this.loadSettings();
+        this.localStorageEnabled = true;
+    }
+};
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.shown)?_c('modal',{on:{"close":function($event){_vm.shown = false}}},[_c('h3',{staticStyle:{"border-bottom":"2px solid #202225","padding-bottom":"5px"},attrs:{"slot":"header"},slot:"header"},[_vm._v("Settings")]),_vm._v(" "),_c('div',{attrs:{"slot":"body"},slot:"body"},[(!_vm.localStorageEnabled)?_c('div',{staticClass:"alert warn"},[_c('b',[_vm._v("Warning!")]),_vm._v(" "),_c('span',[_vm._v("LocalStorage is not supported on your browser, saving of settings isn't supported.")])]):_vm._e(),_vm._v(" "),_c('span',{staticClass:"subHeading"},[_vm._v("Pixel Size (px)")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.root.settings.gridPixelSize),expression:"root.settings.gridPixelSize"}],attrs:{"type":"number"},domProps:{"value":(_vm.root.settings.gridPixelSize)},on:{"change":function($event){return _vm.updateSettings()},"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.root.settings, "gridPixelSize", $event.target.value)}}}),_vm._v(" "),_c('span',{staticClass:"subHeading",staticStyle:{"margin-top":"20px"}},[_vm._v("Change to pen tool on colour change")]),_vm._v(" "),_c('label',{staticClass:"switch",attrs:{"for":"cocc"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.root.settings.changeOnColourChange),expression:"root.settings.changeOnColourChange"}],attrs:{"type":"checkbox","id":"cocc"},domProps:{"checked":Array.isArray(_vm.root.settings.changeOnColourChange)?_vm._i(_vm.root.settings.changeOnColourChange,null)>-1:(_vm.root.settings.changeOnColourChange)},on:{"change":[function($event){var $$a=_vm.root.settings.changeOnColourChange,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.$set(_vm.root.settings, "changeOnColourChange", $$a.concat([$$v])))}else{$$i>-1&&(_vm.$set(_vm.root.settings, "changeOnColourChange", $$a.slice(0,$$i).concat($$a.slice($$i+1))))}}else{_vm.$set(_vm.root.settings, "changeOnColourChange", $$c)}},function($event){return _vm.updateSettings()}]}}),_vm._v(" "),_c('div',{staticClass:"slider round"})])])]):_vm._e()}
+__vue__options__.staticRenderFns = []
+__vue__options__._scopeId = "data-v-47c0f30c"
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  module.hot.dispose(__vueify_style_dispose__)
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-47c0f30c", __vue__options__)
+  } else {
+    hotAPI.rerender("data-v-47c0f30c", __vue__options__)
+  }
+})()}
+},{"vue":"vue","vue-hot-reload-api":17,"vueify/lib/insert-css":19}],9:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".grid[data-v-ad742a16] {\n    display: table;\n    border-spacing: 1px;\n    background: #37393f;\n    border: 5px solid #37393f;\n    overflow: auto;\n}\n.row[data-v-ad742a16] {\n    display: table-row;\n}")
 ;(function(){
 'use strict';
@@ -699,10 +772,10 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-ad742a16", __vue__options__)
   } else {
-    hotAPI.reload("data-v-ad742a16", __vue__options__)
+    hotAPI.rerender("data-v-ad742a16", __vue__options__)
   }
 })()}
-},{"vue":"vue","vue-hot-reload-api":16,"vueify/lib/insert-css":18}],9:[function(require,module,exports){
+},{"vue":"vue","vue-hot-reload-api":17,"vueify/lib/insert-css":19}],10:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".tool[data-v-36f505fc] {\n    background: #2f3136;\n    border: #2f3136 solid 2px;\n    padding: .5rem;\n}\n.tool[data-v-36f505fc]:hover {\n    cursor: pointer;\n}\n.tool[data-v-36f505fc]:focus {\n    outline: none;\n}\n.tool.newRow[data-v-36f505fc] {\n    margin-top: 5px;\n}\n.tool i[data-v-36f505fc] {\n    color: #d6d6d6;\n    font-size: 32px;\n}\n.stateChevron[data-v-36f505fc] {\n    float: right;\n}")
 ;(function(){
 'use strict';
@@ -715,8 +788,6 @@ exports.default = {
     data: function data() {
         return {
             root: null,
-            pixelColours: this.$parent.pixelColours,
-            pixelSize: 35,
             gridSize: 12,
 
             sections: {
@@ -728,9 +799,6 @@ exports.default = {
                 },
                 commands: {
                     expanded: true
-                },
-                gridSettings: {
-                    expanded: false
                 },
                 import_export: {
                     expanded: true
@@ -761,9 +829,6 @@ exports.default = {
         }
     },
     watch: {
-        pixelSize: function pixelSize() {
-            this.root.grid.pixelSize = this.pixelSize;
-        },
         gridSize: function gridSize() {
             this.root.grid.size = this.gridSize;
         }
@@ -776,7 +841,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"toolbar"},[_c('div',{staticClass:"paletteSection"},[_c('span',{staticClass:"heading",on:{"click":function($event){return _vm.toggleExpandedState('palette')}}},[_vm._v("Colour Palette"),_c('i',{staticClass:"stateChevron",class:_vm.isExpanded('palette')})]),_vm._v(" "),(_vm.sections.palette.expanded)?_c('div',[_c('palette',{attrs:{"colours":_vm.pixelColours}})],1):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"toolSelection section"},[_c('span',{staticClass:"heading",on:{"click":function($event){return _vm.toggleExpandedState('tools')}}},[_vm._v("Tools "),_c('i',{staticClass:"stateChevron",class:_vm.isExpanded('tools')})]),_vm._v(" "),(_vm.sections.tools.expanded)?_c('div',[_c('button',{staticClass:"tool",class:_vm.isSelected('pen'),attrs:{"title":"Pen (b)"},on:{"click":function($event){return _vm.changeTool('pen')}}},[_c('i',{staticClass:"fas fa-pen"})]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('eraser'),attrs:{"title":"Eraser (e)"},on:{"click":function($event){return _vm.changeTool('eraser')}}},[_c('i',{staticClass:"fas fa-eraser"})]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('eyedropper'),attrs:{"title":"Eyedropper (i)"},on:{"click":function($event){return _vm.changeTool('eyedropper')}}},[_c('i',{staticClass:"fas fa-eye-dropper"})]),_vm._v(" "),_c('button',{staticClass:"tool newRow",class:_vm.isSelected('fillbucket'),attrs:{"title":"Fill Bucket (g)"},on:{"click":function($event){return _vm.changeTool('fillbucket')}}},[_c('i',{staticClass:"fas fa-fill"})])]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"toolSelection section"},[_c('span',{staticClass:"heading",on:{"click":function($event){return _vm.toggleExpandedState('commands')}}},[_vm._v("Commands "),_c('i',{staticClass:"stateChevron",class:_vm.isExpanded('commands')})]),_vm._v(" "),(_vm.sections.commands.expanded)?_c('div',[_c('button',{staticClass:"tool",class:_vm.isScrollLocked(),attrs:{"title":"Lock Scrolling (For Touch)"},on:{"click":function($event){return _vm.changeScrollState()}}},[_c('i',{staticClass:"fas fa-lock"})]),_vm._v(" "),_c('button',{staticClass:"tool",attrs:{"title":"Clear Grid(s)"},on:{"click":function($event){return _vm.root.$emit('toggleClearPanel')}}},[_c('i',{staticClass:"fas fa-trash"})])]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"gridSettings section"},[_c('span',{staticClass:"heading",on:{"click":function($event){return _vm.toggleExpandedState('gridSettings')}}},[_vm._v("Grid Settings "),_c('i',{staticClass:"stateChevron",class:_vm.isExpanded('gridSettings')})]),_vm._v(" "),(_vm.sections.gridSettings.expanded)?_c('div',[_c('span',{staticClass:"subHeading"},[_vm._v("Pixel Size (px)")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.pixelSize),expression:"pixelSize"}],attrs:{"type":"number"},domProps:{"value":(_vm.pixelSize)},on:{"input":function($event){if($event.target.composing){ return; }_vm.pixelSize=$event.target.value}}})]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"gridSettings section"},[_c('span',{staticClass:"heading",on:{"click":function($event){return _vm.toggleExpandedState('import_export')}}},[_vm._v("Import/Export "),_c('i',{staticClass:"stateChevron",class:_vm.isExpanded('import_export')})]),_vm._v(" "),(_vm.sections.import_export.expanded)?_c('div',[_c('button',{staticClass:"actionButton",on:{"click":function($event){return _vm.root.$emit('toggleImportPanel')}}},[_vm._v("Import")]),_vm._v(" "),_c('button',{staticClass:"actionButton",on:{"click":function($event){return _vm.root.$emit('toggleExportPanel')}}},[_vm._v("Export")])]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"watermark section"},[_c('a',{attrs:{"href":"https://github.com/LegendEffects/PixelBot-Designer"}},[_vm._v("Github")]),_vm._v(" "),_c('a',{attrs:{"href":"#"},on:{"click":function($event){_vm.root.show.credits = true}}},[_vm._v("Credits")])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"toolbar"},[_c('div',[_c('span',{staticClass:"heading",on:{"click":function($event){return _vm.toggleExpandedState('palette')}}},[_vm._v("Colour Palette"),_c('i',{staticClass:"stateChevron",class:_vm.isExpanded('palette')})]),_vm._v(" "),(_vm.sections.palette.expanded)?_c('div',[_c('palette')],1):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"section"},[_c('span',{staticClass:"heading",on:{"click":function($event){return _vm.toggleExpandedState('tools')}}},[_vm._v("Tools "),_c('i',{staticClass:"stateChevron",class:_vm.isExpanded('tools')})]),_vm._v(" "),(_vm.sections.tools.expanded)?_c('div',[_c('button',{staticClass:"tool",class:_vm.isSelected('pen'),attrs:{"title":"Pen (b)"},on:{"click":function($event){return _vm.changeTool('pen')}}},[_c('i',{staticClass:"fas fa-pen"})]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('eraser'),attrs:{"title":"Eraser (e)"},on:{"click":function($event){return _vm.changeTool('eraser')}}},[_c('i',{staticClass:"fas fa-eraser"})]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('eyedropper'),attrs:{"title":"Eyedropper (i)"},on:{"click":function($event){return _vm.changeTool('eyedropper')}}},[_c('i',{staticClass:"fas fa-eye-dropper"})]),_vm._v(" "),_c('button',{staticClass:"tool newRow",class:_vm.isSelected('fillbucket'),attrs:{"title":"Fill Bucket (g)"},on:{"click":function($event){return _vm.changeTool('fillbucket')}}},[_c('i',{staticClass:"fas fa-fill"})])]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"section"},[_c('span',{staticClass:"heading",on:{"click":function($event){return _vm.toggleExpandedState('commands')}}},[_vm._v("Commands "),_c('i',{staticClass:"stateChevron",class:_vm.isExpanded('commands')})]),_vm._v(" "),(_vm.sections.commands.expanded)?_c('div',[_c('button',{staticClass:"tool",class:_vm.isScrollLocked(),attrs:{"title":"Lock Scrolling (For Touch)"},on:{"click":function($event){return _vm.changeScrollState()}}},[_c('i',{staticClass:"fas fa-lock"})]),_vm._v(" "),_c('button',{staticClass:"tool",attrs:{"title":"Clear Grid(s)"},on:{"click":function($event){return _vm.root.$emit('toggleClearPanel')}}},[_c('i',{staticClass:"fas fa-trash"})])]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"section"},[_c('span',{staticClass:"heading",on:{"click":function($event){return _vm.toggleExpandedState('import_export')}}},[_vm._v("Import/Export "),_c('i',{staticClass:"stateChevron",class:_vm.isExpanded('import_export')})]),_vm._v(" "),(_vm.sections.import_export.expanded)?_c('div',[_c('button',{staticClass:"actionButton",on:{"click":function($event){return _vm.root.$emit('toggleImportPanel')}}},[_vm._v("Import")]),_vm._v(" "),_c('button',{staticClass:"actionButton",on:{"click":function($event){return _vm.root.$emit('toggleExportPanel')}}},[_vm._v("Export")])]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"watermark section"},[_c('a',{attrs:{"href":"#"},on:{"click":function($event){return _vm.root.$emit('toggleSettingsPanel')}}},[_vm._v("Settings")]),_vm._v(" "),_c('a',{attrs:{"href":"https://github.com/LegendEffects/PixelBot-Designer"}},[_vm._v("Github")]),_vm._v(" "),_c('a',{attrs:{"href":"#"},on:{"click":function($event){_vm.root.show.credits = true}}},[_vm._v("Credits")])])])}
 __vue__options__.staticRenderFns = []
 __vue__options__._scopeId = "data-v-36f505fc"
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
@@ -787,10 +852,10 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-36f505fc", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-36f505fc", __vue__options__)
+    hotAPI.reload("data-v-36f505fc", __vue__options__)
   }
 })()}
-},{"vue":"vue","vue-hot-reload-api":16,"vueify/lib/insert-css":18}],10:[function(require,module,exports){
+},{"vue":"vue","vue-hot-reload-api":17,"vueify/lib/insert-css":19}],11:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -823,7 +888,7 @@ new _vue2.default({
     }
 }).$mount('#app');
 
-},{"./app.vue":1,"./components":2,"@fortawesome/fontawesome-free":11,"vue":"vue","vue-clipboard2":15,"vue-shortkey":17}],11:[function(require,module,exports){
+},{"./app.vue":1,"./components":2,"@fortawesome/fontawesome-free":12,"vue":"vue","vue-clipboard2":16,"vue-shortkey":18}],12:[function(require,module,exports){
 (function (global,setImmediate){
 /*!
  * Font Awesome Free 5.8.1 by @fontawesome - https://fontawesome.com
@@ -3224,7 +3289,7 @@ new _vue2.default({
 }());
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"timers":14}],12:[function(require,module,exports){
+},{"timers":15}],13:[function(require,module,exports){
 /*!
  * clipboard.js v2.0.4
  * https://zenorocha.github.io/clipboard.js
@@ -3232,7 +3297,7 @@ new _vue2.default({
  * Licensed MIT © Zeno Rocha
  */
 !function(t,e){"object"==typeof exports&&"object"==typeof module?module.exports=e():"function"==typeof define&&define.amd?define([],e):"object"==typeof exports?exports.ClipboardJS=e():t.ClipboardJS=e()}(this,function(){return function(n){var o={};function r(t){if(o[t])return o[t].exports;var e=o[t]={i:t,l:!1,exports:{}};return n[t].call(e.exports,e,e.exports,r),e.l=!0,e.exports}return r.m=n,r.c=o,r.d=function(t,e,n){r.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:n})},r.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},r.t=function(e,t){if(1&t&&(e=r(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var n=Object.create(null);if(r.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)r.d(n,o,function(t){return e[t]}.bind(null,o));return n},r.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return r.d(e,"a",e),e},r.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},r.p="",r(r.s=0)}([function(t,e,n){"use strict";var r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t},i=function(){function o(t,e){for(var n=0;n<e.length;n++){var o=e[n];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(t,o.key,o)}}return function(t,e,n){return e&&o(t.prototype,e),n&&o(t,n),t}}(),a=o(n(1)),c=o(n(3)),u=o(n(4));function o(t){return t&&t.__esModule?t:{default:t}}var l=function(t){function o(t,e){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,o);var n=function(t,e){if(!t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!e||"object"!=typeof e&&"function"!=typeof e?t:e}(this,(o.__proto__||Object.getPrototypeOf(o)).call(this));return n.resolveOptions(e),n.listenClick(t),n}return function(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function, not "+typeof e);t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),e&&(Object.setPrototypeOf?Object.setPrototypeOf(t,e):t.__proto__=e)}(o,c.default),i(o,[{key:"resolveOptions",value:function(){var t=0<arguments.length&&void 0!==arguments[0]?arguments[0]:{};this.action="function"==typeof t.action?t.action:this.defaultAction,this.target="function"==typeof t.target?t.target:this.defaultTarget,this.text="function"==typeof t.text?t.text:this.defaultText,this.container="object"===r(t.container)?t.container:document.body}},{key:"listenClick",value:function(t){var e=this;this.listener=(0,u.default)(t,"click",function(t){return e.onClick(t)})}},{key:"onClick",value:function(t){var e=t.delegateTarget||t.currentTarget;this.clipboardAction&&(this.clipboardAction=null),this.clipboardAction=new a.default({action:this.action(e),target:this.target(e),text:this.text(e),container:this.container,trigger:e,emitter:this})}},{key:"defaultAction",value:function(t){return s("action",t)}},{key:"defaultTarget",value:function(t){var e=s("target",t);if(e)return document.querySelector(e)}},{key:"defaultText",value:function(t){return s("text",t)}},{key:"destroy",value:function(){this.listener.destroy(),this.clipboardAction&&(this.clipboardAction.destroy(),this.clipboardAction=null)}}],[{key:"isSupported",value:function(){var t=0<arguments.length&&void 0!==arguments[0]?arguments[0]:["copy","cut"],e="string"==typeof t?[t]:t,n=!!document.queryCommandSupported;return e.forEach(function(t){n=n&&!!document.queryCommandSupported(t)}),n}}]),o}();function s(t,e){var n="data-clipboard-"+t;if(e.hasAttribute(n))return e.getAttribute(n)}t.exports=l},function(t,e,n){"use strict";var o,r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t},i=function(){function o(t,e){for(var n=0;n<e.length;n++){var o=e[n];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(t,o.key,o)}}return function(t,e,n){return e&&o(t.prototype,e),n&&o(t,n),t}}(),a=n(2),c=(o=a)&&o.__esModule?o:{default:o};var u=function(){function e(t){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,e),this.resolveOptions(t),this.initSelection()}return i(e,[{key:"resolveOptions",value:function(){var t=0<arguments.length&&void 0!==arguments[0]?arguments[0]:{};this.action=t.action,this.container=t.container,this.emitter=t.emitter,this.target=t.target,this.text=t.text,this.trigger=t.trigger,this.selectedText=""}},{key:"initSelection",value:function(){this.text?this.selectFake():this.target&&this.selectTarget()}},{key:"selectFake",value:function(){var t=this,e="rtl"==document.documentElement.getAttribute("dir");this.removeFake(),this.fakeHandlerCallback=function(){return t.removeFake()},this.fakeHandler=this.container.addEventListener("click",this.fakeHandlerCallback)||!0,this.fakeElem=document.createElement("textarea"),this.fakeElem.style.fontSize="12pt",this.fakeElem.style.border="0",this.fakeElem.style.padding="0",this.fakeElem.style.margin="0",this.fakeElem.style.position="absolute",this.fakeElem.style[e?"right":"left"]="-9999px";var n=window.pageYOffset||document.documentElement.scrollTop;this.fakeElem.style.top=n+"px",this.fakeElem.setAttribute("readonly",""),this.fakeElem.value=this.text,this.container.appendChild(this.fakeElem),this.selectedText=(0,c.default)(this.fakeElem),this.copyText()}},{key:"removeFake",value:function(){this.fakeHandler&&(this.container.removeEventListener("click",this.fakeHandlerCallback),this.fakeHandler=null,this.fakeHandlerCallback=null),this.fakeElem&&(this.container.removeChild(this.fakeElem),this.fakeElem=null)}},{key:"selectTarget",value:function(){this.selectedText=(0,c.default)(this.target),this.copyText()}},{key:"copyText",value:function(){var e=void 0;try{e=document.execCommand(this.action)}catch(t){e=!1}this.handleResult(e)}},{key:"handleResult",value:function(t){this.emitter.emit(t?"success":"error",{action:this.action,text:this.selectedText,trigger:this.trigger,clearSelection:this.clearSelection.bind(this)})}},{key:"clearSelection",value:function(){this.trigger&&this.trigger.focus(),window.getSelection().removeAllRanges()}},{key:"destroy",value:function(){this.removeFake()}},{key:"action",set:function(){var t=0<arguments.length&&void 0!==arguments[0]?arguments[0]:"copy";if(this._action=t,"copy"!==this._action&&"cut"!==this._action)throw new Error('Invalid "action" value, use either "copy" or "cut"')},get:function(){return this._action}},{key:"target",set:function(t){if(void 0!==t){if(!t||"object"!==(void 0===t?"undefined":r(t))||1!==t.nodeType)throw new Error('Invalid "target" value, use a valid Element');if("copy"===this.action&&t.hasAttribute("disabled"))throw new Error('Invalid "target" attribute. Please use "readonly" instead of "disabled" attribute');if("cut"===this.action&&(t.hasAttribute("readonly")||t.hasAttribute("disabled")))throw new Error('Invalid "target" attribute. You can\'t cut text from elements with "readonly" or "disabled" attributes');this._target=t}},get:function(){return this._target}}]),e}();t.exports=u},function(t,e){t.exports=function(t){var e;if("SELECT"===t.nodeName)t.focus(),e=t.value;else if("INPUT"===t.nodeName||"TEXTAREA"===t.nodeName){var n=t.hasAttribute("readonly");n||t.setAttribute("readonly",""),t.select(),t.setSelectionRange(0,t.value.length),n||t.removeAttribute("readonly"),e=t.value}else{t.hasAttribute("contenteditable")&&t.focus();var o=window.getSelection(),r=document.createRange();r.selectNodeContents(t),o.removeAllRanges(),o.addRange(r),e=o.toString()}return e}},function(t,e){function n(){}n.prototype={on:function(t,e,n){var o=this.e||(this.e={});return(o[t]||(o[t]=[])).push({fn:e,ctx:n}),this},once:function(t,e,n){var o=this;function r(){o.off(t,r),e.apply(n,arguments)}return r._=e,this.on(t,r,n)},emit:function(t){for(var e=[].slice.call(arguments,1),n=((this.e||(this.e={}))[t]||[]).slice(),o=0,r=n.length;o<r;o++)n[o].fn.apply(n[o].ctx,e);return this},off:function(t,e){var n=this.e||(this.e={}),o=n[t],r=[];if(o&&e)for(var i=0,a=o.length;i<a;i++)o[i].fn!==e&&o[i].fn._!==e&&r.push(o[i]);return r.length?n[t]=r:delete n[t],this}},t.exports=n},function(t,e,n){var d=n(5),h=n(6);t.exports=function(t,e,n){if(!t&&!e&&!n)throw new Error("Missing required arguments");if(!d.string(e))throw new TypeError("Second argument must be a String");if(!d.fn(n))throw new TypeError("Third argument must be a Function");if(d.node(t))return s=e,f=n,(l=t).addEventListener(s,f),{destroy:function(){l.removeEventListener(s,f)}};if(d.nodeList(t))return a=t,c=e,u=n,Array.prototype.forEach.call(a,function(t){t.addEventListener(c,u)}),{destroy:function(){Array.prototype.forEach.call(a,function(t){t.removeEventListener(c,u)})}};if(d.string(t))return o=t,r=e,i=n,h(document.body,o,r,i);throw new TypeError("First argument must be a String, HTMLElement, HTMLCollection, or NodeList");var o,r,i,a,c,u,l,s,f}},function(t,n){n.node=function(t){return void 0!==t&&t instanceof HTMLElement&&1===t.nodeType},n.nodeList=function(t){var e=Object.prototype.toString.call(t);return void 0!==t&&("[object NodeList]"===e||"[object HTMLCollection]"===e)&&"length"in t&&(0===t.length||n.node(t[0]))},n.string=function(t){return"string"==typeof t||t instanceof String},n.fn=function(t){return"[object Function]"===Object.prototype.toString.call(t)}},function(t,e,n){var a=n(7);function i(t,e,n,o,r){var i=function(e,n,t,o){return function(t){t.delegateTarget=a(t.target,n),t.delegateTarget&&o.call(e,t)}}.apply(this,arguments);return t.addEventListener(n,i,r),{destroy:function(){t.removeEventListener(n,i,r)}}}t.exports=function(t,e,n,o,r){return"function"==typeof t.addEventListener?i.apply(null,arguments):"function"==typeof n?i.bind(null,document).apply(null,arguments):("string"==typeof t&&(t=document.querySelectorAll(t)),Array.prototype.map.call(t,function(t){return i(t,e,n,o,r)}))}},function(t,e){if("undefined"!=typeof Element&&!Element.prototype.matches){var n=Element.prototype;n.matches=n.matchesSelector||n.mozMatchesSelector||n.msMatchesSelector||n.oMatchesSelector||n.webkitMatchesSelector}t.exports=function(t,e){for(;t&&9!==t.nodeType;){if("function"==typeof t.matches&&t.matches(e))return t;t=t.parentNode}}}])});
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -3418,7 +3483,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -3497,7 +3562,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":13,"timers":14}],15:[function(require,module,exports){
+},{"process/browser.js":14,"timers":15}],16:[function(require,module,exports){
 var Clipboard = require('clipboard/dist/clipboard.min.js') // FIXME: workaround for browserify
 
 var VueClipboardConfig = {
@@ -3586,7 +3651,7 @@ if (typeof exports === 'object') {
   })
 }
 
-},{"clipboard/dist/clipboard.min.js":12}],16:[function(require,module,exports){
+},{"clipboard/dist/clipboard.min.js":13}],17:[function(require,module,exports){
 var Vue // late bind
 var version
 var map = Object.create(null)
@@ -3859,10 +3924,10 @@ function patchScopedSlots (instance) {
   }
 }
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 !function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define("VueShortkey",[],t):"object"==typeof exports?exports.VueShortkey=t():e.VueShortkey=t()}("undefined"!=typeof self?self:this,function(){return function(e){function t(r){if(n[r])return n[r].exports;var o=n[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,t),o.l=!0,o.exports}var n={};return t.m=e,t.c=n,t.d=function(e,n,r){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:r})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="../dist/",t(t.s=0)}([function(e,t,n){"use strict";(function(r){function o(e){if(Array.isArray(e)){for(var t=0,n=Array(e.length);t<e.length;t++)n[t]=e[t];return n}return Array.from(e)}var c;n(2),n(3);var u={},i={},a=[],l=[],s=!1,f=function(e){return e="string"==typeof e?JSON.parse(e.replace(/\'/gi,'"')):e,e instanceof Array?{"":e}:e},p=function(e,t,n,r){var o=!0===n.modifiers.push,c=!0===n.modifiers.avoid,u=!0==!n.modifiers.focus,i=!0===n.modifiers.once;c?(a=a.filter(function(e){return!e===t}),a.push(t)):v({b:e,push:o,once:i,focus:u,el:r.elm})},y=function(e,t){for(var n in e){var r=u.encodeKey(e[n]),o=i[r].el.indexOf(t);i[r].el.length>1&&o>-1?i[r].el.splice(o,1):delete i[r]}};u.install=function(e,t){l=[].concat(o(t&&t.prevent?t.prevent:[])),e.directive("shortkey",{bind:function(e,t,n){var r=f(t.value);p(r,e,t,n)},update:function(e,t,n){var r=f(t.oldValue);y(r,e);var o=f(t.value);p(o,e,t,n)},unbind:function(e,t){var n=f(t.value);y(n,e)}})},u.decodeKey=function(e){return d(e)},u.encodeKey=function(e){var t={};t.shiftKey=e.includes("shift"),t.ctrlKey=e.includes("ctrl"),t.metaKey=e.includes("meta"),t.altKey=e.includes("alt");var n=d(t);return n+=e.filter(function(e){return!["shift","ctrl","meta","alt"].includes(e)}).join("")};var d=function(e){var t="";return("Shift"===e.key||e.shiftKey)&&(t+="shift"),("Control"===e.key||e.ctrlKey)&&(t+="ctrl"),("Meta"===e.key||e.metaKey)&&(t+="meta"),("Alt"===e.key||e.altKey)&&(t+="alt"),"ArrowUp"===e.key&&(t+="arrowup"),"ArrowLeft"===e.key&&(t+="arrowleft"),"ArrowRight"===e.key&&(t+="arrowright"),"ArrowDown"===e.key&&(t+="arrowdown"),"AltGraph"===e.key&&(t+="altgraph"),"Escape"===e.key&&(t+="esc"),"Enter"===e.key&&(t+="enter"),"Tab"===e.key&&(t+="tab")," "===e.key&&(t+="space"),"PageUp"===e.key&&(t+="pageup"),"PageDown"===e.key&&(t+="pagedown"),"Home"===e.key&&(t+="home"),"End"===e.key&&(t+="end"),"Delete"===e.key&&(t+="del"),"Backspace"===e.key&&(t+="backspace"),"Insert"===e.key&&(t+="insert"),"NumLock"===e.key&&(t+="numlock"),"CapsLock"===e.key&&(t+="capslock"),"Pause"===e.key&&(t+="pause"),"ContextMenu"===e.key&&(t+="contextmenu"),"ScrollLock"===e.key&&(t+="scrolllock"),"BrowserHome"===e.key&&(t+="browserhome"),"MediaSelect"===e.key&&(t+="mediaselect"),(e.key&&" "!==e.key&&1===e.key.length||/F\d{1,2}|\//g.test(e.key))&&(t+=e.key.toLowerCase()),t},h=function(e){var t=new CustomEvent("shortkey",{bubbles:!1});i[e].key&&(t.srcKey=i[e].key);var n=i[e].el;n[n.length-1].dispatchEvent(t)};u.keyDown=function(e){(!i[e].once&&!i[e].push||i[e].push&&!s)&&h(e)},r&&Object({NODE_ENV:"production"})&&function(){document.addEventListener("keydown",function(e){var t=u.decodeKey(e);if(m(t))if(e.preventDefault(),e.stopPropagation(),i[t].focus)u.keyDown(t),s=!0;else if(!s){var n=i[t].el;n[n.length-1].focus(),s=!0}},!0),document.addEventListener("keyup",function(e){var t=u.decodeKey(e);m(t)&&(e.preventDefault(),e.stopPropagation(),(i[t].once||i[t].push)&&h(t)),s=!1},!0)}();var v=function(e){var t=e.b,n=e.push,r=e.once,o=e.focus,c=e.el;for(var a in t){var l=u.encodeKey(t[a]),s=i[l]&&i[l].el?i[l].el:[];s.push(c),i[l]={push:n,once:r,focus:o,key:a,el:s}}},m=function(e){var t=!!a.find(function(e){return e===document.activeElement}),n=!!l.find(function(e){return document.activeElement&&document.activeElement.matches(e)});return!!i[e]&&!(t||n)};void 0!==e&&e.exports?e.exports=u:void 0!==(c=function(){return u}.call(t,n,t,e))&&(e.exports=c)}).call(t,n(1))},function(e,t){function n(){throw new Error("setTimeout has not been defined")}function r(){throw new Error("clearTimeout has not been defined")}function o(e){if(s===setTimeout)return setTimeout(e,0);if((s===n||!s)&&setTimeout)return s=setTimeout,setTimeout(e,0);try{return s(e,0)}catch(t){try{return s.call(null,e,0)}catch(t){return s.call(this,e,0)}}}function c(e){if(f===clearTimeout)return clearTimeout(e);if((f===r||!f)&&clearTimeout)return f=clearTimeout,clearTimeout(e);try{return f(e)}catch(t){try{return f.call(null,e)}catch(t){return f.call(this,e)}}}function u(){h&&y&&(h=!1,y.length?d=y.concat(d):v=-1,d.length&&i())}function i(){if(!h){var e=o(u);h=!0;for(var t=d.length;t;){for(y=d,d=[];++v<t;)y&&y[v].run();v=-1,t=d.length}y=null,h=!1,c(e)}}function a(e,t){this.fun=e,this.array=t}function l(){}var s,f,p=e.exports={};!function(){try{s="function"==typeof setTimeout?setTimeout:n}catch(e){s=n}try{f="function"==typeof clearTimeout?clearTimeout:r}catch(e){f=r}}();var y,d=[],h=!1,v=-1;p.nextTick=function(e){var t=new Array(arguments.length-1);if(arguments.length>1)for(var n=1;n<arguments.length;n++)t[n-1]=arguments[n];d.push(new a(e,t)),1!==d.length||h||o(i)},a.prototype.run=function(){this.fun.apply(null,this.array)},p.title="browser",p.browser=!0,p.env={},p.argv=[],p.version="",p.versions={},p.on=l,p.addListener=l,p.once=l,p.off=l,p.removeListener=l,p.removeAllListeners=l,p.emit=l,p.prependListener=l,p.prependOnceListener=l,p.listeners=function(e){return[]},p.binding=function(e){throw new Error("process.binding is not supported")},p.cwd=function(){return"/"},p.chdir=function(e){throw new Error("process.chdir is not supported")},p.umask=function(){return 0}},function(e,t){Element.prototype.matches||(Element.prototype.matches=Element.prototype.matchesSelector||Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector)},function(e,t){!function(){if("undefined"!=typeof window)try{var e=new window.CustomEvent("test",{cancelable:!0});if(e.preventDefault(),!0!==e.defaultPrevented)throw new Error("Could not prevent default")}catch(e){var t=function(e,t){var n,r;return t=t||{},t.bubbles=!!t.bubbles,t.cancelable=!!t.cancelable,n=document.createEvent("CustomEvent"),n.initCustomEvent(e,t.bubbles,t.cancelable,t.detail),r=n.preventDefault,n.preventDefault=function(){r.call(this);try{Object.defineProperty(this,"defaultPrevented",{get:function(){return!0}})}catch(e){this.defaultPrevented=!0}},n};t.prototype=window.Event.prototype,window.CustomEvent=t}}()}])});
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 var inserted = exports.cache = {}
 
 function noop () {}
@@ -14645,4 +14710,4 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"timers":14}]},{},[10]);
+},{"timers":15}]},{},[11]);
