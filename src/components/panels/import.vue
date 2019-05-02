@@ -9,6 +9,7 @@
 </template>
 
 <script>
+const pako = require('pako');
 export default {
     name: 'importpanel',
     data: () => {return{
@@ -31,6 +32,48 @@ export default {
                     this.root.grids[count].import(part);
                     count++;
                 }
+            } else if(this.importText.substring(0,6) === '!pbaz.') {
+                let buffer = new Buffer(this.importText.slice(6), 'base64');
+                let output = pako.inflate(buffer, {to: 'string'}).split('.');
+
+                let delay = output[1];
+                output = output.slice(2);
+                
+                let count = 0;
+                let grids = [[], [], [], []];
+                for(let part of output) {
+                    grids[count].push(part);
+
+                    count++;
+                    if(count === 4) count = 0;
+                }
+
+                count = 0;
+                for(let iGrid of grids) {
+                    let count2 = 0;
+                    this.root.grids[count].grid = []
+                    for(let iFrame of iGrid) {
+                        let output = iFrame.replace(/(\d+)([a-zA-A])/g, function (match, num, letter) {
+                            var ret = '', i;
+                            for (i = 0; i < parseInt(num, 10); i++) {
+                                ret += letter;
+                            }
+                            return ret;
+                        });
+                        
+                        let cache = [];
+                        for(let i=1;i<145;i++) {
+                            if(output[i-1] in this.root.pixelColours) cache[i] = output[i-1];
+                            else cache[i] = 'e';
+                        }
+
+                        this.root.grids[count].grid.push(cache);
+                        count2++;
+                    }
+                    count++;
+                }
+                this.root.refreshAllGrids();
+
             } else if(allowedCommands.includes(this.importText.substring(0,6))) {
                 let importString = this.importText.substring(6, this.importText.length);
                 let smartDetect = this.importText.charAt(3);

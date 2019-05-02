@@ -1,20 +1,26 @@
 <template>
     <div id="palette">
-        <div v-for="(name, swatch) in colours" :key="swatch" class="colour" :class="swatch + checkActive(swatch)" v-on:click="makeActive(swatch)"></div>
+        <div v-for="(name, swatch) in root.pixelColours" :key="swatch" class="colour" :class="swatch + checkActive(swatch)" v-on:click="makeActive(swatch)"></div>
     </div>
 </template>
 
 <script>
 export default {
-    props: ['colours'],
+    data: () => {return {
+        root: null,
+    }},
     methods: {
         checkActive(swatchName) {
-            if(this.$root.$children[0].tool.colour === swatchName) return ' active';
+            if(this.root.tool.colour === swatchName) return ' active';
             else return '';
         },
         makeActive(swatchName) {
-            this.$root.$children[0].tool.colour = swatchName;
+            this.root.tool.colour = swatchName;
+            if(this.root.settings.changeOnColourChange && this.root.tool.selected === 'eraser') this.root.tool.selected = 'pen';
         }
+    },
+    beforeMount() {
+        this.root = this.$root.$children[0];
     }
 }
 </script>
