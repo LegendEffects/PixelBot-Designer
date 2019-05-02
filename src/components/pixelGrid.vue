@@ -7,7 +7,6 @@
 </template>
 
 <script>
-
 export default {
     name: "pixelgrid",
     data: () => {return {
@@ -139,7 +138,6 @@ export default {
             if(typeof frame === 'number') grid = this.grid[frame];
             else grid = this.grid[this.root.animation.frame];
             
-
             let lastLetter = undefined;
             let currentLetter = undefined;
             let currentCount = undefined;
@@ -164,7 +162,14 @@ export default {
             }
             return (output + (currentCount + lastLetter))
         },
-        import(str) {
+        import(str, frame) {
+            if(typeof frame !== 'number') frame = this.root.animation.frame;
+
+            if(this.grid[frame] === undefined) {
+                this.grid[frame] = [];
+                for(let i=0; i<145;i++) this.grid[frame][i] = 'e';
+            }
+
             let output = str.replace(/(\d+)([a-zA-A])/g, function (match, num, letter) {
                 var ret = '', i;
                 for (i = 0; i < parseInt(num, 10); i++) {
@@ -175,19 +180,16 @@ export default {
             
             for(let i=1;i<145;i++) {
                 if(output[i-1] in this.$parent.pixelColours) {
-                    this.grid[this.root.animation.frame][i] = output[i-1];
+                    this.grid[frame][i] = output[i-1];
                 } else {
-                    this.grid[this.root.animation.frame][i] = 'e';
+                    this.grid[frame][i] = 'e';
                 }
             }
             this.updateScreen();
         },
         exportAnimation() {
             let final = '';
-            for(let i=0;i<this.grid.length;i++) {
-                console.log(i);
-                final += '.'+this.export(i);
-            }
+            for(let i=0;i<this.grid.length;i++) final += '.'+this.export(i);
 
             return final;
         },

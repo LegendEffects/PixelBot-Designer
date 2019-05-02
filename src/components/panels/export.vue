@@ -21,13 +21,17 @@
             <div v-else>
                 <span v-for="(pixelbot, index) in animationexport" :key="pixelbot.id">
                     <p style="overflow: auto; padding: 20px;">!pb{{index}}a.{{root.animation.delay}}{{pixelbot}}</p>
+                    <button class="actionButton darker" @click="copyCommand('!pb'+index+'a.'+root.animation.delay+pixelbot)"><i class="fas fa-copy"></i></button>
                 </span>
+                <p style="overflow: auto; padding: 20px;">!pbaz.{{exportAllAnimations()}}</p>
+                <button class="actionButton darker" @click="copyCommand(exportAllAnimations())"><i class="fas fa-copy"></i></button>
             </div>
         </div>
     </modal>
 </template>
 
 <script>
+const pako = require('pako');
 export default {
     name: 'exportpanel',
     data: () => {return {
@@ -36,7 +40,6 @@ export default {
         data: {},
         animationexport: {},
         tab: 'singleFrame',
-        shutJahedUp: true,
     }},
     methods: {
         toggleState() {
@@ -63,17 +66,32 @@ export default {
             }
             return final;
         },
+        encodeToGzip(str) {
+            let buff = new Buffer(pako.gzip(str));
+
+            return buff.toString('base64');
+        },
         exportAnimation() {
             let final = {};
             let count = 0;
 
             for(let grid of this.root.grids) {
                 count++;
-                console.log(grid.exportAnimation());
                 final[count] = grid.exportAnimation();
             }
 
             this.animationexport = final;
+        },
+        exportAllAnimations() {
+            let final = '.'+this.root.animation.delay;
+
+            for(let i=0; i<this.root.grids[0].grid.length; i++) {
+                for(let grid of this.root.grids) {
+                    final += '.'+grid.export(i);
+                }
+            }
+
+            return this.encodeToGzip(final);
         },
         copyCommand(text) {
             this.$copyText(text);
