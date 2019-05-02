@@ -134,8 +134,11 @@ export default {
         changeGridSize(size) {
             this.size = size;
         },
-        export() {
-            let grid = this.grid[this.root.animation.frame];
+        export(frame) {
+            let grid = [];
+            if(typeof frame === 'number') grid = this.grid[frame];
+            else grid = this.grid[this.root.animation.frame];
+            
 
             let lastLetter = undefined;
             let currentLetter = undefined;
@@ -181,8 +184,9 @@ export default {
         },
         exportAnimation() {
             let final = '';
-            for(let frame of this.grid) {
-                final += '.'+this.export(frame);
+            for(let i=0;i<this.grid.length;i++) {
+                console.log(i);
+                final += '.'+this.export(i);
             }
 
             return final;

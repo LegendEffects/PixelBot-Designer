@@ -115,6 +115,19 @@
                 else if(e.which === 69) this.tool.selected = 'eraser';
                 else if(e.which === 73) this.tool.selected = 'eyedropper';
                 else if(e.which === 71) this.tool.selected = 'fillbucket';
+
+                else if(e.which === 219) {
+                    if(this.animation.frame-1 < 0) this.animation.frame = this.grids[0].grid.length;
+                    else this.animation.frame--;
+                    this.refreshAllGrids();
+                }
+
+                else if(e.which === 221) {
+                    this.animation.frame++;
+                    for(let grid of this.grids) {
+                        grid.frameChange();
+                    }
+                }
             },
             refreshAllGrids() {
                 for(let grid of this.grids) {

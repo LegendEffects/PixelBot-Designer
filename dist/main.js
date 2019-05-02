@@ -115,30 +115,59 @@ exports.default = {
             if (this.tool.lockScroll === true) return { overflow: 'hidden' };else return { overflow: 'auto' };
         },
         keyPressed: function keyPressed(e) {
-            if (e.which === 66) this.tool.selected = 'pen';else if (e.which === 69) this.tool.selected = 'eraser';else if (e.which === 73) this.tool.selected = 'eyedropper';else if (e.which === 71) this.tool.selected = 'fillbucket';
+            if (e.which === 66) this.tool.selected = 'pen';else if (e.which === 69) this.tool.selected = 'eraser';else if (e.which === 73) this.tool.selected = 'eyedropper';else if (e.which === 71) this.tool.selected = 'fillbucket';else if (e.which === 219) {
+                if (this.animation.frame - 1 < 0) this.animation.frame = this.grids[0].grid.length;else this.animation.frame--;
+                this.refreshAllGrids();
+            } else if (e.which === 221) {
+                this.animation.frame++;
+                var _iteratorNormalCompletion2 = true;
+                var _didIteratorError2 = false;
+                var _iteratorError2 = undefined;
+
+                try {
+                    for (var _iterator2 = this.grids[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                        var grid = _step2.value;
+
+                        grid.frameChange();
+                    }
+                } catch (err) {
+                    _didIteratorError2 = true;
+                    _iteratorError2 = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                            _iterator2.return();
+                        }
+                    } finally {
+                        if (_didIteratorError2) {
+                            throw _iteratorError2;
+                        }
+                    }
+                }
+            }
         },
         refreshAllGrids: function refreshAllGrids() {
-            var _iteratorNormalCompletion2 = true;
-            var _didIteratorError2 = false;
-            var _iteratorError2 = undefined;
+            var _iteratorNormalCompletion3 = true;
+            var _didIteratorError3 = false;
+            var _iteratorError3 = undefined;
 
             try {
-                for (var _iterator2 = this.grids[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                    var grid = _step2.value;
+                for (var _iterator3 = this.grids[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                    var grid = _step3.value;
 
                     grid.updateScreen();
                 }
             } catch (err) {
-                _didIteratorError2 = true;
-                _iteratorError2 = err;
+                _didIteratorError3 = true;
+                _iteratorError3 = err;
             } finally {
                 try {
-                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                        _iterator2.return();
+                    if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                        _iterator3.return();
                     }
                 } finally {
-                    if (_didIteratorError2) {
-                        throw _iteratorError2;
+                    if (_didIteratorError3) {
+                        throw _iteratorError3;
                     }
                 }
             }
@@ -152,27 +181,27 @@ exports.default = {
                     } else {
                         this.animation.frame++;
                     }
-                    var _iteratorNormalCompletion3 = true;
-                    var _didIteratorError3 = false;
-                    var _iteratorError3 = undefined;
+                    var _iteratorNormalCompletion4 = true;
+                    var _didIteratorError4 = false;
+                    var _iteratorError4 = undefined;
 
                     try {
-                        for (var _iterator3 = this.grids[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                            var grid = _step3.value;
+                        for (var _iterator4 = this.grids[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                            var grid = _step4.value;
 
                             grid.updateScreen();
                         }
                     } catch (err) {
-                        _didIteratorError3 = true;
-                        _iteratorError3 = err;
+                        _didIteratorError4 = true;
+                        _iteratorError4 = err;
                     } finally {
                         try {
-                            if (!_iteratorNormalCompletion3 && _iterator3.return) {
-                                _iterator3.return();
+                            if (!_iteratorNormalCompletion4 && _iterator4.return) {
+                                _iterator4.return();
                             }
                         } finally {
-                            if (_didIteratorError3) {
-                                throw _iteratorError3;
+                            if (_didIteratorError4) {
+                                throw _iteratorError4;
                             }
                         }
                     }
@@ -810,8 +839,9 @@ exports.default = {
         changeGridSize: function changeGridSize(size) {
             this.size = size;
         },
-        export: function _export() {
-            var grid = this.grid[this.root.animation.frame];
+        export: function _export(frame) {
+            var grid = [];
+            if (typeof frame === 'number') grid = this.grid[frame];else grid = this.grid[this.root.animation.frame];
 
             var lastLetter = undefined;
             var currentLetter = undefined;
@@ -858,29 +888,9 @@ exports.default = {
         },
         exportAnimation: function exportAnimation() {
             var final = '';
-            var _iteratorNormalCompletion = true;
-            var _didIteratorError = false;
-            var _iteratorError = undefined;
-
-            try {
-                for (var _iterator = this.grid[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    var frame = _step.value;
-
-                    final += '.' + this.export(frame);
-                }
-            } catch (err) {
-                _didIteratorError = true;
-                _iteratorError = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion && _iterator.return) {
-                        _iterator.return();
-                    }
-                } finally {
-                    if (_didIteratorError) {
-                        throw _iteratorError;
-                    }
-                }
+            for (var i = 0; i < this.grid.length; i++) {
+                console.log(i);
+                final += '.' + this.export(i);
             }
 
             return final;
@@ -922,7 +932,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-ad742a16", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-ad742a16", __vue__options__)
+    hotAPI.reload("data-v-ad742a16", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":17,"vueify/lib/insert-css":19}],10:[function(require,module,exports){
