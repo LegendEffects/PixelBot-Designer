@@ -12,7 +12,7 @@ export default {
     name: "pixelgrid",
     data: () => {return {
         size: 12,
-        grid: [],
+        grid: [[]],
         root: null,
         style: {
             display: 'table-cell',
@@ -36,27 +36,28 @@ export default {
         },
         toolUse(pixel, preventSrcElement) {
             const tool = this.$parent.tool;
+            const frame = this.root.animation.frame;
             if(!preventSrcElement) {
                 pixel = pixel.srcElement;
             }
             let pixelID = pixel.attributes['data-id'].nodeValue;
 
             if(tool.selected === 'pen' && tool.colour !== "") {
-                this.grid[pixelID] = tool.colour;
+                this.grid[frame][pixelID] = tool.colour;
                 this.updatePixel(pixelID);
             }
             else if(tool.selected === 'eyedropper' && pixel.className !== "null") {
-                tool.colour = this.grid[pixelID];
+                tool.colour = this.grid[frame][pixelID];
             }
             else if(tool.selected === 'eraser') {
-                this.grid[pixelID] = 'e';
+                this.grid[frame][pixelID] = 'e';
                 this.updatePixel(pixelID);
             }
             else if(tool.selected === 'fillbucket' && tool.colour !== "") {
                 if(tool.colour === pixel.className) return; // It is already the colour, prevent making a callstack overflow.
 
                 this.fill_checkPixels(pixel);
-                this.grid[pixel.attributes['data-id'].nodeValue] = tool.colour;
+                this.grid[frame][pixel.attributes['data-id'].nodeValue] = tool.colour;
 
                 this.updateScreen();
             }
@@ -65,13 +66,13 @@ export default {
         // Update an individual pixel ID from the backend grid
         updatePixel(id) {
             const el = this.$el.querySelector('[data-id="'+id+'"]');
-            el.className = this.grid[id];
+            el.className = this.grid[this.root.animation.frame][id];
         },
         // Update the entire grid from the backend
         updateScreen() {
-            for(let key in this.grid) {
+            for(let key in this.grid[this.root.animation.frame]) {
                 let el = this.$el.querySelector('[data-id="'+key+'"]');
-                el.className = this.grid[key];
+                el.className = this.grid[this.root.animation.frame][key];
             }
         },
         fill_checkPixels(pixel, overrides) {
@@ -87,28 +88,29 @@ export default {
 
             const dom = this.$el;
             const tool = this.$parent.tool;
+            const frame = this.root.animation.frame;
             // Left
             if(pixelInfo.column-1 >= 1) {
                 let id = this.root.grid.pixelMap[pixelInfo.row-1][pixelInfo.column-2];
-                let newPix = this.grid[id];
+                let newPix = this.grid[frame][id];
                 this.fill_checkPixel(pixelInfo.currentColour, tool.colour, newPix, id);
             }
             // Right
             if(pixelInfo.column+1 <= 12) {
                 let id = this.root.grid.pixelMap[pixelInfo.row-1][pixelInfo.column];
-                let newPix = this.grid[id];
+                let newPix = this.grid[frame][id];
                 this.fill_checkPixel(pixelInfo.currentColour, tool.colour, newPix, id);
             }
             // Top
             if(pixelInfo.row-1 >= 1) {
                 let id = this.root.grid.pixelMap[pixelInfo.row-2][pixelInfo.column-1];
-                let newPix = this.grid[id];
+                let newPix = this.grid[frame][id];
                 this.fill_checkPixel(pixelInfo.currentColour, tool.colour, newPix, id);
             }
             // Bottom
             if(pixelInfo.row+1 <= 12) {
                 let id = this.root.grid.pixelMap[pixelInfo.row][pixelInfo.column-1];
-                let newPix = this.grid[id];
+                let newPix = this.grid[frame][id];
                 this.fill_checkPixel(pixelInfo.currentColour, tool.colour, newPix, id);
             }
             return;
@@ -116,7 +118,7 @@ export default {
         fill_checkPixel(wantedColour, changeToColour, pixel, id) {
             if(pixel === wantedColour) {
                 const cache = pixel;
-                this.grid[id] = changeToColour;
+                this.grid[this.root.animation.frame][id] = changeToColour;
                 this.fill_checkPixels(this.$el.querySelector('[data-id="'+id+'"]'), {colour: cache});
                 return true;
             }
@@ -133,7 +135,7 @@ export default {
             this.size = size;
         },
         export() {
-            let grid = this.grid;
+            let grid = this.grid[this.root.animation.frame];
 
             let lastLetter = undefined;
             let currentLetter = undefined;
@@ -170,16 +172,32 @@ export default {
             
             for(let i=1;i<145;i++) {
                 if(output[i-1] in this.$parent.pixelColours) {
-                    this.grid[i] = output[i-1];
+                    this.grid[this.root.animation.frame][i] = output[i-1];
                 } else {
-                    this.grid[i] = 'e';
+                    this.grid[this.root.animation.frame][i] = 'e';
                 }
             }
             this.updateScreen();
         },
+        exportAnimation() {
+            let final = '';
+            for(let frame of this.grid) {
+                final += '.'+this.export(frame);
+            }
+
+            return final;
+        },
         eraseGrid() {
             for(let i=1;i<145;i++) {
-                this.grid[i] = 'e';
+                this.grid[this.root.animation.frame][i] = 'e';
+            }
+            this.updateScreen();
+        },
+        frameChange() {
+            const frame = this.root.animation.frame;
+            if(this.grid[frame] === undefined) {
+                this.grid[frame] = [];
+                this.eraseGrid();
             }
             this.updateScreen();
         }

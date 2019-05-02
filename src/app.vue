@@ -73,6 +73,13 @@
             },
             show: {
                 credits: false
+            },
+            animation: {
+                enabled: true,
+                frame: 0,
+                interval: null,
+                previewing: null,
+                delay: 500,
             }
         }},
         watch: {
@@ -108,6 +115,30 @@
                 else if(e.which === 69) this.tool.selected = 'eraser';
                 else if(e.which === 73) this.tool.selected = 'eyedropper';
                 else if(e.which === 71) this.tool.selected = 'fillbucket';
+            },
+            refreshAllGrids() {
+                for(let grid of this.grids) {
+                    grid.updateScreen();
+                }
+            },
+            previewAnimation(type) {
+                if(type === 'start') {
+                    const totalFrames = this.grids[0].grid.length;
+                    this.animation.interval = setInterval(function() {
+                        if(this.animation.frame+1 > totalFrames) {
+                            this.animation.frame = 0;
+                        } else {
+                            this.animation.frame++;
+                        }
+                        for(let grid of this.grids) {
+                            grid.updateScreen();
+                        }
+                    }.bind(this), this.animation.delay);
+                    this.animation.previewing = true;
+                } else if(type === 'stop') {
+                    clearTimeout(this.animation.interval);
+                    this.animation.previewing = false;
+                }
             }
         },
         mounted() {

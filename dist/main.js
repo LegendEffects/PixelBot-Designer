@@ -55,6 +55,13 @@ exports.default = {
             },
             show: {
                 credits: false
+            },
+            animation: {
+                enabled: true,
+                frame: 0,
+                interval: null,
+                previewing: null,
+                delay: 500
             }
         };
     },
@@ -109,6 +116,72 @@ exports.default = {
         },
         keyPressed: function keyPressed(e) {
             if (e.which === 66) this.tool.selected = 'pen';else if (e.which === 69) this.tool.selected = 'eraser';else if (e.which === 73) this.tool.selected = 'eyedropper';else if (e.which === 71) this.tool.selected = 'fillbucket';
+        },
+        refreshAllGrids: function refreshAllGrids() {
+            var _iteratorNormalCompletion2 = true;
+            var _didIteratorError2 = false;
+            var _iteratorError2 = undefined;
+
+            try {
+                for (var _iterator2 = this.grids[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                    var grid = _step2.value;
+
+                    grid.updateScreen();
+                }
+            } catch (err) {
+                _didIteratorError2 = true;
+                _iteratorError2 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                        _iterator2.return();
+                    }
+                } finally {
+                    if (_didIteratorError2) {
+                        throw _iteratorError2;
+                    }
+                }
+            }
+        },
+        previewAnimation: function previewAnimation(type) {
+            if (type === 'start') {
+                var totalFrames = this.grids[0].grid.length;
+                this.animation.interval = setInterval(function () {
+                    if (this.animation.frame + 1 > totalFrames) {
+                        this.animation.frame = 0;
+                    } else {
+                        this.animation.frame++;
+                    }
+                    var _iteratorNormalCompletion3 = true;
+                    var _didIteratorError3 = false;
+                    var _iteratorError3 = undefined;
+
+                    try {
+                        for (var _iterator3 = this.grids[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                            var grid = _step3.value;
+
+                            grid.updateScreen();
+                        }
+                    } catch (err) {
+                        _didIteratorError3 = true;
+                        _iteratorError3 = err;
+                    } finally {
+                        try {
+                            if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                                _iterator3.return();
+                            }
+                        } finally {
+                            if (_didIteratorError3) {
+                                throw _iteratorError3;
+                            }
+                        }
+                    }
+                }.bind(this), this.animation.delay);
+                this.animation.previewing = true;
+            } else if (type === 'stop') {
+                clearTimeout(this.animation.interval);
+                this.animation.previewing = false;
+            }
         }
     },
     mounted: function mounted() {
@@ -330,7 +403,10 @@ exports.default = {
         return {
             shown: false,
             root: null,
-            data: {}
+            data: {},
+            animationexport: {},
+            tab: 'singleFrame',
+            shutJahedUp: true
         };
     },
     methods: {
@@ -338,6 +414,8 @@ exports.default = {
             this.shown = !this.shown;
         },
         export: function _export() {
+            this.exportAnimation();
+
             var final = {};
             var count = 0;
 
@@ -399,6 +477,39 @@ exports.default = {
 
             return final;
         },
+        exportAnimation: function exportAnimation() {
+            var final = {};
+            var count = 0;
+
+            var _iteratorNormalCompletion3 = true;
+            var _didIteratorError3 = false;
+            var _iteratorError3 = undefined;
+
+            try {
+                for (var _iterator3 = this.root.grids[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                    var grid = _step3.value;
+
+                    count++;
+                    console.log(grid.exportAnimation());
+                    final[count] = grid.exportAnimation();
+                }
+            } catch (err) {
+                _didIteratorError3 = true;
+                _iteratorError3 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                        _iterator3.return();
+                    }
+                } finally {
+                    if (_didIteratorError3) {
+                        throw _iteratorError3;
+                    }
+                }
+            }
+
+            this.animationexport = final;
+        },
         copyCommand: function copyCommand(text) {
             this.$copyText(text);
         }
@@ -412,7 +523,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.shown)?_c('modal',{on:{"close":function($event){_vm.shown = false}}},[_c('h3',{staticStyle:{"border-bottom":"2px solid #202225","padding-bottom":"5px"},attrs:{"slot":"header"},slot:"header"},[_vm._v("Export")]),_vm._v(" "),_c('p',{attrs:{"slot":"body"},slot:"body"},[_vm._l((_vm.data),function(pixelbot,index){return _c('span',{key:pixelbot.id},[_c('p',{staticStyle:{"overflow":"auto","padding":"20px"}},[_vm._v("!pb"+_vm._s(index)+"d."+_vm._s(pixelbot))]),_vm._v(" "),_c('button',{staticClass:"actionButton darker",on:{"click":function($event){return _vm.copyCommand('!pb'+index+'d.'+pixelbot)}}},[_c('i',{staticClass:"fas fa-copy"})])])}),_vm._v(" "),_c('span',[_c('p',{staticStyle:{"overflow":"auto","padding":"20px"}},[_vm._v("!pbd"+_vm._s(_vm.exportAll()))]),_vm._v(" "),_c('button',{staticClass:"actionButton darker",on:{"click":function($event){_vm.copyCommand('!pbd'+_vm.exportAll())}}},[_c('i',{staticClass:"fas fa-copy"})])])],2)]):_vm._e()}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.shown)?_c('modal',{on:{"close":function($event){_vm.shown = false}}},[_c('h3',{staticStyle:{"border-bottom":"2px solid #202225","padding-bottom":"5px"},attrs:{"slot":"header"},slot:"header"},[_vm._v("Export\n        "),_c('select',{directives:[{name:"model",rawName:"v-model",value:(_vm.tab),expression:"tab"}],staticStyle:{"float":"right"},on:{"change":function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.tab=$event.target.multiple ? $$selectedVal : $$selectedVal[0]}}},[_c('option',{attrs:{"value":"singleFrame"}},[_vm._v("Single Frame")]),_vm._v(" "),_c('option',{attrs:{"value":"animation"}},[_vm._v("Animation")])])]),_vm._v(" "),_c('div',{attrs:{"slot":"body"},slot:"body"},[(_vm.tab === 'singleFrame')?_c('div',[_vm._l((_vm.data),function(pixelbot,index){return _c('span',{key:pixelbot.id},[_c('p',{staticStyle:{"overflow":"auto","padding":"20px"}},[_vm._v("!pb"+_vm._s(index)+"d."+_vm._s(pixelbot))]),_vm._v(" "),_c('button',{staticClass:"actionButton darker",on:{"click":function($event){return _vm.copyCommand('!pb'+index+'d.'+pixelbot)}}},[_c('i',{staticClass:"fas fa-copy"})])])}),_vm._v(" "),_c('span',[_c('p',{staticStyle:{"overflow":"auto","padding":"20px"}},[_vm._v("!pbd"+_vm._s(_vm.exportAll()))]),_vm._v(" "),_c('button',{staticClass:"actionButton darker",on:{"click":function($event){_vm.copyCommand('!pbd'+_vm.exportAll())}}},[_c('i',{staticClass:"fas fa-copy"})])])],2):_c('div',_vm._l((_vm.animationexport),function(pixelbot,index){return _c('span',{key:pixelbot.id},[_c('p',{staticStyle:{"overflow":"auto","padding":"20px"}},[_vm._v("!pb"+_vm._s(index)+"a."+_vm._s(_vm.root.animation.delay)+_vm._s(pixelbot))])])}),0)])]):_vm._e()}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -566,7 +677,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-47c0f30c", __vue__options__)
   } else {
-    hotAPI.reload("data-v-47c0f30c", __vue__options__)
+    hotAPI.rerender("data-v-47c0f30c", __vue__options__)
   }
 })()}
 },{"vue":"vue","vue-hot-reload-api":17,"vueify/lib/insert-css":19}],9:[function(require,module,exports){
@@ -582,7 +693,7 @@ exports.default = {
     data: function data() {
         return {
             size: 12,
-            grid: [],
+            grid: [[]],
             root: null,
             style: {
                 display: 'table-cell',
@@ -607,36 +718,37 @@ exports.default = {
         },
         toolUse: function toolUse(pixel, preventSrcElement) {
             var tool = this.$parent.tool;
+            var frame = this.root.animation.frame;
             if (!preventSrcElement) {
                 pixel = pixel.srcElement;
             }
             var pixelID = pixel.attributes['data-id'].nodeValue;
 
             if (tool.selected === 'pen' && tool.colour !== "") {
-                this.grid[pixelID] = tool.colour;
+                this.grid[frame][pixelID] = tool.colour;
                 this.updatePixel(pixelID);
             } else if (tool.selected === 'eyedropper' && pixel.className !== "null") {
-                tool.colour = this.grid[pixelID];
+                tool.colour = this.grid[frame][pixelID];
             } else if (tool.selected === 'eraser') {
-                this.grid[pixelID] = 'e';
+                this.grid[frame][pixelID] = 'e';
                 this.updatePixel(pixelID);
             } else if (tool.selected === 'fillbucket' && tool.colour !== "") {
                 if (tool.colour === pixel.className) return;
 
                 this.fill_checkPixels(pixel);
-                this.grid[pixel.attributes['data-id'].nodeValue] = tool.colour;
+                this.grid[frame][pixel.attributes['data-id'].nodeValue] = tool.colour;
 
                 this.updateScreen();
             }
         },
         updatePixel: function updatePixel(id) {
             var el = this.$el.querySelector('[data-id="' + id + '"]');
-            el.className = this.grid[id];
+            el.className = this.grid[this.root.animation.frame][id];
         },
         updateScreen: function updateScreen() {
-            for (var key in this.grid) {
+            for (var key in this.grid[this.root.animation.frame]) {
                 var el = this.$el.querySelector('[data-id="' + key + '"]');
-                el.className = this.grid[key];
+                el.className = this.grid[this.root.animation.frame][key];
             }
         },
         fill_checkPixels: function fill_checkPixels(pixel, overrides) {
@@ -652,28 +764,29 @@ exports.default = {
 
             var dom = this.$el;
             var tool = this.$parent.tool;
+            var frame = this.root.animation.frame;
 
             if (pixelInfo.column - 1 >= 1) {
                 var id = this.root.grid.pixelMap[pixelInfo.row - 1][pixelInfo.column - 2];
-                var newPix = this.grid[id];
+                var newPix = this.grid[frame][id];
                 this.fill_checkPixel(pixelInfo.currentColour, tool.colour, newPix, id);
             }
 
             if (pixelInfo.column + 1 <= 12) {
                 var _id = this.root.grid.pixelMap[pixelInfo.row - 1][pixelInfo.column];
-                var _newPix = this.grid[_id];
+                var _newPix = this.grid[frame][_id];
                 this.fill_checkPixel(pixelInfo.currentColour, tool.colour, _newPix, _id);
             }
 
             if (pixelInfo.row - 1 >= 1) {
                 var _id2 = this.root.grid.pixelMap[pixelInfo.row - 2][pixelInfo.column - 1];
-                var _newPix2 = this.grid[_id2];
+                var _newPix2 = this.grid[frame][_id2];
                 this.fill_checkPixel(pixelInfo.currentColour, tool.colour, _newPix2, _id2);
             }
 
             if (pixelInfo.row + 1 <= 12) {
                 var _id3 = this.root.grid.pixelMap[pixelInfo.row][pixelInfo.column - 1];
-                var _newPix3 = this.grid[_id3];
+                var _newPix3 = this.grid[frame][_id3];
                 this.fill_checkPixel(pixelInfo.currentColour, tool.colour, _newPix3, _id3);
             }
             return;
@@ -681,7 +794,7 @@ exports.default = {
         fill_checkPixel: function fill_checkPixel(wantedColour, changeToColour, pixel, id) {
             if (pixel === wantedColour) {
                 var cache = pixel;
-                this.grid[id] = changeToColour;
+                this.grid[this.root.animation.frame][id] = changeToColour;
                 this.fill_checkPixels(this.$el.querySelector('[data-id="' + id + '"]'), { colour: cache });
                 return true;
             }
@@ -698,7 +811,7 @@ exports.default = {
             this.size = size;
         },
         export: function _export() {
-            var grid = this.grid;
+            var grid = this.grid[this.root.animation.frame];
 
             var lastLetter = undefined;
             var currentLetter = undefined;
@@ -736,16 +849,53 @@ exports.default = {
 
             for (var i = 1; i < 145; i++) {
                 if (output[i - 1] in this.$parent.pixelColours) {
-                    this.grid[i] = output[i - 1];
+                    this.grid[this.root.animation.frame][i] = output[i - 1];
                 } else {
-                    this.grid[i] = 'e';
+                    this.grid[this.root.animation.frame][i] = 'e';
                 }
             }
             this.updateScreen();
         },
+        exportAnimation: function exportAnimation() {
+            var final = '';
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = this.grid[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var frame = _step.value;
+
+                    final += '.' + this.export(frame);
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+
+            return final;
+        },
         eraseGrid: function eraseGrid() {
             for (var i = 1; i < 145; i++) {
-                this.grid[i] = 'e';
+                this.grid[this.root.animation.frame][i] = 'e';
+            }
+            this.updateScreen();
+        },
+        frameChange: function frameChange() {
+            var frame = this.root.animation.frame;
+            if (this.grid[frame] === undefined) {
+                this.grid[frame] = [];
+                this.eraseGrid();
             }
             this.updateScreen();
         }
@@ -800,6 +950,9 @@ exports.default = {
                 commands: {
                     expanded: true
                 },
+                animation: {
+                    expanded: true
+                },
                 import_export: {
                     expanded: true
                 }
@@ -826,6 +979,31 @@ exports.default = {
         changeScrollState: function changeScrollState() {
             this.root.tool.lockScroll = !this.root.tool.lockScroll;
             this.root.tool.drawing = this.root.tool.lockScroll;
+        },
+        frameChange: function frameChange() {
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = this.root.grids[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var grid = _step.value;
+                    grid.frameChange();
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
         }
     },
     watch: {
@@ -841,7 +1019,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"toolbar"},[_c('div',[_c('span',{staticClass:"heading",on:{"click":function($event){return _vm.toggleExpandedState('palette')}}},[_vm._v("Colour Palette"),_c('i',{staticClass:"stateChevron",class:_vm.isExpanded('palette')})]),_vm._v(" "),(_vm.sections.palette.expanded)?_c('div',[_c('palette')],1):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"section"},[_c('span',{staticClass:"heading",on:{"click":function($event){return _vm.toggleExpandedState('tools')}}},[_vm._v("Tools "),_c('i',{staticClass:"stateChevron",class:_vm.isExpanded('tools')})]),_vm._v(" "),(_vm.sections.tools.expanded)?_c('div',[_c('button',{staticClass:"tool",class:_vm.isSelected('pen'),attrs:{"title":"Pen (b)"},on:{"click":function($event){return _vm.changeTool('pen')}}},[_c('i',{staticClass:"fas fa-pen"})]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('eraser'),attrs:{"title":"Eraser (e)"},on:{"click":function($event){return _vm.changeTool('eraser')}}},[_c('i',{staticClass:"fas fa-eraser"})]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('eyedropper'),attrs:{"title":"Eyedropper (i)"},on:{"click":function($event){return _vm.changeTool('eyedropper')}}},[_c('i',{staticClass:"fas fa-eye-dropper"})]),_vm._v(" "),_c('button',{staticClass:"tool newRow",class:_vm.isSelected('fillbucket'),attrs:{"title":"Fill Bucket (g)"},on:{"click":function($event){return _vm.changeTool('fillbucket')}}},[_c('i',{staticClass:"fas fa-fill"})])]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"section"},[_c('span',{staticClass:"heading",on:{"click":function($event){return _vm.toggleExpandedState('commands')}}},[_vm._v("Commands "),_c('i',{staticClass:"stateChevron",class:_vm.isExpanded('commands')})]),_vm._v(" "),(_vm.sections.commands.expanded)?_c('div',[_c('button',{staticClass:"tool",class:_vm.isScrollLocked(),attrs:{"title":"Lock Scrolling (For Touch)"},on:{"click":function($event){return _vm.changeScrollState()}}},[_c('i',{staticClass:"fas fa-lock"})]),_vm._v(" "),_c('button',{staticClass:"tool",attrs:{"title":"Clear Grid(s)"},on:{"click":function($event){return _vm.root.$emit('toggleClearPanel')}}},[_c('i',{staticClass:"fas fa-trash"})])]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"section"},[_c('span',{staticClass:"heading",on:{"click":function($event){return _vm.toggleExpandedState('import_export')}}},[_vm._v("Import/Export "),_c('i',{staticClass:"stateChevron",class:_vm.isExpanded('import_export')})]),_vm._v(" "),(_vm.sections.import_export.expanded)?_c('div',[_c('button',{staticClass:"actionButton",on:{"click":function($event){return _vm.root.$emit('toggleImportPanel')}}},[_vm._v("Import")]),_vm._v(" "),_c('button',{staticClass:"actionButton",on:{"click":function($event){return _vm.root.$emit('toggleExportPanel')}}},[_vm._v("Export")])]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"watermark section"},[_c('a',{attrs:{"href":"#"},on:{"click":function($event){return _vm.root.$emit('toggleSettingsPanel')}}},[_vm._v("Settings")]),_vm._v(" "),_c('a',{attrs:{"href":"https://github.com/LegendEffects/PixelBot-Designer"}},[_vm._v("Github")]),_vm._v(" "),_c('a',{attrs:{"href":"#"},on:{"click":function($event){_vm.root.show.credits = true}}},[_vm._v("Credits")])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"toolbar"},[_c('div',[_c('span',{staticClass:"heading",on:{"click":function($event){return _vm.toggleExpandedState('palette')}}},[_vm._v("Colour Palette"),_c('i',{staticClass:"stateChevron",class:_vm.isExpanded('palette')})]),_vm._v(" "),(_vm.sections.palette.expanded)?_c('div',[_c('palette')],1):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"section"},[_c('span',{staticClass:"heading",on:{"click":function($event){return _vm.toggleExpandedState('tools')}}},[_vm._v("Tools "),_c('i',{staticClass:"stateChevron",class:_vm.isExpanded('tools')})]),_vm._v(" "),(_vm.sections.tools.expanded)?_c('div',[_c('button',{staticClass:"tool",class:_vm.isSelected('pen'),attrs:{"title":"Pen (b)"},on:{"click":function($event){return _vm.changeTool('pen')}}},[_c('i',{staticClass:"fas fa-pen"})]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('eraser'),attrs:{"title":"Eraser (e)"},on:{"click":function($event){return _vm.changeTool('eraser')}}},[_c('i',{staticClass:"fas fa-eraser"})]),_vm._v(" "),_c('button',{staticClass:"tool",class:_vm.isSelected('eyedropper'),attrs:{"title":"Eyedropper (i)"},on:{"click":function($event){return _vm.changeTool('eyedropper')}}},[_c('i',{staticClass:"fas fa-eye-dropper"})]),_vm._v(" "),_c('button',{staticClass:"tool newRow",class:_vm.isSelected('fillbucket'),attrs:{"title":"Fill Bucket (g)"},on:{"click":function($event){return _vm.changeTool('fillbucket')}}},[_c('i',{staticClass:"fas fa-fill"})])]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"section"},[_c('span',{staticClass:"heading",on:{"click":function($event){return _vm.toggleExpandedState('commands')}}},[_vm._v("Commands "),_c('i',{staticClass:"stateChevron",class:_vm.isExpanded('commands')})]),_vm._v(" "),(_vm.sections.commands.expanded)?_c('div',[_c('button',{staticClass:"tool",class:_vm.isScrollLocked(),attrs:{"title":"Lock Scrolling (For Touch)"},on:{"click":function($event){return _vm.changeScrollState()}}},[_c('i',{staticClass:"fas fa-lock"})]),_vm._v(" "),_c('button',{staticClass:"tool",attrs:{"title":"Clear Grid(s)"},on:{"click":function($event){return _vm.root.$emit('toggleClearPanel')}}},[_c('i',{staticClass:"fas fa-trash"})])]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"section"},[_c('span',{staticClass:"heading",on:{"click":function($event){return _vm.toggleExpandedState('animation')}}},[_vm._v("Animation "),_c('i',{staticClass:"stateChevron",class:_vm.isExpanded('animation')})]),_vm._v(" "),(_vm.sections.animation.expanded)?_c('div',[_c('span',{staticClass:"subHeading"},[_vm._v("Enabled")]),_vm._v(" "),_c('label',{staticClass:"switch",attrs:{"for":"animEnabled"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.root.animation.enabled),expression:"root.animation.enabled"}],attrs:{"type":"checkbox","id":"animEnabled"},domProps:{"checked":Array.isArray(_vm.root.animation.enabled)?_vm._i(_vm.root.animation.enabled,null)>-1:(_vm.root.animation.enabled)},on:{"change":function($event){var $$a=_vm.root.animation.enabled,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.$set(_vm.root.animation, "enabled", $$a.concat([$$v])))}else{$$i>-1&&(_vm.$set(_vm.root.animation, "enabled", $$a.slice(0,$$i).concat($$a.slice($$i+1))))}}else{_vm.$set(_vm.root.animation, "enabled", $$c)}}}}),_vm._v(" "),_c('div',{staticClass:"slider round"})]),_vm._v(" "),_c('span',{staticClass:"subHeading"},[_vm._v("Frame")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.root.animation.frame),expression:"root.animation.frame"}],attrs:{"type":"number","min":"0","disabled":!_vm.root.animation.enabled},domProps:{"value":(_vm.root.animation.frame)},on:{"change":_vm.frameChange,"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.root.animation, "frame", $event.target.value)}}}),_vm._v(" "),_c('span',{staticClass:"subHeading"},[_vm._v("Animation delay (ms)")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.root.animation.delay),expression:"root.animation.delay"}],attrs:{"type":"number","min":"0","disabled":!_vm.root.animation.enabled},domProps:{"value":(_vm.root.animation.delay)},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.root.animation, "delay", $event.target.value)}}}),_vm._v(" "),(!_vm.root.animation.previewing)?_c('button',{staticClass:"actionButton",staticStyle:{"margin-top":"10px"},on:{"click":function($event){return _vm.root.previewAnimation('start')}}},[_vm._v("Play")]):_c('button',{staticClass:"actionButton",staticStyle:{"margin-top":"10px"},on:{"click":function($event){return _vm.root.previewAnimation('stop')}}},[_vm._v("Stop")])]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"section"},[_c('span',{staticClass:"heading",on:{"click":function($event){return _vm.toggleExpandedState('import_export')}}},[_vm._v("Import/Export "),_c('i',{staticClass:"stateChevron",class:_vm.isExpanded('import_export')})]),_vm._v(" "),(_vm.sections.import_export.expanded)?_c('div',[_c('button',{staticClass:"actionButton",on:{"click":function($event){return _vm.root.$emit('toggleImportPanel')}}},[_vm._v("Import")]),_vm._v(" "),_c('button',{staticClass:"actionButton",on:{"click":function($event){return _vm.root.$emit('toggleExportPanel')}}},[_vm._v("Export")])]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"watermark section"},[_c('a',{attrs:{"href":"#"},on:{"click":function($event){return _vm.root.$emit('toggleSettingsPanel')}}},[_vm._v("Settings")]),_vm._v(" "),_c('a',{attrs:{"href":"https://github.com/LegendEffects/PixelBot-Designer"}},[_vm._v("Github")]),_vm._v(" "),_c('a',{attrs:{"href":"#"},on:{"click":function($event){_vm.root.show.credits = true}}},[_vm._v("Credits")])])])}
 __vue__options__.staticRenderFns = []
 __vue__options__._scopeId = "data-v-36f505fc"
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")

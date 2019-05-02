@@ -22,12 +22,23 @@
                 <button class="tool" title="Clear Grid(s)" @click="root.$emit('toggleClearPanel')"><i class="fas fa-trash"></i></button>
             </div>
         </div>
-        <!-- <div class="section">
-            <span class="heading">Animation</span>
-            <span class="subHeading">Frame</span>
-            <input type="number" value="1">
-            <button class="actionButton" style="margin-top: 10px;">Play</button>
-        </div> -->
+        <div class="section">
+            <span class="heading" @click="toggleExpandedState('animation')">Animation <i class="stateChevron" :class="isExpanded('animation')"></i></span>
+            <div v-if="sections.animation.expanded">
+                <span class="subHeading">Enabled</span>
+                <label class="switch" for="animEnabled">
+                    <input type="checkbox" id="animEnabled" v-model="root.animation.enabled" />
+                    <div class="slider round"></div>
+                </label>
+
+                <span class="subHeading">Frame</span>
+                <input type="number" min="0" v-model="root.animation.frame" :disabled="!root.animation.enabled" @change="frameChange">
+                <span class="subHeading">Animation delay (ms)</span>
+                <input type="number" min="0" v-model="root.animation.delay" :disabled="!root.animation.enabled">
+                <button class="actionButton" style="margin-top: 10px;" @click="root.previewAnimation('start')" v-if="!root.animation.previewing">Play</button>
+                <button class="actionButton" style="margin-top: 10px;" @click="root.previewAnimation('stop')" v-else>Stop</button>
+            </div>
+        </div>
         <div class="section">
             <span class="heading" @click="toggleExpandedState('import_export')">Import/Export <i class="stateChevron" :class="isExpanded('import_export')"></i></span>
             <div v-if="sections.import_export.expanded">
@@ -60,6 +71,9 @@ export default {
                     expanded: true,
                 },
                 commands: {
+                    expanded: true,
+                },
+                animation: {
                     expanded: true,
                 },
                 import_export: {
@@ -96,6 +110,10 @@ export default {
             this.root.tool.lockScroll = !this.root.tool.lockScroll;
             this.root.tool.drawing = this.root.tool.lockScroll;
         },
+
+        frameChange() {
+            for(let grid of this.root.grids) grid.frameChange();
+        }
     },
     watch: {
         gridSize() {
