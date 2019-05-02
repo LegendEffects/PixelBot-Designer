@@ -24,7 +24,7 @@
                     <button class="actionButton darker" @click="copyCommand('!pb'+index+'a.'+root.animation.delay+pixelbot)"><i class="fas fa-copy"></i></button>
                 </span>
                 <p style="overflow: auto; padding: 20px;">!pbaz.{{exportAllAnimations()}}</p>
-                <button class="actionButton darker" @click="copyCommand(exportAllAnimations())"><i class="fas fa-copy"></i></button>
+                <button class="actionButton darker" @click="copyCommand('!pbaz.'+exportAllAnimations())"><i class="fas fa-copy"></i></button>
             </div>
         </div>
     </modal>
