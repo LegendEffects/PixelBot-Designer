@@ -37,7 +37,7 @@ export default {
                 let output = pako.inflate(buffer, {to: 'string'}).split('.');
 
                 let delay = output[1];
-                output = output.slice(2);
+                output = output.slice(1);
                 
                 let count = 0;
                 let grids = [[], [], [], []];
