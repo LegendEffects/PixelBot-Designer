@@ -547,11 +547,9 @@ exports.default = {
             this.animationexport = final;
         },
         exportAllAnimations: function exportAllAnimations() {
-            console.log('\n');
             var final = this.root.animation.delay;
 
             for (var i = 0; i < this.root.grids[0].grid.length; i++) {
-                console.log('Frame: ' + i);
                 var _iteratorNormalCompletion4 = true;
                 var _didIteratorError4 = false;
                 var _iteratorError4 = undefined;
@@ -578,7 +576,6 @@ exports.default = {
                     }
                 }
             }
-            console.log(final);
 
             return this.encodeToGzip(final);
         },
@@ -604,7 +601,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-0de0eeca", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-0de0eeca", __vue__options__)
+    hotAPI.reload("data-v-0de0eeca", __vue__options__)
   }
 })()}
 }).call(this,require("buffer").Buffer)
@@ -799,7 +796,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-6b44880c", __vue__options__)
   } else {
-    hotAPI.reload("data-v-6b44880c", __vue__options__)
+    hotAPI.rerender("data-v-6b44880c", __vue__options__)
   }
 })()}
 }).call(this,require("buffer").Buffer)

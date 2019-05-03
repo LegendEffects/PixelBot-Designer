@@ -83,17 +83,14 @@ export default {
             this.animationexport = final;
         },
         exportAllAnimations() {
-            console.log('\n');
             let final = this.root.animation.delay;
 
             for(let i=0; i<this.root.grids[0].grid.length; i++) {
-                console.log('Frame: '+i);
                 for(let grid of this.root.grids) {
                     console.log(grid.$attrs['grid-id']);
                     final += '.'+grid.export(i);
                 }
             }
-            console.log(final);
 
             return this.encodeToGzip(final);
         },
