@@ -1,0 +1,53 @@
+//@import '../node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss';
+
+@import 'elements/index';
+@import 'colours';
+@import 'grid';
+
+body, html {
+    background: #37393f;
+    margin: 0;
+    height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.layout {
+    display: flex;
+    height: 100%;
+    flex-direction: row;
+    flex: 1;
+}
+.subHeading {
+    color: rgba(255, 255, 255, 0.8);
+    display: block;
+    font-size: .9rem;
+    padding-bottom: 5px;
+}
+.actionButton {
+    outline: none;
+    border: none;
+    padding: .5rem 1rem;
+    color: #fff;
+    border-radius: 5px;
+    background: #2f3136;
+}
+.actionButton:disabled {
+    background: #16171a;
+    color: #cacaca;
+}
+.actionButton:disabled:hover {
+    cursor: not-allowed;
+}
+.actionButton:hover {
+    cursor: pointer;
+}
+
+.actionButton.darker {
+    background: #202225;
+}
+.forceCenter {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+}
