@@ -20,6 +20,7 @@
             <div v-if="sections.commands.expanded">
                 <button class="tool" title="Lock Scrolling (For Touch)" :class="isScrollLocked()" @click="changeScrollState()"><i class="fas fa-lock"></i></button>
                 <button class="tool" title="Clear Grid(s)" @click="root.$emit('toggleClearPanel')"><i class="fas fa-trash"></i></button>
+                <button class="tool" title="Copy last frame to panels" @click="copyLastPanels()"><i class="fas fa-copy"></i></button>
             </div>
         </div>
         <div class="section">
@@ -113,6 +114,16 @@ export default {
 
         frameChange() {
             for(let grid of this.root.grids) grid.frameChange();
+        },
+
+        copyLastPanels() {
+            for(let grid of this.root.grids) {
+                if(this.root.animation.frame > 0) {
+                    // Remove the observer to prevent other frames being affected.
+                    grid.import(grid.export(this.root.animation.frame-1), this.root.animation.frame);
+                }
+            }
+            this.root.refreshAllGrids();
         }
     },
     watch: {
