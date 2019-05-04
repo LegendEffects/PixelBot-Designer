@@ -1,0 +1,19 @@
+language: node_js
+
+before_install:
+  - npm install -g gulp
+
+cache: npm
+
+script:
+  - cd src
+  - gulp build
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  keep_history: true
+  local_dir: /
+  on:
+    branch: gh-pages
