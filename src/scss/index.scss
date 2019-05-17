@@ -50,3 +50,6 @@ body, html {
     transform: translateY(-50%);
     width: 100%;
 }
+.clickable:hover {
+    cursor: pointer;
+}

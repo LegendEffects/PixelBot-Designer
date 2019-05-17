@@ -118,7 +118,7 @@
                 else if(e.which === 71) this.tool.selected = 'fillbucket';
 
                 else if(e.which === 219) {
-                    if(this.animation.frame-1 < 0) this.animation.frame = this.grids[0].grid.length;
+                    if(this.animation.frame-1 < 0) this.animation.frame = this.grids[0].grid.length - 1;
                     else this.animation.frame--;
                     this.refreshAllGrids();
                 }
@@ -139,7 +139,7 @@
             },
             previewAnimation(type) {
                 if(type === 'start') {
-                    const totalFrames = this.grids[0].grid.length;
+                    const totalFrames = this.grids[0].grid.length - 1;
                     this.animation.interval = setInterval(function() {
                         if(this.animation.frame+1 > totalFrames) {
                             this.animation.frame = 0;
