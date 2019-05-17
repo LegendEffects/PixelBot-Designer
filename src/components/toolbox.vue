@@ -31,6 +31,31 @@
         <div class="section">
             <span class="heading" @click="toggleExpandedState('animation')">Animation <i class="stateChevron" :class="isExpanded('animation')"></i></span>
             <div v-if="sections.animation.expanded">
+                <div class="newControls">
+                    <div class="playback" v-if="root.grids">
+                        <div class="center">
+                            <div class="controls">
+                                <i class="clickable fas fa-step-backward" @click="stepBackward" title="Step Backward ([)"></i>
+
+                                <i class="fas fa-play clickable" @click="root.previewAnimation('start')" v-if="!root.animation.previewing"></i>
+                                <i class="fas fa-stop clickable" @click="root.previewAnimation('stop')" v-else></i>
+
+                                <i class="clickable fas fa-step-forward" @click="root.animation.frame++; frameChange()" title="Step Forward (])"></i>
+                                
+                                <div style="display: inline-block; margin-left: 10px;">{{root.animation.frame + 1}}/{{root.grids[0].grid.length}}</div>
+                            </div>
+                        
+                            <input type="range" min="0" :max="root.grids[0].grid.length - 1" :value="root.animation.frame" @input="sliderChange">
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <span class="subHeading" style="display: inline;">Delay</span>
+                            <input style="width: 50px" type="number" min="0" v-model="root.animation.delay" :disabled="!root.animation.enabled || root.animation.previewing">
+                            ms
+                        </div>
+                    </div>
+                </div>
+
+                <!--
                 <span class="subHeading">Enabled</span>
                 <label class="switch" for="animEnabled">
                     <input type="checkbox" id="animEnabled" v-model="root.animation.enabled" />
@@ -43,6 +68,7 @@
                 <input type="number" min="0" v-model="root.animation.delay" :disabled="!root.animation.enabled">
                 <button class="actionButton" style="margin-top: 10px;" @click="root.previewAnimation('start')" v-if="!root.animation.previewing">Play</button>
                 <button class="actionButton" style="margin-top: 10px;" @click="root.previewAnimation('stop')" v-else>Stop</button>
+                -->
             </div>
         </div>
         <div class="section">
@@ -116,7 +142,10 @@ export default {
             this.root.tool.lockScroll = !this.root.tool.lockScroll;
             this.root.tool.drawing = this.root.tool.lockScroll;
         },
-
+        sliderChange(e) {
+            this.root.animation.frame = parseInt(e.srcElement.value);
+            this.frameChange();
+        },
         frameChange() {
             for(let grid of this.root.grids) grid.frameChange();
         },
@@ -128,6 +157,11 @@ export default {
                     grid.import(grid.export(this.root.animation.frame-1), this.root.animation.frame);
                 }
             }
+            this.root.refreshAllGrids();
+        },
+        stepBackward() {
+            if(this.root.animation.frame-1 < 0) this.root.animation.frame = this.root.grids[0].grid.length - 1;
+            else this.root.animation.frame--;
             this.root.refreshAllGrids();
         }
     },
@@ -169,5 +203,16 @@ export default {
 
     .stateChevron {
         float: right;
+    }
+
+    .playback {
+        color: #fff;
+    }
+    .playback .center {
+        text-align: center;
+    }
+
+    .controls .fas {
+        font-size: 20px;
     }
 </style>
