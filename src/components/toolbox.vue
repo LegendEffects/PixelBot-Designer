@@ -4,15 +4,20 @@
             <span class="heading" @click="toggleExpandedState('palette')">Colour Palette<i class="stateChevron" :class="isExpanded('palette')"></i></span>
             <div v-if="sections.palette.expanded">
                 <palette></palette>
+                <colourswitcher></colourswitcher>
             </div>
         </div>
         <div class="section">
             <span class="heading" @click="toggleExpandedState('tools')">Tools <i class="stateChevron" :class="isExpanded('tools')"></i></span>
             <div v-if="sections.tools.expanded">
-                <button class="tool" title="Pen (b)" :class="isSelected('pen')" @click="changeTool('pen')"><i class="fas fa-pen"></i></button>
-                <button class="tool" title="Eraser (e)" :class="isSelected('eraser')" @click="changeTool('eraser')"><i class="fas fa-eraser"></i></button>
-                <button class="tool" title="Eyedropper (i)" :class="isSelected('eyedropper')" @click="changeTool('eyedropper')"><i class="fas fa-eye-dropper"></i></button>
-                <button class="tool newRow" title="Fill Bucket (g)" :class="isSelected('fillbucket')" @click="changeTool('fillbucket')"><i class="fas fa-fill"></i></button>
+                <div class="toolRow">
+                    <button class="tool" title="Pen (b)" :class="isSelected('pen')" @click="changeTool('pen')"><i class="fas fa-pen"></i></button>
+                    <button class="tool" title="Eraser (e)" :class="isSelected('eraser')" @click="changeTool('eraser')"><i class="fas fa-eraser"></i></button>
+                    <button class="tool" title="Eyedropper (i)" :class="isSelected('eyedropper')" @click="changeTool('eyedropper')"><i class="fas fa-eye-dropper"></i></button>
+                </div>
+                <div class="toolRow">
+                    <button class="tool" title="Fill Bucket (g)" :class="isSelected('fillbucket')" @click="changeTool('fillbucket')"><i class="fas fa-fill"></i></button>
+                </div>
             </div>
         </div>
         <div class="section">
@@ -150,13 +155,18 @@ export default {
     .tool:focus {
         outline: none;
     }
-    .tool.newRow {
-        margin-top: 5px;
-    }
     .tool i {
         color: #d6d6d6;
         font-size: 32px;
     }
+
+    .toolRow {
+        margin-top: 5px;
+    }
+    .toolRow:first-child {
+        margin-top: 0;
+    }
+
     .stateChevron {
         float: right;
     }

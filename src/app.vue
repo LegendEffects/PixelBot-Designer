@@ -68,7 +68,8 @@
             tool: {
                 drawing: false,
                 selected: 'pen',
-                colour: '',
+                colour: 'e',
+                secondaryColour: 'e',
                 lockScroll: false,
             },
             show: {
@@ -128,6 +129,8 @@
                         grid.frameChange();
                     }
                 }
+                
+                else if(e.which === 88) this.swapColours();
             },
             refreshAllGrids() {
                 for(let grid of this.grids) {
@@ -152,7 +155,12 @@
                     clearTimeout(this.animation.interval);
                     this.animation.previewing = false;
                 }
-            }
+            },
+            swapColours() {
+                let temp = this.tool.colour;
+                this.tool.colour = this.tool.secondaryColour;
+                this.tool.secondaryColour = temp;
+            },
         },
         mounted() {
             window.addEventListener('mousedown', this.startDrag);
