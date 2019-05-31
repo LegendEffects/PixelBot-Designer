@@ -45,7 +45,9 @@
                                 <div style="display: inline-block; margin-left: 10px;">{{root.animation.frame + 1}}/{{root.grids[0].grid.length}}</div>
                             </div>
                         
-                            <input type="range" min="0" :max="root.grids[0].grid.length - 1" :value="root.animation.frame" @input="sliderChange">
+                            <div style="background: #37393f; padding: 5px; border-radius: 5px; margin-top: 10px;">
+                                <input type="range" min="0" :max="root.grids[0].grid.length - 1" :value="root.animation.frame" @input="sliderChange">
+                            </div>
                         </div>
                         <div style="margin-top: 10px;">
                             <span class="subHeading" style="display: inline;">Delay</span>
@@ -82,7 +84,7 @@
         <div class="watermark section">
             <a href="#" @click="root.$emit('toggleSettingsPanel')">Settings</a>
             <a href="https://github.com/LegendEffects/PixelBot-Designer">Github</a>
-            <a href="#" @click="root.show.credits = true">Credits</a>
+            <a href="#" @click="root.$emit('toggleCreditsPanel')">Credits</a>
         </div>
     </div>
 </template>
