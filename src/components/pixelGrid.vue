@@ -167,7 +167,7 @@ export default {
 
             if(this.grid[frame] === undefined) {
                 this.grid[frame] = [];
-                for(let i=0; i<145;i++) this.grid[frame][i] = 'e';
+                for(let i=1; i<145;i++) this.grid[frame][i] = 'e';
             }
 
             let output = str.replace(/(\d+)([a-zA-A])/g, function (match, num, letter) {
