@@ -20,7 +20,8 @@ export default {
     }},
     methods: {
         startImport() {
-            let allowedCommands = ['!pb1d.', '!pb2d.', '!pb3d.', '!pb4d.'];
+            let drawCommands = ['!pb1d.', '!pb2d.', '!pb3d.', '!pb4d.'];
+            let animationCommands = ['!pb1a.', '!pb2a.', '!pb3a.', '!pb4a.'];
 
             //4x4 import
             if(this.importText.substring(0,5) === '!pbd.') {
@@ -53,16 +54,10 @@ export default {
                     let count2 = 0;
                     this.root.grids[count].grid = []
                     for(let iFrame of iGrid) {
-                        let output = iFrame.replace(/(\d+)([a-zA-A])/g, function (match, num, letter) {
-                            var ret = '', i;
-                            for (i = 0; i < parseInt(num, 10); i++) {
-                                ret += letter;
-                            }
-                            return ret;
-                        });
+                        let output = this.decodeRle(iFrame);
                         
                         let cache = [];
-                        for(let i=1;i<145;i++) {
+                        for(let i=1;i<145;i++) { // Check for invalid colours during import, if it is invalid then make it black
                             if(output[i-1] in this.root.pixelColours) cache[i] = output[i-1];
                             else cache[i] = 'e';
                         }
@@ -74,14 +69,45 @@ export default {
                 }
                 this.root.refreshAllGrids();
 
-            } else if(allowedCommands.includes(this.importText.substring(0,6))) {
+            } else if(drawCommands.includes(this.importText.substring(0,6))) {
                 let importString = this.importText.substring(6, this.importText.length);
                 let smartDetect = this.importText.charAt(3);
                 if(smartDetect < 1 || smartDetect > 4) return;
 
-                if(this.selectedGrid !== '' || this.selectedGrid !== null) this.root.grids[selected-1].import(importString);
+                if(this.selectedGrid !== '' && this.selectedGrid !== null) this.root.grids[this.selectedGrid-1].import(importString);
                 else this.root.grids[smartDetect-1].import(importString);
+            } else if(animationCommands.includes(this.importText.substring(0, 6))) {
+                // !pb1a.300.4e4c6e2d1e4m5e3m2e2m2d1e1d1e8m1d1e2d8m4d2m1e2m1e2m4d2e1d2e1d2e2d1e1d2m1e2m1e2m1d2e1d8m1d2e1d2e1m1e1m1e1m1e1d2e1d1e1m1e1m1e1m2e1d2e10d1e.4e4c6e2d3e2m5e2m1e2d1e1m2d1e1d1e3m2e3m1d1e2d8m4d2m1e2m1e2m4d2e1d2e1d2e2d1e1d2m1e2m1e2m1d2e1d8m1d2e1d2e1m1e1m1e1m1e1d2e1d1e1m1e1m1e1m2e1d2e10d1e
+                
+                let importString = this.importText.substring(6, this.importText.length);
+                let smartDetect = this.importText.charAt(3);
+                if(smartDetect < 1 || smartDetect > 4) return;
+
+                let grid;
+                if(this.selectedGrid !== '' && this.selectedGrid !== null) grid = this.root.grids[this.selectedGrid-1];
+                else grid = this.root.grids[smartDetect-1];
+
+                let frames = importString.split('.');
+
+                let delay = parseInt(frames.shift());
+                if(isNaN(delay)) return; // Bad formatting
+                this.root.animation.delay = delay; // Set the delay from the import to the delay set
+
+                let count = 0;
+                for(let frame of frames) {
+                    grid.import(frame, count);
+                    count++;
+                }
             }
+        },
+        decodeRle(string) {
+            return string.replace(/(\d+)([a-zA-A])/g, function (match, num, letter) {
+                var ret = '', i;
+                for (i = 0; i < parseInt(num, 10); i++) {
+                    ret += letter;
+                }
+                return ret;
+            });
         },
         toggleState() {
             this.shown = !this.shown;

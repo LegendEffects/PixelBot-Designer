@@ -1,10 +1,6 @@
 <template>
     <div id="appContainer" class="layout">
-        <modal v-if="show.credits" @close="show.credits = false">
-            <h3 style="border-bottom: 2px solid #202225; padding-bottom: 5px;" slot="header">Credits</h3>
-            <p slot="body">Editor Developed by LegendEffects<br><br>Original Editor by Claw Studios<br><br>Original PixelBot concept invented by Laboratory 424<br><br>First editor concept by CaptainPDA</p>
-        </modal>
-        
+        <credits></credits>
         <importpanel></importpanel>
         <exportpanel></exportpanel>
         <clearpanel></clearpanel>
@@ -71,9 +67,6 @@
                 colour: 'e',
                 secondaryColour: 'e',
                 lockScroll: false,
-            },
-            show: {
-                credits: false
             },
             animation: {
                 enabled: true,
