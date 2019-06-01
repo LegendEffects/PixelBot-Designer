@@ -1,5 +1,5 @@
 <template>
-    <modal v-if="shown" @close="show.credits = false">
+    <modal v-if="shown" @close="shown = false">
         <h3 style="border-bottom: 2px solid #202225; padding-bottom: 5px;" slot="header">Credits</h3>
         <p slot="body">
             Editor Developed by <a href="https://legendeffects.co.uk">LegendEffects</a><br><br>
