@@ -3,7 +3,7 @@ node_js:
   - "9"
 
 before_install:
-  - npm install -g gulp
+  - npm run build
 
 cache: npm
 
@@ -17,6 +17,6 @@ deploy:
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
   keep_history: true
-  local_dir: ./
+  local_dir: ./public
   on:
     branch: master
