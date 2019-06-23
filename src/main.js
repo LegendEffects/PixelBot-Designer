@@ -2,10 +2,11 @@ import Vue from 'vue';
 import App from './App.vue';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faLevelDownAlt } from '@fortawesome/free-solid-svg-icons'
+import { faLevelDownAlt, faPen, faEraser, faEyeDropper, faFill } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import router from './router'
 
-library.add(faLevelDownAlt)
+library.add(faLevelDownAlt, faPen, faEraser, faEyeDropper, faFill);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
@@ -13,6 +14,7 @@ Vue.config.productionTip = false;
 
 new Vue({
   render: h => h(App),
+
   data: {
     keybinds: {},
     palette: {
@@ -43,6 +45,7 @@ new Vue({
       y: '#4c504d',
     }
   },
+
   methods: {
     registerKeybind(key, callback) {
       this.keybinds[key.charCodeAt(0)] = callback;
@@ -54,6 +57,9 @@ new Vue({
       }
     }
   },
+
+  router,
+
   created() {
     document.onkeyup = this.findKeybind;
   }
