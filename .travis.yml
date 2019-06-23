@@ -3,14 +3,13 @@ node_js:
   - "9"
 
 before_install:
-  - npm run build
+  - npm install -g @vue/cli
 
 cache: npm
 
 script:
-  - cd src
   - npm install
-  - gulp build
+  - npm run build
 
 deploy:
   provider: pages
