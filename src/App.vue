@@ -1,28 +1,37 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+	<div id="app">
+		<div class="gridContainer">
+			<grid :sizey="12" :sizex="12"></grid>
+			<grid :sizey="12" :sizex="12"></grid>
+		</div>
+		<div class="gridContainer">
+			<grid :sizey="12" :sizex="12"></grid>
+			<grid :sizey="12" :sizex="12"></grid>
+		</div>
+	</div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
 
-export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  }
-}
+<script>
+	import Grid from './components/Grid.vue'
+
+	export default {
+		name: 'app',
+		components: {
+			Grid
+		}
+	}
 </script>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+	#app {
+		font-family: 'Avenir', Helvetica, Arial, sans-serif;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	.gridContainer {
+		display: flex;
+		flex-direction: row;
+	}
 </style>
