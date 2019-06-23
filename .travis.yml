@@ -8,7 +8,7 @@ before_install:
 cache: npm
 
 script:
-  - npm install
+  - "npm install --save-dev"
   - npm run build
 
 deploy:
