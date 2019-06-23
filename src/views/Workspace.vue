@@ -4,12 +4,12 @@
 
         <div class="gridContainer">
             <div class="gridRow">
-                <grid :sizey="12" :sizex="12" :workspace="workspace"></grid>
-                <grid :sizey="12" :sizex="12" :workspace="workspace"></grid>
+                <grid :grid-id="0" :sizey="12" :sizex="12" :workspace="workspace"></grid>
+                <grid :grid-id="1" :sizey="12" :sizex="12" :workspace="workspace"></grid>
             </div>
             <div class="gridRow">
-                <grid :sizey="12" :sizex="12" :workspace="workspace"></grid>
-                <grid :sizey="12" :sizex="12" :workspace="workspace"></grid>
+                <grid :grid-id="2" :sizey="12" :sizex="12" :workspace="workspace"></grid>
+                <grid :grid-id="3" :sizey="12" :sizex="12" :workspace="workspace"></grid>
             </div>
         </div>
 
@@ -31,13 +31,57 @@
 		data: () => {return{
 			layout: {
 				toolbox: 'right',
-			},
-            workspace: null,
+            },
+            grids: null,
+            workspace: {
+                tool: 'pen',
+                colour: '#000',
+                drawing: false,
+                scrollLocked: true,
+            },
         }},
         methods: {
-            updateWorkspace(newWorkspace) {
-                this.workspace = newWorkspace;
+            updateWorkspace(parts) {
+                this.workspace.tool = parts.tool;
+                this.workspace.colour = parts.colour;
+            },
+
+            dragStart() {
+                this.workspace.drawing = true;
+                window.addEventListener('touchmove', this.touchDraw);
+            },
+            dragStop() {
+                this.workspace.drawing = false;
+                window.removeEventListener('touchmove', this.touchDraw);
+            },
+
+            touchDraw(e) {
+                if(this.workspace.drawing) {
+                    let element = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+                    let backelement = element.parentElement.parentElement;
+    
+                    if(backelement.className == "grid") {
+                        let gridid = backelement.attributes['grid-id'].nodeValue;
+                        this.grids[gridid].useTool(element, true);
+                    }
+                }
+            },
+
+            isScrolllocked() {
+                if(this.workspace.scrollLocked) return {overflow: 'hidden'}
+                else return {overflow: 'auto'}
             }
+        },
+        mounted() {
+            window.addEventListener('mousedown', this.dragStart);
+            window.addEventListener('mouseup', this.dragStop);
+            window.addEventListener('touchstart', this.dragStart);
+            window.addEventListener('touchend', this.dragStop);
+
+            this.grids = this.$children.filter(function(val) {
+                if(val.$el.className == 'grid') return true;
+                else return false;
+            });
         }
 	}
 </script>
@@ -47,7 +91,6 @@
 		display: flex;
 		flex-direction: row;
 	}
-
 	.gridContainer {
 		padding: 20px;
 	}

@@ -8,11 +8,14 @@
                 :key="index" 
                 
                 draggable=false 
+                @dragstart.prevent
                 
                 :data-row="row" 
                 :data-index="index"
                 
-                @mouseup="useTool">
+                @mouseup="useTool"
+                @mouseover="dragDraw"
+                @mouseleave="dragDraw">
             </div>
         </div>
     </div>
@@ -34,19 +37,24 @@ export default {
         }
     }},
     methods: {
-        useTool(pixel) {
-            // eslint-disable-next-line
-            console.log(this.workspace);
-
-            // eslint-disable-next-line
-            console.log(pixel);
+        useTool(pixel, ignoreSrc) {
+            if(!ignoreSrc) {
+                pixel = pixel.target;
+            }
             
             switch(this.workspace.tool) {
                 case 'pen':
-                    pixel.target.style.backgroundColor = this.workspace.colour;
+                    pixel.style.backgroundColor = this.workspace.colour;
+                    break;
+                case 'eraser':
+                    pixel.style.backgroundColor = '#000';
+                    break;
             }
-
-
+        },
+        dragDraw(pixel) {
+            if(this.workspace.drawing) {
+                this.useTool(pixel);
+            }
         }
     }
 

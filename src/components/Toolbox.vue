@@ -64,7 +64,7 @@ export default {
                 tool: this.selectedTool,
                 colour
             });
-        }
+        },
     }
 }
 </script>

@@ -1,6 +1,7 @@
 <template>
     <div class="popout">
         <div class="colourList">
+            <div class="title">Changing colour for: {{changing}}</div>
             <div 
                 class="swatch"
                 v-for="(val, key) of $root.palette"
@@ -18,24 +19,29 @@
 <script>
 export default {
     name: 'colourpopout',
-    props: ['colours']
+    props: ['changing']
 }
 </script>
 
 <style scoped>
     .popout {
         position: absolute;
-        top: 50px;
+        top: 200px;
         right: 100px;
 
         border-radius: 1rem;
         background: #202225;
         color: #fff;
-        text-align: right;
     }
+    .popout .title {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
     .popout .colourList {
         padding: 1rem;
-        width: 300px;
+        width: 273px;
 
         display: flex;
         flex-wrap: wrap;

@@ -5,7 +5,7 @@
         <div class="swapColours" title="Swap Colours (x)" @click="switchColours">
             <font-awesome-icon icon="level-down-alt"></font-awesome-icon>
         </div>
-        <colour-popout v-show="popout.show" @selectColour="changeColour"></colour-popout>
+        <colour-popout v-show="popout.show" @selectColour="changeColour" :changing="popout.switching"></colour-popout>
     </div>
 </template>
 
