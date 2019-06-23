@@ -1,19 +1,19 @@
 <template>
     <div class="workspace">
-        <toolbox v-if="layout.toolbox == 'left'" :mounted="layout.toolbox"></toolbox>
+        <toolbox @updateWorkspace="updateWorkspace" v-if="layout.toolbox == 'left'" :mounted="layout.toolbox"></toolbox>
 
         <div class="gridContainer">
             <div class="gridRow">
-                <grid :sizey="12" :sizex="12"></grid>
-                <grid :sizey="12" :sizex="12"></grid>
+                <grid :sizey="12" :sizex="12" :workspace="workspace"></grid>
+                <grid :sizey="12" :sizex="12" :workspace="workspace"></grid>
             </div>
             <div class="gridRow">
-                <grid :sizey="12" :sizex="12"></grid>
-                <grid :sizey="12" :sizex="12"></grid>
+                <grid :sizey="12" :sizex="12" :workspace="workspace"></grid>
+                <grid :sizey="12" :sizex="12" :workspace="workspace"></grid>
             </div>
         </div>
 
-        <toolbox v-if="layout.toolbox == 'right'" :mounted="layout.toolbox"></toolbox>
+        <toolbox @updateWorkspace="updateWorkspace" v-if="layout.toolbox == 'right'" :mounted="layout.toolbox"></toolbox>
     </div>
 </template>
 
@@ -32,8 +32,13 @@
 			layout: {
 				toolbox: 'right',
 			},
-
-		}}
+            workspace: null,
+        }},
+        methods: {
+            updateWorkspace(newWorkspace) {
+                this.workspace = newWorkspace;
+            }
+        }
 	}
 </script>
 

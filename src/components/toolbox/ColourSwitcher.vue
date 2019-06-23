@@ -32,6 +32,7 @@ export default {
     }},
     created() {
         this.$root.registerKeybind('x', this.switchColours);
+        this.$emit('colourChange', this.colours.foreground);
     },
     methods: {
         switchColours() {
@@ -54,6 +55,7 @@ export default {
         },
         changeColour(event) {
             this.colours[this.popout.switching] = event.colour;
+            this.$emit('colourChange', this.colours.foreground);
         }
     }
 }

@@ -2,11 +2,11 @@ import Vue from 'vue';
 import App from './App.vue';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faLevelDownAlt, faPen, faEraser, faEyeDropper, faFill } from '@fortawesome/free-solid-svg-icons'
+import { faLevelDownAlt, faPen, faEraser, faEyeDropper, faFill, faCog } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import router from './router'
 
-library.add(faLevelDownAlt, faPen, faEraser, faEyeDropper, faFill);
+library.add(faLevelDownAlt, faPen, faEraser, faEyeDropper, faFill, faCog);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

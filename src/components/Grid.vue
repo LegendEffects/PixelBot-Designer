@@ -7,11 +7,12 @@
                 v-for="index in sizex" 
                 :key="index" 
                 
-                class="e" 
                 draggable=false 
                 
                 :data-row="row" 
-                :data-index="index">
+                :data-index="index"
+                
+                @mouseup="useTool">
             </div>
         </div>
     </div>
@@ -20,7 +21,7 @@
 <script>
 export default {
     name: 'grid',
-    props: ['sizex', 'sizey'],
+    props: ['sizex', 'sizey', 'workspace'],
     data() {return {
         style: {
             display: 'table-cell',
@@ -31,7 +32,23 @@ export default {
             minHeight: '35px',
             backgroundColor: '#000',
         }
-    }}
+    }},
+    methods: {
+        useTool(pixel) {
+            // eslint-disable-next-line
+            console.log(this.workspace);
+
+            // eslint-disable-next-line
+            console.log(pixel);
+            
+            switch(this.workspace.tool) {
+                case 'pen':
+                    pixel.target.style.backgroundColor = this.workspace.colour;
+            }
+
+
+        }
+    }
 
 }
 </script>
