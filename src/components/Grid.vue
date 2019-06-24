@@ -1,5 +1,5 @@
 <template>
-    <div class="grid">
+    <div class="grid" v-if="style !== null">
         <div class="row" v-for="row in sizey" :key="row">
             <div
                 :style="style" 
@@ -34,15 +34,7 @@ export default {
     name: 'grid',
     props: ['sizex', 'sizey', 'workspace'],
     data() {return {
-        style: {
-            display: 'table-cell',
-            width: '35px',
-            height: '35px',
-
-            minWidth: '35px',
-            minHeight: '35px',
-            backgroundColor: '#000',
-        }
+        style: null,
     }},
     methods: {
         useTool(pixel, ignoreSrc) {
@@ -68,8 +60,18 @@ export default {
                 this.useTool(pixel);
             }
         },
-    }
+    },
+    created() {
+        this.style = {
+            display: 'table-cell',
+            width: this.workspace.pixelSize+'px',
+            height: this.workspace.pixelSize+'px',
 
+            minWidth: this.workspace.pixelSize+'px',
+            minHeight: this.workspace.pixelSize+'px',
+            backgroundColor: '#000',
+        }
+    }
 }
 </script>
 

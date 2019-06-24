@@ -26,8 +26,6 @@ export default {
 <style scoped>
     .popout {
         position: absolute;
-        top: 200px;
-        right: 100px;
 
         border-radius: 1rem;
         background: #202225;

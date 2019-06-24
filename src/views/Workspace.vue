@@ -1,23 +1,27 @@
 <template>
-    <div class="workspace" :class="'toolboxpos-'+layout.toolbox">
-        <toolbox @updateWorkspace="updateWorkspace" v-if="layout.toolbox == 'left' || layout.toolbox == 'top'" :mounted="layout.toolbox"></toolbox>
-        
-        <div id="leftTopArea"></div>
+    <div class="workspace" :class="'toolboxpos-'+layout.toolbox" v-if="layout !== null">
+        <portal :to="layout.toolbox">
+            <toolbox @updateWorkspace="updateWorkspace" :mounted="layout.toolbox"></toolbox>
+        </portal>
 
-        <div class="gridContainer">
-            <div class="gridRow">
-                <grid :grid-id="0" :sizey="12" :sizex="12" :workspace="workspace"></grid>
-                <grid :grid-id="1" :sizey="12" :sizex="12" :workspace="workspace"></grid>
+        <portal-target name="left"></portal-target>
+        <div style="display: flex; flex-direction: column; width: 100%; height: 100%;">
+            <portal-target name="top"></portal-target>
+
+            <div class="gridContainer">
+                <div class="gridRow">
+                    <grid :grid-id="0" :sizey="12" :sizex="12" :workspace="workspace"></grid>
+                    <grid :grid-id="1" :sizey="12" :sizex="12" :workspace="workspace"></grid>
+                </div>
+                <div class="gridRow">
+                    <grid :grid-id="2" :sizey="12" :sizex="12" :workspace="workspace"></grid>
+                    <grid :grid-id="3" :sizey="12" :sizex="12" :workspace="workspace"></grid>
+                </div>
             </div>
-            <div class="gridRow">
-                <grid :grid-id="2" :sizey="12" :sizex="12" :workspace="workspace"></grid>
-                <grid :grid-id="3" :sizey="12" :sizex="12" :workspace="workspace"></grid>
-            </div>
+
+            <portal-target name="bottom" class="side bottom"></portal-target>
         </div>
-
-        <div id="bottomRightArea"></div>
-
-        <toolbox @updateWorkspace="updateWorkspace" v-if="layout.toolbox == 'right' || layout.toolbox == 'bottom'" :mounted="layout.toolbox"></toolbox>
+        <portal-target name="right" class="" ></portal-target>
     </div>
 </template>
 
@@ -33,15 +37,14 @@
 			Toolbox
 		},
 		data: () => {return{
-			layout: {
-				toolbox: 'top',
-            },
+			layout: null,
             grids: null,
             workspace: {
                 tool: 'pen',
                 colour: '#000',
                 drawing: false,
                 scrollLocked: false,
+                pixelSize: 35,
             },
         }},
         methods: {
@@ -77,6 +80,8 @@
             }
         },
         mounted() {
+            this.layout = this.$root.userSettings.settings.workspace.layout;
+
             window.addEventListener('mousedown', this.dragStart);
             window.addEventListener('mouseup', this.dragStop);
             window.addEventListener('touchstart', this.dragStart);
@@ -102,6 +107,10 @@
         flex-direction: row;
     }
 
+    .workspace .side.bottom {
+        margin-top: auto;
+    }
+
 	.gridContainer {
 		padding: 20px;
         overflow: auto;
@@ -110,4 +119,16 @@
 		display: flex;
 		flex-direction: row;
 	}
+
+    .showBorder {
+        background-color: rgb(255, 0, 0);
+    }
+    .extendWidth {
+        width: 100%;
+        height: 20px;
+    }
+    .extendHeight {
+        height: 100%;
+        width: 20px;
+    }
 </style>

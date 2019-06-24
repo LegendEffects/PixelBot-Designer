@@ -1,21 +1,26 @@
 <template>
     <div class="toolbox" :class="'mounted-'+mounted">
+        <div class="frames" v-show="animationTimeline">
+            <div class="frame">1</div>
+        </div>
+
         <div class="tools">
             <div v-for="tool of tools" :key="tool.ID"
 
-            class="tool" 
-            :class="{'active': isSelected(tool.name)}"
+                class="tool" 
+                :class="{'active': isSelected(tool.name)}"
 
-            @click="select(tool.name)"
-            :title="tool.hover">
+                @click="select(tool.name)"
+                :title="tool.hover"
+            >
                 <font-awesome-icon class="icon" :icon="tool.icon"></font-awesome-icon>
             </div>
 
             <colour-switcher class="tool" @colourChange="updateWorkspace"></colour-switcher>
 
             <div class="end">
-                <div class="tool" title="Animation Timeline"><font-awesome-icon class="icon" icon="layer-group"></font-awesome-icon></div>
-                <div class="tool" title="Settings"><font-awesome-icon class="icon" icon="cog"></font-awesome-icon></div>
+                <div class="tool" title="Animation Timeline" @click="animationTimeline = !animationTimeline" :class="{'active': animationTimeline}"><font-awesome-icon class="icon" icon="layer-group"></font-awesome-icon></div>
+                <router-link to="/settings" class="tool" title="Settings"><font-awesome-icon class="icon" icon="cog"></font-awesome-icon></router-link>
             </div>
         </div>
     </div>
@@ -35,26 +40,32 @@ export default {
             {
                 name: 'pen',
                 icon: 'pen',
-                hover: 'Pen (b)'
+                hover: 'Pen (b)',
+                bind: 'b',
             },
             {
                 name: 'eraser',
                 icon: 'eraser',
-                hover: 'Eraser (e)'
+                hover: 'Eraser (e)',
+                bind: 'e'
             },
             {
                 name: 'eyedropper',
                 icon: 'eye-dropper',
-                hover: 'Eye dropper (i)'
+                hover: 'Eye dropper (i)',
+                bind: 'i',
             },
             {
                 name: 'fill',
                 icon: 'fill',
-                hover: 'Fill Bucket (g)'
+                hover: 'Fill Bucket (g)',
+                bind: 'g',
             }
         ],
         selectedTool: 'pen',
         colour: null,
+
+        animationTimeline: false,
     }},
     methods: {
         select(tool) {
@@ -71,6 +82,15 @@ export default {
                 colour
             });
         },
+    },
+    created() {
+        for(const tool of this.tools) {
+            if(tool.bind) {
+                this.$root.registerKeybind(tool.bind, function() {
+                    this.select(tool.name);
+                }.bind(this));
+            }
+        }
     }
 }
 </script>
@@ -78,10 +98,23 @@ export default {
 <style scoped lang="scss">
     .toolbox {
         background: #202225;
+        display: flex;
     }
     .toolbox .tools {
         display: flex;
         padding: .5rem;
+    }
+
+    .toolbox.mounted-top, .toolbox.toolbox.mounted-bottom {
+        flex-direction: column;
+    }
+    .toolbox.mounted-left, .toolbox.mounted-right {
+        flex-direction: row;
+    }
+
+    .toolbox .frames {
+        background: #09090a;
+        padding: 1rem;
     }
 
     .toolbox.toolbox.mounted-left .tools, .toolbox.mounted-right .tools {
