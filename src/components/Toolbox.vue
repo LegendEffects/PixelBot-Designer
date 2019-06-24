@@ -11,10 +11,11 @@
                 <font-awesome-icon class="icon" :icon="tool.icon"></font-awesome-icon>
             </div>
 
-            <colour-switcher @colourChange="updateWorkspace"></colour-switcher>
+            <colour-switcher class="tool" @colourChange="updateWorkspace"></colour-switcher>
 
             <div class="end">
-                <div class="tool"><font-awesome-icon class="icon" icon="cog"></font-awesome-icon></div>
+                <div class="tool" title="Animation Timeline"><font-awesome-icon class="icon" icon="layer-group"></font-awesome-icon></div>
+                <div class="tool" title="Settings"><font-awesome-icon class="icon" icon="cog"></font-awesome-icon></div>
             </div>
         </div>
     </div>
@@ -40,6 +41,11 @@ export default {
                 name: 'eraser',
                 icon: 'eraser',
                 hover: 'Eraser (e)'
+            },
+            {
+                name: 'eyedropper',
+                icon: 'eye-dropper',
+                hover: 'Eye dropper (i)'
             },
             {
                 name: 'fill',
@@ -71,32 +77,49 @@ export default {
 
 <style scoped lang="scss">
     .toolbox {
-        height: 100vh;
         background: #202225;
     }
     .toolbox .tools {
         display: flex;
+        padding: .5rem;
+    }
+
+    .toolbox.toolbox.mounted-left .tools, .toolbox.mounted-right .tools {
         flex-direction: column;
-
-        height: calc(100vh - 2rem);
-        padding: 1rem;
+        height: calc(100vh - 1rem);
     }
 
-    .toolbox.mounted-left {
-        margin-left: 0;
+    .toolbox.mounted-top .tools, .toolbox.mounted-bottom .tools {
+        flex-direction: row;
+        width: calc(100vw - 1rem);
     }
+
     .toolbox.mounted-right {
         margin-left: auto;
-        margin-right: 0;
     }
-
-    .toolbox .tools .end {
+    .toolbox.mounted-bottom {
+        justify-content: flex-end;
         margin-top: auto;
     }
 
-    .tool {
-        margin-bottom: 15px;
+    .toolbox.mounted-left .tools .end, .toolbox.mounted-right .tools .end {
+        margin-top: auto;
+    }
+    .toolbox.mounted-top .tools .end, .toolbox.mounted-bottom .tools .end {
+        margin-left: auto;
+        display: flex;
+        flex-direction: row;
+    }
 
+    .toolbox.mounted-left .tools .tool, toolbox.mounted-right .tools .tool {
+        margin-bottom: 15px;
+    }
+
+    .toolbox.mounted-top .tools .tool, toolbox.mounted-bottom .tools .tool {
+        margin-right: 15px;
+    }
+
+    .tool {
         border-radius: .5rem;
 
         width: 45px;

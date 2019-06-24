@@ -1,6 +1,8 @@
 <template>
-    <div class="workspace">
-        <toolbox @updateWorkspace="updateWorkspace" v-if="layout.toolbox == 'left'" :mounted="layout.toolbox"></toolbox>
+    <div class="workspace" :class="'toolboxpos-'+layout.toolbox">
+        <toolbox @updateWorkspace="updateWorkspace" v-if="layout.toolbox == 'left' || layout.toolbox == 'top'" :mounted="layout.toolbox"></toolbox>
+        
+        <div id="leftTopArea"></div>
 
         <div class="gridContainer">
             <div class="gridRow">
@@ -13,7 +15,9 @@
             </div>
         </div>
 
-        <toolbox @updateWorkspace="updateWorkspace" v-if="layout.toolbox == 'right'" :mounted="layout.toolbox"></toolbox>
+        <div id="bottomRightArea"></div>
+
+        <toolbox @updateWorkspace="updateWorkspace" v-if="layout.toolbox == 'right' || layout.toolbox == 'bottom'" :mounted="layout.toolbox"></toolbox>
     </div>
 </template>
 
@@ -30,14 +34,14 @@
 		},
 		data: () => {return{
 			layout: {
-				toolbox: 'right',
+				toolbox: 'top',
             },
             grids: null,
             workspace: {
                 tool: 'pen',
                 colour: '#000',
                 drawing: false,
-                scrollLocked: true,
+                scrollLocked: false,
             },
         }},
         methods: {
@@ -89,10 +93,18 @@
 <style lang="scss">
 	.workspace {
 		display: flex;
-		flex-direction: row;
+        height: 100vh;
 	}
+    .toolboxpos-top, .toolboxpos-bottom {
+        flex-direction: column;
+    }
+    .toolboxpos-left, .toolboxpos-right {
+        flex-direction: row;
+    }
+
 	.gridContainer {
 		padding: 20px;
+        overflow: auto;
 	}
 	.gridRow {
 		display: flex;

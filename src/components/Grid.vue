@@ -22,6 +22,14 @@
 </template>
 
 <script>
+// https://stackoverflow.com/a/13937567
+function rgbtohex(rgb) {
+    rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    function hex(x) {
+        return ("0" + parseInt(x).toString(16)).slice(-2);
+    }
+    return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+}
 export default {
     name: 'grid',
     props: ['sizex', 'sizey', 'workspace'],
@@ -49,13 +57,17 @@ export default {
                 case 'eraser':
                     pixel.style.backgroundColor = '#000';
                     break;
+                case 'eyedropper':
+                    // this.$parent.workspace.colour = rgbtohex(pixel.style.backgroundColor);
+                    this.$root.$emit('customColourChange', rgbtohex(pixel.style.backgroundColor));
+                    break;
             }
         },
         dragDraw(pixel) {
             if(this.workspace.drawing) {
                 this.useTool(pixel);
             }
-        }
+        },
     }
 
 }

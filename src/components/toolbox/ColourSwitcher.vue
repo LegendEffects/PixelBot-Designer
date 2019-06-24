@@ -33,12 +33,19 @@ export default {
     created() {
         this.$root.registerKeybind('x', this.switchColours);
         this.$emit('colourChange', this.colours.foreground);
+
+        this.$root.$on('customColourChange', function(newColour) {
+            this.colours.foreground = newColour;
+            this.$emit('colourChange', this.colours.foreground);
+        }.bind(this));
     },
     methods: {
         switchColours() {
             const cache = this.colours.foreground;
             this.colours.foreground = this.colours.background;
             this.colours.background = cache;
+
+            this.$emit('colourChange', this.colours.foreground);
         },
         showColourSelector(event) {
             let type = event.target.classList[0];
