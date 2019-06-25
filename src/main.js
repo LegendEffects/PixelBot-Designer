@@ -2,10 +2,10 @@ import Vue from 'vue';
 import App from './App.vue';
 
 import {library} from '@fortawesome/fontawesome-svg-core'
-import {faLevelDownAlt, faPen, faEraser, faEyeDropper, faFill, faCog, faLayerGroup, faArrowCircleLeft} from '@fortawesome/free-solid-svg-icons'
+import {faLevelDownAlt, faPen, faEraser, faEyeDropper, faFill, faCog, faLayerGroup, faArrowCircleLeft, faTimesCircle} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
-library.add(faLevelDownAlt, faPen, faEraser, faEyeDropper, faFill, faCog, faLayerGroup, faArrowCircleLeft);
+library.add(faLevelDownAlt, faPen, faEraser, faEyeDropper, faFill, faCog, faLayerGroup, faArrowCircleLeft, faTimesCircle);
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 import router from './router'
@@ -76,7 +76,7 @@ new Vue({
 				return;
 			}
 			if(!localStorage.settings) {
-				localStorage.settings = JSON.stringify(this.userSettings.settings);
+				localStorage.settings = JSON.stringify(this.utserSettings.settings);
 			}
 			this.userSettings.settings = JSON.parse(localStorage.getItem("settings"));
 		},
