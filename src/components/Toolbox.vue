@@ -1,9 +1,5 @@
 <template>
     <div class="toolbox" :class="'mounted-'+mounted">
-        <div class="frames" v-show="animationTimeline">
-            <div class="frame">1</div>
-        </div>
-
         <div class="tools">
             <div v-for="tool of tools" :key="tool.ID"
 
@@ -19,7 +15,7 @@
             <colour-switcher class="tool" @colourChange="updateWorkspace"></colour-switcher>
 
             <div class="end">
-                <div class="tool" title="Animation Timeline" @click="animationTimeline = !animationTimeline" :class="{'active': animationTimeline}"><font-awesome-icon class="icon" icon="layer-group"></font-awesome-icon></div>
+                <div class="tool" title="Animation Timeline" @click="toggleTimeline" :class="{'active': animationTimeline}"><font-awesome-icon class="icon" icon="layer-group"></font-awesome-icon></div>
                 <router-link to="/settings" class="tool" title="Settings"><font-awesome-icon class="icon" icon="cog"></font-awesome-icon></router-link>
             </div>
         </div>
@@ -79,9 +75,14 @@ export default {
             this.colour = colour;
             this.$emit('updateWorkspace', {
                 tool: this.selectedTool,
-                colour
+                timeline: this.animationTimeline,
+                colour,
             });
         },
+        toggleTimeline() {
+            this.animationTimeline = !this.animationTimeline;
+            this.updateWorkspace(this.colour);
+        }
     },
     created() {
         for(const tool of this.tools) {
@@ -110,11 +111,6 @@ export default {
     }
     .toolbox.mounted-left, .toolbox.mounted-right {
         flex-direction: row;
-    }
-
-    .toolbox .frames {
-        background: #09090a;
-        padding: 1rem;
     }
 
     .toolbox.toolbox.mounted-left .tools, .toolbox.mounted-right .tools {

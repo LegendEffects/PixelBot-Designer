@@ -3,6 +3,9 @@
         <portal :to="layout.toolbox">
             <toolbox @updateWorkspace="updateWorkspace" :mounted="layout.toolbox"></toolbox>
         </portal>
+        <portal :to="layout.timeline">
+            <timeline v-show="workspace.timeline"></timeline>
+        </portal>
 
         <portal-target name="left"></portal-target>
         <div style="display: flex; flex-direction: column; width: 100%; height: 100%;">
@@ -27,14 +30,16 @@
 
 
 <script>
-	import Grid from '../components/Grid.vue'
-	import Toolbox from '../components/Toolbox.vue'
+	import Grid from '../components/Grid'
+    import Toolbox from '../components/Toolbox'
+    import Timeline from '../components/Timeline'
 
 	export default {
 		name: 'workspace',
 		components: {
 			Grid,
-			Toolbox
+            Toolbox,
+            Timeline
 		},
 		data: () => {return{
 			layout: null,
@@ -43,7 +48,10 @@
                 tool: 'pen',
                 colour: '#000',
                 drawing: false,
+
                 scrollLocked: false,
+                timeline: false,
+                
                 pixelSize: 35,
             },
         }},
@@ -51,6 +59,7 @@
             updateWorkspace(parts) {
                 this.workspace.tool = parts.tool;
                 this.workspace.colour = parts.colour;
+                this.workspace.timeline = parts.timeline;
             },
 
             dragStart() {

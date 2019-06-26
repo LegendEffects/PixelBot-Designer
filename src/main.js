@@ -52,13 +52,14 @@ new Vue({
 			supported: true,
 			settings: {
 				workspace: {
+					pixelSize: 35,
 					layout: {
 						toolbox: 'left',
 						timeline: 'bottom',
 					}
 				}
 			}
-		}
+		},
 	},
 	methods: {
 		registerKeybind(key, callback) {
@@ -76,7 +77,7 @@ new Vue({
 				return;
 			}
 			if(!localStorage.settings) {
-				localStorage.settings = JSON.stringify(this.utserSettings.settings);
+				localStorage.settings = JSON.stringify(this.userSettings.settings);
 			}
 			this.userSettings.settings = JSON.parse(localStorage.getItem("settings"));
 		},

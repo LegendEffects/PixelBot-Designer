@@ -23,8 +23,16 @@
             <div class="tabs">
                 <div v-show="isActive('layout')">
                     <div class="optionGroup">
+                        <span class="name">Pixel Size</span>
+                        <input type="number" :v-model="$root.userSettings.settings.workspace.pixelSize" @change="$root.saveSettings">px
+                    </div>
+                    <div class="optionGroup">
                         <span class="name">Toolbox Mounting Position</span>
                         <position-selector :value="$root.userSettings.settings.workspace.layout.toolbox" @input="toolboxChanged"></position-selector>
+                    </div>
+                    <div class="optionGroup">
+                        <span class="name">Animation Timeline Mounting Position</span>
+                        <position-selector :value="$root.userSettings.settings.workspace.layout.timeline" @input="timelineChanged"></position-selector>
                     </div>
                 </div>
 
@@ -51,6 +59,10 @@ export default {
         },
         toolboxChanged(event) {
             this.$root.userSettings.settings.workspace.layout.toolbox = event;
+            this.$root.saveSettings();
+        },
+        timelineChanged(event) {
+            this.$root.userSettings.settings.workspace.layout.timeline = event;
             this.$root.saveSettings();
         }
     },
@@ -107,6 +119,7 @@ export default {
         .name {
             display: block;
             color: #fff;
+            margin-bottom: 5px;
         }
         .name::after {
             content: ':';

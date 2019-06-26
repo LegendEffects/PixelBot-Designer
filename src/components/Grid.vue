@@ -30,6 +30,47 @@ function rgbtohex(rgb) {
     }
     return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
 }
+function fillTool(pixel, instance, colourOverride) {
+    const info = {
+        row: parseInt(pixel.attributes['data-row'].nodeValue),
+        column: parseInt(pixel.attributes['data-index'].nodeValue),
+        colour: rgbtohex(pixel.style.backgroundColor),
+    }
+    if(colourOverride) info.colour = colourOverride;
+
+    // Check pixels around.
+    // Left
+    if(info.column-1 >= 1) {
+        let pixelPart = instance.$el.querySelector(`div[data-row='${info.row}'][data-index='${info.column-1}']`);
+        fillPixel(info.colour, instance.workspace.colour, pixelPart, instance);
+    }
+    // Right
+    if(info.column+1 <= instance.sizex) {
+        let pixelPart = instance.$el.querySelector(`div[data-row='${info.row}'][data-index='${info.column+1}']`);
+        fillPixel(info.colour, instance.workspace.colour, pixelPart, instance);
+    }
+    // Up
+    if(info.row-1 >= 1) {
+        let pixelPart = instance.$el.querySelector(`div[data-row='${info.row-1}'][data-index='${info.column}']`);
+        fillPixel(info.colour, instance.workspace.colour, pixelPart, instance);
+    }
+    // Down
+    if(info.row+1 <= instance.sizey) {
+        let pixelPart = instance.$el.querySelector(`div[data-row='${info.row+1}'][data-index='${info.column}']`);
+        fillPixel(info.colour, instance.workspace.colour, pixelPart, instance);
+    }
+}
+function fillPixel(fillingColour, fillToColour, pixel, instance) {
+    if(rgbtohex(pixel.style.backgroundColor) === fillingColour) {
+        const cache = pixel.style.backgroundColor;
+        pixel.style.backgroundColor = fillToColour;
+        fillTool(pixel, instance, rgbtohex(cache));
+        
+        return true;
+    }
+    return;
+}
+
 export default {
     name: 'grid',
     props: ['sizex', 'sizey', 'workspace'],
@@ -37,7 +78,7 @@ export default {
         style: null,
     }},
     methods: {
-        useTool(pixel, ignoreSrc) {
+        useTool(pixel, ignoreSrc, wasDragging) {
             if(!ignoreSrc) {
                 pixel = pixel.target;
             }
@@ -53,11 +94,19 @@ export default {
                     // this.$parent.workspace.colour = rgbtohex(pixel.style.backgroundColor);
                     this.$root.$emit('customColourChange', rgbtohex(pixel.style.backgroundColor));
                     break;
+
+                case 'fill':
+                    if(wasDragging) return; // Prevent dragging with a fill bucket... that would probably kill the browser.
+                    if(this.workspace.colour == pixel.style.backgroundColor) return; // Prevent Callstack overflow
+
+                    fillTool(pixel, this);
+                    pixel.style.backgroundColor = this.workspace.colour;
+                    break;
             }
         },
         dragDraw(pixel) {
             if(this.workspace.drawing) {
-                this.useTool(pixel);
+                this.useTool(pixel, false, true);
             }
         },
     },
