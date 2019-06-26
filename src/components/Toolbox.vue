@@ -9,14 +9,19 @@
                 @click="select(tool.name)"
                 :title="tool.hover"
             >
-                <font-awesome-icon class="icon" :icon="tool.icon"></font-awesome-icon>
+                <font-awesome-icon class="icon" :icon="tool.icon" />
             </div>
 
             <colour-switcher class="tool" @colourChange="updateWorkspace"></colour-switcher>
 
             <div class="end">
-                <div class="tool" title="Animation Timeline" @click="toggleTimeline" :class="{'active': animationTimeline}"><font-awesome-icon class="icon" icon="layer-group"></font-awesome-icon></div>
-                <router-link to="/settings" class="tool" title="Settings"><font-awesome-icon class="icon" icon="cog"></font-awesome-icon></router-link>
+                <div class="spacer">
+                    <div class="tool" title="Import"><font-awesome-icon class="icon" icon="file-import" /></div>
+                    <div class="tool" title="Export"><font-awesome-icon class="icon" icon="file-export" /></div>
+                </div>
+
+                <div class="tool" title="Animation Timeline" @click="toggleTimeline" :class="{'active': animationTimeline}"><font-awesome-icon class="icon" icon="layer-group" /></div>
+                <router-link to="/settings" class="tool" title="Settings"><font-awesome-icon class="icon" icon="cog" /></router-link>
             </div>
         </div>
     </div>

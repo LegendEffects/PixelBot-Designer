@@ -12,12 +12,16 @@
                     @click="tabs.active = id">
                         <span>{{tab}}</span>
                 </li>
+
+                <li class="spacer"></li>
+                <li class="pill" :class="{'active': tabs.active == 'credits'}" @click="tabs.active = 'credits'">Credits</li>
+                <li class="pill"><a href="https://github.com/LegendEffects/PixelBot-Designer"><font-awesome-icon icon="link" />&nbsp;&nbsp;Github</a></li>
             </ul>
         </div>
         <div class="right">
             <div class="pageHeader">
-                <span class="header">{{tabs.set[tabs.active]}}</span>
-                <div class="closeContainer"><router-link class="close" to="/"><font-awesome-icon icon="times-circle"></font-awesome-icon></router-link></div>
+                <span class="header">{{tabs.set[tabs.active] || tabs.manual[tabs.active]}}</span>
+                <div class="closeContainer"><router-link class="close" to="/"><font-awesome-icon icon="times-circle" /></router-link></div>
             </div>
 
             <div class="tabs">
@@ -36,6 +40,14 @@
                     </div>
                 </div>
 
+                <div v-show="isActive('credits')" class="credits">
+                    <div>Original PixelBot concept invented by <a href="https://laboratory424.com">Laboratory424</a><br></div>
+
+                    <div>Editor developed by <a href="https://legendeffects.co.uk">LegendEffects</a><br></div>
+                    <div>Original Editor by <a href="https://clawstudios.com">Claw Studios</a><br></div>
+                    <div>First editor concept by <a href="https://www.twitch.tv/CaptainPDA">CaptainPDA</a><br></div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -50,7 +62,8 @@ export default {
     data: () => {return {
         tabs: {
             active: 'layout',
-            set: {layout: 'Layout', other: 'Another pill in the list'},
+            set: {layout: 'Layout', other: 'Another pill in the list',},
+            manual: {credits: 'Credits'},
         },
     }},
     methods: {
@@ -75,6 +88,7 @@ export default {
         flex-direction: row;
         height: 100%;
         font-weight: 500;
+        color: #fff;
         
         .left {
             padding: 2rem 1.5rem;
@@ -90,6 +104,11 @@ export default {
         .right {
             padding: 2rem;
             width: 100%;
+        }
+
+        a {
+            color: rgb(210, 210, 210);
+            text-decoration: none;
         }
     }
 
@@ -130,6 +149,7 @@ export default {
         list-style: none;
 
         display: flex;
+        flex-direction: column;
         flex-wrap: wrap;
 
         margin-top: 0;
@@ -148,6 +168,23 @@ export default {
         }
         .pill.active {
             background: #37393f;
+        }
+
+        .pill a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .spacer {
+            margin: 10px 0;
+            border-top: solid 2px #ccc;
+        }
+    }
+
+    .credits {
+        font-size: 1.2rem;
+        div {
+            margin-top: 10px;
         }
     }
 </style>

@@ -3,7 +3,7 @@
         <div class="foreground colour active" :style="{backgroundColor: colours.foreground}" @click="showColourSelector"></div>
         <div class="background colour" :style="{backgroundColor: colours.background}" @click="showColourSelector"></div>
         <div class="swapColours" title="Swap Colours (x)" @click="switchColours">
-            <font-awesome-icon icon="level-down-alt"></font-awesome-icon>
+            <font-awesome-icon icon="level-down-alt" />
         </div>
         <colour-popout v-show="popout.show" @selectColour="changeColour" :changing="popout.switching" :style="popoutStyle"></colour-popout>
     </div>

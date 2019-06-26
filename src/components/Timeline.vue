@@ -13,7 +13,7 @@ export default {
 
 <style scoped lang="scss">
     .timeline {
-        background: #09090a;
+        background: #25272b;
         padding: 1rem;
     }
 

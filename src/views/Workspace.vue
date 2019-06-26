@@ -1,5 +1,5 @@
 <template>
-    <div class="workspace" :class="'toolboxpos-'+layout.toolbox" v-if="layout !== null">
+    <div class="workspace" v-if="layout !== null">
         <portal :to="layout.toolbox">
             <toolbox @updateWorkspace="updateWorkspace" :mounted="layout.toolbox"></toolbox>
         </portal>
@@ -7,10 +7,7 @@
             <timeline v-show="workspace.timeline"></timeline>
         </portal>
 
-        <portal-target name="left"></portal-target>
-        <div style="display: flex; flex-direction: column; width: 100%; height: 100%;">
-            <portal-target name="top"></portal-target>
-
+        <mounting-points>
             <div class="gridContainer">
                 <div class="gridRow">
                     <grid :grid-id="0" :sizey="12" :sizex="12" :workspace="workspace"></grid>
@@ -21,10 +18,8 @@
                     <grid :grid-id="3" :sizey="12" :sizex="12" :workspace="workspace"></grid>
                 </div>
             </div>
+        </mounting-points>
 
-            <portal-target name="bottom" class="side bottom"></portal-target>
-        </div>
-        <portal-target name="right" class="" ></portal-target>
     </div>
 </template>
 
@@ -33,13 +28,15 @@
 	import Grid from '../components/Grid'
     import Toolbox from '../components/Toolbox'
     import Timeline from '../components/Timeline'
+    import MountingPoints from '../components/MountingPoints'
 
 	export default {
 		name: 'workspace',
 		components: {
 			Grid,
             Toolbox,
-            Timeline
+            Timeline,
+            MountingPoints
 		},
 		data: () => {return{
 			layout: null,
@@ -106,7 +103,7 @@
 
 <style lang="scss">
 	.workspace {
-		display: flex;
+        display: flex;
         height: 100vh;
 	}
     .toolboxpos-top, .toolboxpos-bottom {
@@ -114,10 +111,6 @@
     }
     .toolboxpos-left, .toolboxpos-right {
         flex-direction: row;
-    }
-
-    .workspace .side.bottom {
-        margin-top: auto;
     }
 
 	.gridContainer {
@@ -129,15 +122,15 @@
 		flex-direction: row;
 	}
 
-    .showBorder {
-        background-color: rgb(255, 0, 0);
-    }
-    .extendWidth {
-        width: 100%;
-        height: 20px;
-    }
-    .extendHeight {
-        height: 100%;
-        width: 20px;
-    }
+    // .showBorder {
+    //     background-color: rgb(255, 0, 0);
+    // }
+    // .extendWidth {
+    //     width: 100%;
+    //     height: 20px;
+    // }
+    // .extendHeight {
+    //     height: 100%;
+    //     width: 20px;
+    // }
 </style>
