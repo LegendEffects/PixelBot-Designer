@@ -6,13 +6,13 @@
                 class="tool" 
                 :class="{'active': isSelected(tool.name)}"
 
-                @click="select(tool.name)"
+                @click="$store.state.workspace.tool = tool.name"
                 :title="tool.hover"
             >
                 <font-awesome-icon class="icon" :icon="tool.icon" />
             </div>
 
-            <colour-switcher class="tool" @colourChange="updateWorkspace"></colour-switcher>
+            <colour-switcher class="tool" @colourChange="colourChange"></colour-switcher>
 
             <div class="end">
                 <div class="spacer">
@@ -20,7 +20,7 @@
                     <div class="tool" title="Export"><font-awesome-icon class="icon" icon="file-export" /></div>
                 </div>
 
-                <div class="tool" title="Animation Timeline" @click="toggleTimeline" :class="{'active': animationTimeline}"><font-awesome-icon class="icon" icon="layer-group" /></div>
+                <div class="tool" title="Animation Timeline" @click="toggleTimeline" :class="{'active': $store.state.workspace.timeline}"><font-awesome-icon class="icon" icon="layer-group" /></div>
                 <router-link to="/settings" class="tool" title="Settings"><font-awesome-icon class="icon" icon="cog" /></router-link>
             </div>
         </div>
@@ -62,31 +62,18 @@ export default {
                 hover: 'Fill Bucket (g)',
                 bind: 'g',
             }
-        ],
-        selectedTool: 'pen',
-        colour: null,
-
-        animationTimeline: false,
+        ]
     }},
     methods: {
-        select(tool) {
-            this.selectedTool = tool;
-            this.updateWorkspace(this.colour);
-        },
+
         isSelected(tool) {
-            return this.selectedTool == tool;
-        },
-        updateWorkspace(colour) {
-            this.colour = colour;
-            this.$emit('updateWorkspace', {
-                tool: this.selectedTool,
-                timeline: this.animationTimeline,
-                colour,
-            });
+            return this.$store.state.workspace.tool == tool;
         },
         toggleTimeline() {
-            this.animationTimeline = !this.animationTimeline;
-            this.updateWorkspace(this.colour);
+            this.$store.commit('workspace/toggleTimeline', null, {root: true});
+        },
+        colourChange(colour) {
+            this.$store.state.workspace.colour = colour;
         }
     },
     created() {

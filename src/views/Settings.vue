@@ -26,17 +26,19 @@
 
             <div class="tabs">
                 <div v-show="isActive('layout')">
+                    <div class="alert-danger" v-if="!storageSupported">LocalStorage is not supported by your browser. Changes made will not be saved for any future sessions.</div>
+
                     <div class="optionGroup">
                         <span class="name">Pixel Size</span>
-                        <input type="number" :v-model="$root.userSettings.settings.workspace.pixelSize" @change="$root.saveSettings">px
+                        <input type="number" v-model="$store.state.settings.pixelSize" @change="$store.commit('settings/changePixelSize')">px
                     </div>
                     <div class="optionGroup">
                         <span class="name">Toolbox Mounting Position</span>
-                        <position-selector :value="$root.userSettings.settings.workspace.layout.toolbox" @input="toolboxChanged"></position-selector>
+                        <position-selector :value="$store.state.settings.layout.toolbox" @input="toolboxChanged"></position-selector>
                     </div>
                     <div class="optionGroup">
                         <span class="name">Animation Timeline Mounting Position</span>
-                        <position-selector :value="$root.userSettings.settings.workspace.layout.timeline" @input="timelineChanged"></position-selector>
+                        <position-selector :value="$store.state.settings.layout.timeline" @input="timelineChanged"></position-selector>
                     </div>
                 </div>
 
@@ -66,17 +68,20 @@ export default {
             manual: {credits: 'Credits'},
         },
     }},
+    computed: {
+        storageSupported() {
+            return typeof(storage) !== undefined;
+        }
+    },
     methods: {
         isActive(tabName) {
             return this.tabs.active == tabName;
         },
         toolboxChanged(event) {
-            this.$root.userSettings.settings.workspace.layout.toolbox = event;
-            this.$root.saveSettings();
+            this.$store.commit('settings/moveToolbox', event);
         },
         timelineChanged(event) {
-            this.$root.userSettings.settings.workspace.layout.timeline = event;
-            this.$root.saveSettings();
+            this.$store.commit('settings/moveTimeline', event);
         }
     },
 }
@@ -186,5 +191,12 @@ export default {
         div {
             margin-top: 10px;
         }
+    }
+    .alert-danger {
+        background: rgb(211, 53, 53);
+        color: #fff;
+        padding: 1rem;
+        border-radius: 0.25rem;
+        margin-bottom: 2rem;
     }
 </style>

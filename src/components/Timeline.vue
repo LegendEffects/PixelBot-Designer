@@ -15,6 +15,8 @@ export default {
     .timeline {
         background: #25272b;
         padding: 1rem;
+
+        height: 100%;
     }
 
 </style>

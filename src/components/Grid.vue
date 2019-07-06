@@ -42,22 +42,22 @@ function fillTool(pixel, instance, colourOverride) {
     // Left
     if(info.column-1 >= 1) {
         let pixelPart = instance.$el.querySelector(`div[data-row='${info.row}'][data-index='${info.column-1}']`);
-        fillPixel(info.colour, instance.workspace.colour, pixelPart, instance);
+        fillPixel(info.colour, instance.$store.state.workspace.colour, pixelPart, instance);
     }
     // Right
     if(info.column+1 <= instance.sizex) {
         let pixelPart = instance.$el.querySelector(`div[data-row='${info.row}'][data-index='${info.column+1}']`);
-        fillPixel(info.colour, instance.workspace.colour, pixelPart, instance);
+        fillPixel(info.colour, instance.$store.state.workspace.colour, pixelPart, instance);
     }
     // Up
     if(info.row-1 >= 1) {
         let pixelPart = instance.$el.querySelector(`div[data-row='${info.row-1}'][data-index='${info.column}']`);
-        fillPixel(info.colour, instance.workspace.colour, pixelPart, instance);
+        fillPixel(info.colour, instance.$store.state.workspace.colour, pixelPart, instance);
     }
     // Down
     if(info.row+1 <= instance.sizey) {
         let pixelPart = instance.$el.querySelector(`div[data-row='${info.row+1}'][data-index='${info.column}']`);
-        fillPixel(info.colour, instance.workspace.colour, pixelPart, instance);
+        fillPixel(info.colour, instance.$store.state.workspace.colour, pixelPart, instance);
     }
 }
 function fillPixel(fillingColour, fillToColour, pixel, instance) {
@@ -73,7 +73,7 @@ function fillPixel(fillingColour, fillToColour, pixel, instance) {
 
 export default {
     name: 'grid',
-    props: ['sizex', 'sizey', 'workspace'],
+    props: ['sizex', 'sizey'],
     data() {return {
         style: null,
     }},
@@ -83,9 +83,9 @@ export default {
                 pixel = pixel.target;
             }
             
-            switch(this.workspace.tool) {
+            switch(this.$store.state.workspace.tool) {
                 case 'pen':
-                    pixel.style.backgroundColor = this.workspace.colour;
+                    pixel.style.backgroundColor = this.$store.state.workspace.colour;
                     break;
                 case 'eraser':
                     pixel.style.backgroundColor = '#000';
@@ -97,27 +97,28 @@ export default {
 
                 case 'fill':
                     if(wasDragging) return; // Prevent dragging with a fill bucket... that would probably kill the browser.
-                    if(this.workspace.colour == pixel.style.backgroundColor) return; // Prevent Callstack overflow
+                    if(this.$store.state.workspace.colour == pixel.style.backgroundColor) return; // Prevent Callstack overflow
 
                     fillTool(pixel, this);
-                    pixel.style.backgroundColor = this.workspace.colour;
+                    pixel.style.backgroundColor = this.$store.state.workspace.colour;
                     break;
             }
         },
         dragDraw(pixel) {
-            if(this.workspace.drawing) {
+            if(this.$store.state.workspace.drawing) {
                 this.useTool(pixel, false, true);
             }
         },
     },
     created() {
+
         this.style = {
             display: 'table-cell',
-            width: this.workspace.pixelSize+'px',
-            height: this.workspace.pixelSize+'px',
+            width: this.$store.state.settings.pixelSize+'px',
+            height: this.$store.state.settings.pixelSize+'px',
 
-            minWidth: this.workspace.pixelSize+'px',
-            minHeight: this.workspace.pixelSize+'px',
+            minWidth: this.$store.state.settings.pixelSize+'px',
+            minHeight: this.$store.state.settings.pixelSize+'px',
             backgroundColor: '#000',
         }
     }

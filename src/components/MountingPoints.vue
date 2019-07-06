@@ -1,20 +1,23 @@
 <template>
     <div class="mounts">
-        <portal-target name="left"></portal-target>
+        <portal-target v-for="point of points" :key="point.ID" :name="point+'-left'"></portal-target>
         <div class="centred">
-            <portal-target name="top"></portal-target>
+            <portal-target v-for="point of points" :key="point.ID" :name="point+'-top'"></portal-target>
             
             <slot></slot>
 
-            <portal-target name="bottom" class="side bottom"></portal-target>
+            <portal-target v-for="point of points" :key="point.ID" :name="point+'-bottom'"></portal-target>
         </div>
-        <portal-target name="right"></portal-target>
+        <portal-target v-for="point of points" :key="point.ID" :name="point+'-right'"></portal-target>
     </div>
 </template>
 
 <script>
 export default {
     name: 'MountingPoints',
+    data() {return{
+        points: ['toolbox', 'timeline']
+    }}
 }
 </script>
 

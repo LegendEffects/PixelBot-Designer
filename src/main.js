@@ -10,6 +10,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 import router from './router'
 import PortalVue from 'portal-vue';
+import store from './store'
 
 Vue.use(PortalVue)
 
@@ -17,9 +18,10 @@ Vue.config.productionTip = false;
 
 
 new Vue({
-	render: h => h(App),
-	router,
-	data: {
+    render: h => h(App),
+    router,
+
+    data: {
 		keybinds: {},
 		palette: {
 			a: '#ff0000',
@@ -47,21 +49,10 @@ new Vue({
 			w: '#ffa07a',
 			x: '#858d86',
 			y: '#4c504d',
-		},
-		userSettings: {
-			supported: true,
-			settings: {
-				workspace: {
-					pixelSize: 35,
-					layout: {
-						toolbox: 'left',
-						timeline: 'bottom',
-					}
-				}
-			}
-		},
+		}
 	},
-	methods: {
+
+    methods: {
 		registerKeybind(key, callback) {
 			this.keybinds[key.charCodeAt(0)] = callback;
 			this.keybinds[key.toUpperCase().charCodeAt(0)] = callback;
@@ -71,21 +62,19 @@ new Vue({
 				this.keybinds[e.which]();
 			}
 		},
+
 		loadSettings() {
-			if (typeof (Storage) === 'undefined') {
-				this.userSettings.supported = false;
-				return;
-			}
+			if (typeof (Storage) === 'undefined') return;
 			if(!localStorage.settings) {
-				localStorage.settings = JSON.stringify(this.userSettings.settings);
+				localStorage.settings = JSON.stringify(this.$store.state.settings);
 			}
-			this.userSettings.settings = JSON.parse(localStorage.getItem("settings"));
-		},
-		saveSettings() {
-			localStorage.settings = JSON.stringify(this.userSettings.settings);
+			this.$store.state.settings = JSON.parse(localStorage.getItem("settings"));
 		}
 	},
-	created() {
+
+    store,
+
+    created() {
 		document.onkeyup = this.findKeybind;
 
 		this.loadSettings();

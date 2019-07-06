@@ -1,21 +1,21 @@
 <template>
     <div class="workspace" v-if="layout !== null">
-        <portal :to="layout.toolbox">
-            <toolbox @updateWorkspace="updateWorkspace" :mounted="layout.toolbox"></toolbox>
+        <portal :to="'toolbox-'+layout.toolbox">
+            <toolbox :mounted="layout.toolbox"></toolbox>
         </portal>
-        <portal :to="layout.timeline">
-            <timeline v-show="workspace.timeline"></timeline>
+        <portal :to="'timeline-'+layout.timeline">
+            <timeline v-show="$store.state.workspace.timeline"></timeline>
         </portal>
 
         <mounting-points>
             <div class="gridContainer">
                 <div class="gridRow">
-                    <grid :grid-id="0" :sizey="12" :sizex="12" :workspace="workspace"></grid>
-                    <grid :grid-id="1" :sizey="12" :sizex="12" :workspace="workspace"></grid>
+                    <grid :grid-id="0" :sizey="12" :sizex="12"></grid>
+                    <grid :grid-id="1" :sizey="12" :sizex="12"></grid>
                 </div>
                 <div class="gridRow">
-                    <grid :grid-id="2" :sizey="12" :sizex="12" :workspace="workspace"></grid>
-                    <grid :grid-id="3" :sizey="12" :sizex="12" :workspace="workspace"></grid>
+                    <grid :grid-id="2" :sizey="12" :sizex="12"></grid>
+                    <grid :grid-id="3" :sizey="12" :sizex="12"></grid>
                 </div>
             </div>
         </mounting-points>
@@ -41,35 +41,19 @@
 		data: () => {return{
 			layout: null,
             grids: null,
-            workspace: {
-                tool: 'pen',
-                colour: '#000',
-                drawing: false,
-
-                scrollLocked: false,
-                timeline: false,
-                
-                pixelSize: 35,
-            },
         }},
         methods: {
-            updateWorkspace(parts) {
-                this.workspace.tool = parts.tool;
-                this.workspace.colour = parts.colour;
-                this.workspace.timeline = parts.timeline;
-            },
-
             dragStart() {
-                this.workspace.drawing = true;
+                this.$store.state.workspace.drawing = true;
                 window.addEventListener('touchmove', this.touchDraw);
             },
             dragStop() {
-                this.workspace.drawing = false;
+                this.$store.state.workspace.drawing = false;
                 window.removeEventListener('touchmove', this.touchDraw);
             },
 
             touchDraw(e) {
-                if(this.workspace.drawing) {
+                if(this.$store.state.workspace.drawing) {
                     let element = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
                     let backelement = element.parentElement.parentElement;
     
@@ -81,12 +65,12 @@
             },
 
             isScrolllocked() {
-                if(this.workspace.scrollLocked) return {overflow: 'hidden'}
+                if(this.$store.state.workspace.scrollLocked) return {overflow: 'hidden'}
                 else return {overflow: 'auto'}
             }
         },
         mounted() {
-            this.layout = this.$root.userSettings.settings.workspace.layout;
+            this.layout = this.$store.state.settings.layout;
 
             window.addEventListener('mousedown', this.dragStart);
             window.addEventListener('mouseup', this.dragStop);
