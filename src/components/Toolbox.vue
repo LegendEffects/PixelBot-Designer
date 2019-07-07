@@ -16,8 +16,8 @@
 
             <div class="end">
                 <div class="spacer">
-                    <div class="tool" title="Import"><font-awesome-icon class="icon" icon="file-import" /></div>
-                    <div class="tool" title="Export"><font-awesome-icon class="icon" icon="file-export" /></div>
+                    <div class="tool" title="Import" @click="$emit('toggleImport', true)"><font-awesome-icon class="icon" icon="file-import" /></div>
+                    <div class="tool" title="Export" @click="$emit('toggleExport', true)"><font-awesome-icon class="icon" icon="file-export" /></div>
                 </div>
 
                 <div class="tool" title="Animation Timeline" @click="toggleTimeline" :class="{'active': $store.state.workspace.timeline}"><font-awesome-icon class="icon" icon="layer-group" /></div>
@@ -80,7 +80,7 @@ export default {
         for(const tool of this.tools) {
             if(tool.bind) {
                 this.$root.registerKeybind(tool.bind, function() {
-                    this.select(tool.name);
+                    this.$store.state.workspace.tool = tool.name;
                 }.bind(this));
             }
         }

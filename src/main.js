@@ -18,8 +18,9 @@ Vue.config.productionTip = false;
 
 
 new Vue({
-    render: h => h(App),
+	render: h => h(App),
     router,
+	store,
 
     data: {
 		keybinds: {},
@@ -58,6 +59,7 @@ new Vue({
 			this.keybinds[key.toUpperCase().charCodeAt(0)] = callback;
 		},
 		findKeybind(e) {
+			if (document.activeElement.nodeName == 'TEXTAREA' || document.activeElement.nodeName == 'INPUT') return;
 			if (this.keybinds[e.which] !== undefined) {
 				this.keybinds[e.which]();
 			}
@@ -71,12 +73,9 @@ new Vue({
 			this.$store.state.settings = JSON.parse(localStorage.getItem("settings"));
 		}
 	},
-
-    store,
-
+	
     created() {
 		document.onkeyup = this.findKeybind;
-
 		this.loadSettings();
 	}
 }).$mount('#app');
