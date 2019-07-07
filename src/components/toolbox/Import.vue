@@ -3,20 +3,27 @@
         <template slot="header">Import</template>
         <template slot="body">
             <textarea class="inputArea" v-model="importText"></textarea>
-            <button class="submit" type="submit">Import</button>
+            <button class="submit" @click="processImport">Import</button>
         </template>
     </modal>
 </template>
 
 <script>
 import Modal from '../Modal'
+import Logging from '../../logging'
 export default {
     components: {
         Modal
     },
+    mixins: [Logging],
     data() {return{
         importText: "",
-    }}
+    }},
+    methods: {
+        processImport() {
+            this.log('Import', this.importText);
+        }
+    }
 }
 </script>
 

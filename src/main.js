@@ -9,8 +9,10 @@ library.add(faLevelDownAlt, faPen, faEraser, faEyeDropper, faFill, faCog, faLaye
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 import router from './router'
-import PortalVue from 'portal-vue';
+import PortalVue from 'portal-vue'
 import store from './store'
+
+import logging from './logging'
 
 Vue.use(PortalVue)
 
@@ -55,6 +57,12 @@ new Vue({
 
     methods: {
 		registerKeybind(key, callback) {
+			if(this.keybinds[key.charCodeAt(0)] !== 'undefined') {
+				logging.log('Keybinds', `Registered keybind '${key}'`, 'success')
+			} else {
+				logging.log('Keybinds', `Registered keybind '${key}' but overwrote its previous bind.`, 'success')
+			}
+
 			this.keybinds[key.charCodeAt(0)] = callback;
 			this.keybinds[key.toUpperCase().charCodeAt(0)] = callback;
 		},
@@ -66,15 +74,31 @@ new Vue({
 		},
 
 		loadSettings() {
-			if (typeof (Storage) === 'undefined') return;
+			logging.log('Settings', 'Loading user settings...')
+			if (typeof (Storage) === 'undefined') {
+				logging.log('Settings', 'User storage is not supported.', 'error') 
+				return;
+			}
+
+			logging.log('Settings', 'User storage is supported')
+
 			if(!localStorage.settings) {
+				logging.log('Settings', 'No default settings found, Creating...', 'warn')
 				localStorage.settings = JSON.stringify(this.$store.state.settings);
 			}
 			this.$store.state.settings = JSON.parse(localStorage.getItem("settings"));
+
+			logging.log('Settings', 'Loaded!', 'success')
 		}
 	},
 	
     created() {
+		if(process.env.NODE_ENV === 'development') {
+			logging.log('Build', 'Running in development mode', 'warn');
+		} else {
+			logging.log('Build', 'Running in production mode', 'warn');
+		}
+
 		document.onkeyup = this.findKeybind;
 		this.loadSettings();
 	}
