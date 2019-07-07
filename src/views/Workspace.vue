@@ -1,6 +1,7 @@
 <template>
     <div class="workspace" v-if="layout !== null">
-        <import v-if="modals.import" @close="modals.import = false"></import>
+        <import v-if="modals.import" @close="modals.import = false" />
+        <export v-if="modals.export" @close="modals.export = false" />
 
         <portal :to="'toolbox-'+layout.toolbox">
             <toolbox :mounted="layout.toolbox" @toggleImport="modals.import = true" @toggleExport="modals.export = true"></toolbox>
@@ -31,6 +32,7 @@
     import Timeline from '../components/Timeline'
     import MountingPoints from '../components/MountingPoints'
     import Import from '../components/toolbox/Import'
+    import Export from '../components/toolbox/Export'
 
 	export default {
 		name: 'workspace',
@@ -40,6 +42,7 @@
             Timeline,
             MountingPoints,
             Import,
+            Export,
 		},
 		data: () => {return{
 			layout: null,

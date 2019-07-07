@@ -23,19 +23,6 @@ function decodeRLE(string) {
     });
 }
 
-function convertFromSerpentine(string) {
-    let decoded = decodeRLE(string);
-    let array = [];
-
-    for(let row of this.$root.pixelMap) {
-        let fRow = [];
-        for(let column of row) {
-            fRow.push(this.$root.palette[decoded[column-1]]);
-        }
-        array.push(fRow);
-    }
-}
-
 export default {
     components: {
         Modal
@@ -83,7 +70,7 @@ export default {
                 this.log('Import', 'Imported Successfully!');
             }
         },
-        convertSerpentine(string) {
+        convertFromSerpentine(string) {
             let array = [];
             let decoded = decodeRLE(string)
             for(let row of this.$root.pixelMap) {

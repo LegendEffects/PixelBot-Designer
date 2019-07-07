@@ -2,22 +2,23 @@ import Vue from 'vue';
 import App from './App.vue';
 
 import {library} from '@fortawesome/fontawesome-svg-core'
-import {faLevelDownAlt, faPen, faEraser, faEyeDropper, faFill, faCog, faLayerGroup, faTimesCircle, faFileExport, faFileImport, faLink} from '@fortawesome/free-solid-svg-icons'
+import {faLevelDownAlt, faPen, faEraser, faEyeDropper, faFill, faCog, faLayerGroup, faTimesCircle, faFileExport, faFileImport, faLink, faCopy} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
-library.add(faLevelDownAlt, faPen, faEraser, faEyeDropper, faFill, faCog, faLayerGroup, faTimesCircle, faFileExport, faFileImport, faLink);
+library.add(faLevelDownAlt, faPen, faEraser, faEyeDropper, faFill, faCog, faLayerGroup, faTimesCircle, faFileExport, faFileImport, faLink, faCopy);
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 import router from './router'
 import PortalVue from 'portal-vue'
+import VueClipboard from 'vue-clipboard2'
 import store from './store'
 
 import logging from './logging'
 
 Vue.use(PortalVue)
+Vue.use(VueClipboard)
 
 Vue.config.productionTip = false;
-
 
 new Vue({
 	render: h => h(App),
@@ -30,8 +31,8 @@ new Vue({
 			a: '#ff0000',
 			b: '#008000',
 			c: '#0000ff',
-			d: '#fff',
-			e: '#000',
+			d: '#ffffff',
+			e: '#000000',
 			f: '#ffff00',
 			g: '#800000',
 			h: '#800080',
