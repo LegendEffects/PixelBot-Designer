@@ -109,6 +109,29 @@ export default {
                 this.useTool(pixel, false, true);
             }
         },
+        export() {
+            let final = [];
+            for(let i=1;i<this.sizey+1;i++) {
+                // Per row
+                let row = [];
+                for(let x=1;x<this.sizex+1;x++) {
+                    // Per column
+                    row.push(rgbtohex(this.$el.querySelector(`div[data-row='${i}'][data-index='${x}']`).style.backgroundColor));
+                }
+                final.push(row);
+            }
+
+            return final;
+        },
+        import(array) {
+            for(let i=1;i<this.sizey+1;i++) {
+                // Per row
+                for(let x=1;x<this.sizex+1;x++) {
+                    // Per column
+                    this.$el.querySelector(`div[data-row='${i}'][data-index='${x}']`).style.backgroundColor = array[i-1][x-1]; 
+                }
+            }
+        }
     },
     created() {
 

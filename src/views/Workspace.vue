@@ -43,7 +43,6 @@
 		},
 		data: () => {return{
 			layout: null,
-            grids: null,
             modals: {
                 import: false,
                 export: false,
@@ -66,7 +65,7 @@
     
                     if(backelement.className == "grid") {
                         let gridid = backelement.attributes['grid-id'].nodeValue;
-                        this.grids[gridid].useTool(element, true);
+                        this.$store.state.workspace.grids[gridid].useTool(element, true);
                     }
                 }
             },
@@ -83,11 +82,6 @@
             window.addEventListener('mouseup', this.dragStop);
             window.addEventListener('touchstart', this.dragStart);
             window.addEventListener('touchend', this.dragStop);
-
-            this.grids = this.$children.filter(function(val) {
-                if(val.$el.className == 'grid') return true;
-                else return false;
-            });
         }
 	}
 </script>

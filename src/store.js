@@ -13,6 +13,8 @@ const workspace = {
 
     scrollLocked: false,
     timeline: false,
+    
+    grids: null,
   },
   mutations: {
     toggleTimeline(state, enabled) {

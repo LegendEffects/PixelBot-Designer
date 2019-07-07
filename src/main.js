@@ -52,7 +52,8 @@ new Vue({
 			w: '#ffa07a',
 			x: '#858d86',
 			y: '#4c504d',
-		}
+		},
+		pixelMap: [],
 	},
 
     methods: {
@@ -88,7 +89,17 @@ new Vue({
 			}
 			this.$store.state.settings = JSON.parse(localStorage.getItem("settings"));
 
-			logging.log('Settings', 'Loaded!', 'success')
+			logging.log('Settings', 'Loaded!')
+		},
+		createPixelMap() {
+			let final = [];
+            for(let i=0;i<12;i++) {
+                let row = [];
+                for(let r=1;r<13;r++) row.push((i*12)+r);
+                if(i % 2 === 1) final[i] = row.reverse();
+                else final[i] = row;
+            }
+            this.pixelMap = final.reverse();
 		}
 	},
 	
@@ -101,5 +112,6 @@ new Vue({
 
 		document.onkeyup = this.findKeybind;
 		this.loadSettings();
+		this.createPixelMap();
 	}
 }).$mount('#app');

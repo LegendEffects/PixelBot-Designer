@@ -1,5 +1,9 @@
 /* eslint-disable */
 function log(component, message, type) {
+    if(process.env.NODE_ENV !== 'development' && component !== 'Build') {
+        return;
+    }
+
     let set = {
         background: null,
         color: null

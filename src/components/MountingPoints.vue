@@ -17,7 +17,13 @@ export default {
     name: 'MountingPoints',
     data() {return{
         points: ['toolbox', 'timeline']
-    }}
+    }},
+    mounted() {
+        this.$store.state.workspace.grids = this.$children.filter(function(val) {
+            if(val.$el.className == 'grid') return true;
+            else return false;
+        });
+    }
 }
 </script>
 
