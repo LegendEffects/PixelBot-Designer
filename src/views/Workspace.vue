@@ -7,7 +7,7 @@
             <toolbox :mounted="layout.toolbox" @toggleImport="modals.import = true" @toggleExport="modals.export = true"></toolbox>
         </portal>
         <portal :to="'timeline-'+layout.timeline">
-            <timeline v-show="$store.state.workspace.timeline"></timeline>
+            <timeline v-if="$store.state.workspace.timeline"></timeline>
         </portal>
 
         <mounting-points>

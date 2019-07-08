@@ -59,6 +59,8 @@ function fillTool(pixel, instance, colourOverride) {
         let pixelPart = instance.$el.querySelector(`div[data-row='${info.row+1}'][data-index='${info.column}']`);
         fillPixel(info.colour, instance.$store.state.workspace.colour, pixelPart, instance);
     }
+
+    instance.$root.$emit('gridUpdated');
 }
 function fillPixel(fillingColour, fillToColour, pixel, instance) {
     if(rgbtohex(pixel.style.backgroundColor) === fillingColour) {
@@ -86,9 +88,11 @@ export default {
             switch(this.$store.state.workspace.tool) {
                 case 'pen':
                     pixel.style.backgroundColor = this.$store.state.workspace.colour;
+                    this.$root.$emit('gridUpdated');
                     break;
                 case 'eraser':
                     pixel.style.backgroundColor = '#000';
+                    this.$root.$emit('gridUpdated');
                     break;
                 case 'eyedropper':
                     // this.$parent.workspace.colour = rgbtohex(pixel.style.backgroundColor);
