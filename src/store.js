@@ -15,6 +15,9 @@ const workspace = {
     timeline: false,
     
     grids: null,
+
+    frames: [],
+    currentFrame: 0,
   },
   mutations: {
     toggleTimeline(state, enabled) {

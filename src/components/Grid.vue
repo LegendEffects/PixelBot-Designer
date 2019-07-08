@@ -30,6 +30,17 @@ function rgbtohex(rgb) {
     }
     return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
 }
+function hexToRgb(hex) {
+  // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+  var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+  hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+    return r + r + g + g + b + b;
+  });
+
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? 'rgb('+parseInt(result[1],16)+', '+parseInt(result[2],16)+', '+parseInt(result[3],16)+')' : null;
+}
+
 function fillTool(pixel, instance, colourOverride) {
     const info = {
         row: parseInt(pixel.attributes['data-row'].nodeValue),
@@ -78,6 +89,7 @@ export default {
     props: ['sizex', 'sizey'],
     data() {return {
         style: null,
+        gridID: null,
     }},
     methods: {
         useTool(pixel, ignoreSrc, wasDragging) {
@@ -95,13 +107,12 @@ export default {
                     this.$root.$emit('gridUpdated');
                     break;
                 case 'eyedropper':
-                    // this.$parent.workspace.colour = rgbtohex(pixel.style.backgroundColor);
                     this.$root.$emit('customColourChange', rgbtohex(pixel.style.backgroundColor));
                     break;
 
                 case 'fill':
                     if(wasDragging) return; // Prevent dragging with a fill bucket... that would probably kill the browser.
-                    if(this.$store.state.workspace.colour == pixel.style.backgroundColor) return; // Prevent Callstack overflow
+                    if(hexToRgb(this.$store.state.workspace.colour) == pixel.style.backgroundColor) return; // Prevent Callstack overflow
 
                     fillTool(pixel, this);
                     pixel.style.backgroundColor = this.$store.state.workspace.colour;
@@ -138,7 +149,7 @@ export default {
         }
     },
     created() {
-
+        this.gridID = this.$attrs['grid-id'];
         this.style = {
             display: 'table-cell',
             width: this.$store.state.settings.pixelSize+'px',

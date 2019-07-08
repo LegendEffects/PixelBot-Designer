@@ -1,10 +1,9 @@
 <template>
     <div class="timeline">
         <div class="frames">
-            <div class="frame">
+            <div class="frame" @click="select(1)" :class="{'selected': selected == 1}">
                 <div class="header">
                     1
-                    <div class="end"><font-awesome-icon icon="times-circle" /></div>
                 </div>
                 <div class="preview">
                     <div class="gridRow">
@@ -16,6 +15,9 @@
                         <preview :grid="$store.state.workspace.grids[3].export()" />
                     </div>
                 </div>
+            </div>
+            <div class="frame">
+                <div class="preview addFrame"><font-awesome-icon icon="plus" /></div>
             </div>
         </div>
     </div>
@@ -30,9 +32,19 @@ export default {
     components: {
         Preview,
     },
+    data() {return {
+        selected: null,
+    }},
     methods: {
         update() {
             this.$forceUpdate();
+        },
+        select(frame) {
+            if(this.selected === frame) {
+                this.selected = null;
+            } else {
+                this.selected = frame;
+            }
         }
     },
     created() {
@@ -53,6 +65,7 @@ export default {
 
     .frames {
         padding: 10px;
+        overflow: auto;
     }
 
     .frame {
@@ -62,6 +75,8 @@ export default {
         width: 128px;
         padding: .5rem;
         border-radius: .25rem;
+        margin-bottom: 10px;
+        cursor: pointer;
 
         .header {
             display: flex;
@@ -74,8 +89,17 @@ export default {
                 margin-left: auto;
             }
         }
-        .preview {
-            background: #2e3035;
+
+        .addFrame {
+            font-size: 2rem;
+            color: #fff;
+            text-align: center;
+        }
+    }
+    .frame.selected {
+        background: #ffcd00;
+        .header {
+            color: #000
         }
     }
 
