@@ -20,6 +20,7 @@ const workspace = {
 
     frames: [],
     currentFrame: 0,
+    animationDelay: 500,
   },
   mutations: {
     toggleTimeline(state, enabled) {

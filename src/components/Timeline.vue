@@ -1,12 +1,20 @@
 <template>
-    <div class="timeline">
+    <div class="timeline" :class="{'sideways': isSideways}">
+        <div class="animationControl">
+            Delay: <input v-model="$store.state.workspace.animationDelay" type="number"> ms
+
+            <font-awesome-icon class="clickable" @click="controlPlayer('backward')" icon="step-backward"/>
+            <font-awesome-icon v-show="!playing" class="clickable" @click="controlPlayer('start')" icon="play" />
+            <font-awesome-icon v-show="playing" class="clickable" @click="controlPlayer('stop')" icon="stop" />
+            <font-awesome-icon class="clickable" @click="controlPlayer('forward')" icon="step-forward"/>
+        </div>
         <div class="frames">
             <div v-for="(frame, id) of $store.state.workspace.frames" :key="id" class="frame" :class="{'selected': $store.state.workspace.currentFrame == id}">
                 <div class="header">
-                    <span @click="$root.$emit('frameSwitch', id)">{{id+1}}</span>
+                    <span @click="$root.$emit('frameSwitch', id)" class="clickable">{{id+1}}</span>
                     <div @click="deleteFrame(frame.ID)" style="margin-left: auto;" class="clickable"><font-awesome-icon icon="trash" /></div>
                 </div>
-                <div @click="$root.$emit('frameSwitch', id)" class="preview">
+                <div @click="$root.$emit('frameSwitch', id)" class="preview clickable">
                     <div class="gridRow">
                         <preview :grid="frame[0]" />
                         <preview :grid="frame[1]" />
@@ -35,7 +43,15 @@ export default {
     },
     data() {return {
         selected: null,
+        player: null,
+        playing: false,
     }},
+    computed: {
+        isSideways() {
+            let state = this.$store.state.settings.layout.timeline;
+            return state === 'bottom' || state === 'top';
+        }
+    },
     methods: {
         update() {
             this.$forceUpdate();
@@ -58,6 +74,44 @@ export default {
         addFrame() {
             this.$store.state.workspace.frames.push(JSON.parse(JSON.stringify(this.$store.state.workspace.blankFrame)));
             this.update();
+        },
+
+
+        playerTick() {
+            let totalFrames = this.$store.state.workspace.frames.length;
+            let currentFrame = this.$store.state.workspace.currentFrame;
+
+            if(currentFrame+1 > totalFrames-1) {
+                this.$root.$emit('frameSwitch', 0);
+                return;
+            }
+            this.$root.$emit('frameSwitch', currentFrame+1);
+        },
+        controlPlayer(state) {
+            switch(state) {
+                case 'start':
+                    this.player = setInterval(this.playerTick, this.$store.state.workspace.animationDelay);
+                    this.playing = true;
+                    break;
+                case 'stop':
+                    clearInterval(this.player);
+                    this.playing = false;
+                    break;
+                case 'backward':
+                    if(this.$store.state.workspace.currentFrame-1 < 0) {
+                        this.$root.$emit('frameSwitch', this.$store.state.workspace.frames.length-1);
+                    } else {
+                        this.$root.$emit('frameSwitch', this.$store.state.workspace.currentFrame-1);
+                    }
+                    break;
+                case 'forward':
+                    if(this.$store.state.workspace.currentFrame+1 > this.$store.state.workspace.frames.length-1) {
+                        this.$root.$emit('frameSwitch', 0);
+                    } else {
+                        this.$root.$emit('frameSwitch', this.$store.state.workspace.currentFrame+1);
+                    }
+                    break;
+            }
         }
     },
     created() {
@@ -76,10 +130,12 @@ export default {
         height: 100%;
 
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
     }
 
     .frames {
+        display: flex;
+        flex-direction: column;
         padding: 10px;
         overflow: auto;
     }
@@ -117,10 +173,25 @@ export default {
             color: #000
         }
     }
+    .timeline.sideways {
+        flex-direction: column;
+        .frames {
+            flex-direction: row;
+
+            .frame {
+                margin-right: 10px;
+            }
+        }
+    }
 
     .gridRow {
         display: flex;
         flex-direction: row;
+    }
+    .animationControl {
+        background-color: #1f2024;
+        padding: .5rem 1rem;
+        color: #fff;
     }
 
 </style>

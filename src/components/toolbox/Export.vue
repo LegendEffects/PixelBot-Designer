@@ -41,7 +41,6 @@ import Logging from '../../logging'
 
 function encodeRLE(string) {
     let lastLetter = undefined;
-    let currentLetter = undefined;
     let currentCount = undefined;
     let output = '';
     for(let i=0;i<string.length;i++) {
@@ -78,9 +77,7 @@ export default {
             let final = []
             for(let i=1;i<this.$store.state.workspace.grids.length+1;i++) {
                 let grid = this.getGrid(i);
-                if(grid.length > 500) {
-                    this.error = 'One or more of the grids are over the Twitch character limit and have been highlighted.';
-                }
+                if(grid.length > 500) this.error = 'One or more of the grids are over the Twitch character limit and have been highlighted.';
 
                 final.push(grid);
             }
@@ -90,9 +87,7 @@ export default {
             let final = [];
             for(let i=1;i<this.$store.state.workspace.grids.length+1;i++) {
                 let grid = this.getAnimationOfGrid(i);
-                if(grid.length > 500) {
-                    this.error = 'One or more of the grids are over the Twitch character limit and have been highlighted.';
-                }
+                if(grid.length > 500) this.error = 'One or more of the grids are over the Twitch character limit and have been highlighted.';
 
                 final.push(grid);
             }
@@ -110,11 +105,9 @@ export default {
 
             let rowC = 0;
             for(let row of array) {
-                let colC = 0;
-                for(let column of row) {
+                for(let colC=0;colC<row.length;colC++) {
                     let pid = this.$root.pixelMap[rowC][colC];
                     string[pid] = getKeyByValue(this.$root.palette, array[rowC][colC]);
-                    colC++;
                 }
                 rowC++;
             }

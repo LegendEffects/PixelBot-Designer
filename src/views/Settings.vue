@@ -16,6 +16,7 @@
                 <li class="spacer"></li>
                 <li class="pill" :class="{'active': tabs.active == 'credits'}" @click="tabs.active = 'credits'">Credits</li>
                 <li class="pill"><a href="https://github.com/LegendEffects/PixelBot-Designer"><font-awesome-icon icon="link" />&nbsp;&nbsp;Github</a></li>
+                <li class="pill"><a href="https://github.com/LegendEffects/PixelBot-Designer/issues/new/choose"><font-awesome-icon icon="link" />&nbsp;&nbsp;Report an issue</a></li>
             </ul>
         </div>
         <div class="right">

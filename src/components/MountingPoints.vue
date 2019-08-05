@@ -6,7 +6,7 @@
             
             <slot></slot>
 
-            <portal-target v-for="point of points" :key="point.ID" :name="point+'-bottom'"></portal-target>
+            <portal-target class="bottom" v-for="point of points" :key="point.ID" :name="point+'-bottom'"></portal-target>
         </div>
         <portal-target v-for="point of points" :key="point.ID" :name="point+'-right'"></portal-target>
     </div>
@@ -39,9 +39,9 @@ export default {
             flex-direction: column; 
             width: 100%; 
             height: 100%;
-        }
-        .side.bottom {
-            margin-top: auto;
+            .bottom {
+                margin-top: auto;
+            }
         }
     }
 </style>

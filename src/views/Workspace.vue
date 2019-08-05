@@ -107,7 +107,7 @@
                     count++;
                     grid.import(this.$store.state.workspace.frames[frame][count]);
                 }
-            })
+            });
         }
 	}
 </script>
