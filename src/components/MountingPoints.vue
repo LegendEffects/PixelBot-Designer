@@ -23,6 +23,7 @@ export default {
             if(val.$el.className == 'grid') return true;
             else return false;
         });
+        this.$root.$emit('gridsRegistered');
     }
 }
 </script>

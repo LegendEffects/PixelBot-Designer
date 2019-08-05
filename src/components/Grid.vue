@@ -70,8 +70,6 @@ function fillTool(pixel, instance, colourOverride) {
         let pixelPart = instance.$el.querySelector(`div[data-row='${info.row+1}'][data-index='${info.column}']`);
         fillPixel(info.colour, instance.$store.state.workspace.colour, pixelPart, instance);
     }
-
-    instance.$root.$emit('gridUpdated');
 }
 function fillPixel(fillingColour, fillToColour, pixel, instance) {
     if(rgbtohex(pixel.style.backgroundColor) === fillingColour) {
@@ -100,11 +98,11 @@ export default {
             switch(this.$store.state.workspace.tool) {
                 case 'pen':
                     pixel.style.backgroundColor = this.$store.state.workspace.colour;
-                    this.$root.$emit('gridUpdated');
+                    this.$root.$emit('gridUpdated', this.gridID);
                     break;
                 case 'eraser':
                     pixel.style.backgroundColor = '#000';
-                    this.$root.$emit('gridUpdated');
+                    this.$root.$emit('gridUpdated', this.gridID);
                     break;
                 case 'eyedropper':
                     this.$root.$emit('customColourChange', rgbtohex(pixel.style.backgroundColor));
@@ -116,6 +114,7 @@ export default {
 
                     fillTool(pixel, this);
                     pixel.style.backgroundColor = this.$store.state.workspace.colour;
+                    this.$root.$emit('gridUpdated', this.gridID);
                     break;
             }
         },
@@ -159,6 +158,10 @@ export default {
             minHeight: this.$store.state.settings.pixelSize+'px',
             backgroundColor: '#000',
         }
+
+        this.$root.$on('gridUpdated', function(id) {
+            this.$store.state.workspace.frames[this.$store.state.workspace.currentFrame][id] = this.$store.state.workspace.grids[id].export();
+        });
     }
 }
 </script>

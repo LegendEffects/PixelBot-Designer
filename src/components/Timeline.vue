@@ -1,23 +1,24 @@
 <template>
     <div class="timeline">
         <div class="frames">
-            <div class="frame" @click="select(1)" :class="{'selected': selected == 1}">
+            <div v-for="(frame, id) of $store.state.workspace.frames" :key="id" class="frame" :class="{'selected': $store.state.workspace.currentFrame == id}">
                 <div class="header">
-                    1
+                    <span @click="$root.$emit('frameSwitch', id)">{{id+1}}</span>
+                    <div @click="deleteFrame(frame.ID)" style="margin-left: auto;" class="clickable"><font-awesome-icon icon="trash" /></div>
                 </div>
-                <div class="preview">
+                <div @click="$root.$emit('frameSwitch', id)" class="preview">
                     <div class="gridRow">
-                        <preview :grid="$store.state.workspace.grids[0].export()" />
-                        <preview :grid="$store.state.workspace.grids[1].export()" />
+                        <preview :grid="frame[0]" />
+                        <preview :grid="frame[1]" />
                     </div>
                     <div class="gridRow">
-                        <preview :grid="$store.state.workspace.grids[2].export()" />
-                        <preview :grid="$store.state.workspace.grids[3].export()" />
+                        <preview :grid="frame[2]" />
+                        <preview :grid="frame[3]" />
                     </div>
                 </div>
             </div>
-            <div class="frame">
-                <div class="preview addFrame"><font-awesome-icon icon="plus" /></div>
+            <div class="frame clickable">
+                <div class="preview addFrame" @click="addFrame"><font-awesome-icon icon="plus" /></div>
             </div>
         </div>
     </div>
@@ -26,7 +27,7 @@
 <script>
 
 import Preview from './PreviewGrid'
-import { setInterval } from 'timers';
+import logging from '../logging';
 export default {
     name: 'timeline',
     components: {
@@ -45,6 +46,18 @@ export default {
             } else {
                 this.selected = frame;
             }
+        },
+        deleteFrame(id) {
+            if(this.$store.state.workspace.frames.length === 1) {
+                logging.log('Timeline', "You can't delete your only frame!", 'error');
+                return false;
+            }
+
+            this.$store.state.workspace.frames.splice(id, 1);
+        },
+        addFrame() {
+            this.$store.state.workspace.frames.push(JSON.parse(JSON.stringify(this.$store.state.workspace.blankFrame)));
+            this.update();
         }
     },
     created() {
@@ -55,6 +68,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+    .clickable {
+        cursor: pointer;
+    }
     .timeline {
         background: #25272b;
         height: 100%;
@@ -76,7 +92,6 @@ export default {
         padding: .5rem;
         border-radius: .25rem;
         margin-bottom: 10px;
-        cursor: pointer;
 
         .header {
             display: flex;

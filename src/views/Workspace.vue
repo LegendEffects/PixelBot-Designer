@@ -85,6 +85,29 @@
             window.addEventListener('mouseup', this.dragStop);
             window.addEventListener('touchstart', this.dragStart);
             window.addEventListener('touchend', this.dragStop);
+            
+        },
+        created() {
+            this.$root.$on('gridsRegistered', function() {
+                this.$store.state.workspace.blankFrame = [
+                    this.$store.state.workspace.grids[0].export(),
+                    this.$store.state.workspace.grids[1].export(),
+                    this.$store.state.workspace.grids[2].export(),
+                    this.$store.state.workspace.grids[3].export(),
+                ];
+
+                this.$store.state.workspace.frames[0] = JSON.parse(JSON.stringify(this.$store.state.workspace.blankFrame));
+            });
+
+            this.$root.$on('frameSwitch', function(frame) {
+                this.$store.commit('workspace/switchFrame', frame, {root: true});
+
+                let count = -1;
+                for(let grid of this.$store.state.workspace.grids) {
+                    count++;
+                    grid.import(this.$store.state.workspace.frames[frame][count]);
+                }
+            })
         }
 	}
 </script>

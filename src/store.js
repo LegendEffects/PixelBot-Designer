@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import logging from './logging';
 
 Vue.use(Vuex)
 
@@ -15,6 +16,7 @@ const workspace = {
     timeline: false,
     
     grids: null,
+    blankFrame: null,
 
     frames: [],
     currentFrame: 0,
@@ -23,6 +25,13 @@ const workspace = {
     toggleTimeline(state, enabled) {
       if(enabled === null) state.timeline = !state.timeline;
       else state.timeline = enabled;
+    },
+    switchFrame(state, newFrame) {
+      if(state.frames[newFrame] === null) {
+        logging.log('Frames', `Frame ${newFrame} doesn't exist.`, 'error');
+        return false;
+      }
+      state.currentFrame = newFrame;
     }
   },
 };
