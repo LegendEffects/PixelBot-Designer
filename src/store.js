@@ -62,6 +62,10 @@ const settings = {
       state.layout.timeline = pos;
       saveSettings(state);
     },
+    setClipboard(state, clipboard) {
+      state.clipboard = clipboard;
+      saveSettings(state);
+    },
     changePixelSize(state, newSize) {
       if(newSize) {
         state.pixelSize = newSize;

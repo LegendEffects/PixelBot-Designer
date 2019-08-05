@@ -18,7 +18,7 @@
             <div v-for="(frame, id) of $store.state.workspace.frames" :key="id" class="frame" :class="{'selected': $store.state.workspace.currentFrame == id}">
                 <div class="header">
                     <span @click="$root.$emit('frameSwitch', id)" class="clickable">{{id+1}}</span>
-                    <div @click="deleteFrame(frame.ID)" style="margin-left: auto;" class="clickable"><font-awesome-icon icon="trash" /></div>
+                    <div @click="deleteFrame(id)" style="margin-left: auto;" class="clickable"><font-awesome-icon icon="trash" /></div>
                 </div>
                 <div @click="$root.$emit('frameSwitch', id)" class="preview clickable">
                     <div class="gridRow">
@@ -120,7 +120,7 @@ export default {
             }
         },
         copyFrame() {
-            this.$store.state.settings.clipboard = this.$store.state.workspace.frames[this.$store.state.workspace.currentFrame];
+            this.$store.commit('settings/setClipboard', this.$store.state.workspace.frames[this.$store.state.workspace.currentFrame], {root: true});
         },
         pasteFrame() {
             let clipboard = this.$store.state.settings.clipboard;
