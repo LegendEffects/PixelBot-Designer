@@ -145,6 +145,7 @@ export default {
                     this.$el.querySelector(`div[data-row='${i}'][data-index='${x}']`).style.backgroundColor = array[i-1][x-1]; 
                 }
             }
+            this.$root.$emit('gridUpdated', this.gridID);
         }
     },
     created() {

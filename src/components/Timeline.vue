@@ -5,10 +5,13 @@
                 Delay: <input v-model="$store.state.workspace.animationDelay" type="number"> ms
             </div>
             <div class="right">
-                <font-awesome-icon class="clickable" @click="controlPlayer('backward')" icon="step-backward"/>
-                <font-awesome-icon v-show="!playing" class="clickable" @click="controlPlayer('start')" icon="play" />
-                <font-awesome-icon v-show="playing" class="clickable" @click="controlPlayer('stop')" icon="stop" />
-                <font-awesome-icon class="clickable" @click="controlPlayer('forward')" icon="step-forward"/>
+                <font-awesome-icon label="Paste" icon="paste" @click="pasteFrame" />
+                <font-awesome-icon label="Copy" icon="copy" style="margin-right: 20px;" @click="copyFrame" />
+
+                <font-awesome-icon label="Step Backward (1)" class="clickable" @click="controlPlayer('backward')" icon="step-backward"/>
+                <font-awesome-icon label="Play (SPACE)" class="clickable" v-show="!playing" @click="controlPlayer('start')" icon="play" />
+                <font-awesome-icon label="Stop (SPACE)" class="clickable" v-show="playing" @click="controlPlayer('stop')" icon="stop" />
+                <font-awesome-icon label="Step Forward (2)" class="clickable" @click="controlPlayer('forward')" icon="step-forward"/>
             </div>
         </div>
         <div class="frames">
@@ -115,10 +118,35 @@ export default {
                     }
                     break;
             }
+        },
+        copyFrame() {
+            this.$store.state.settings.clipboard = this.$store.state.workspace.frames[this.$store.state.workspace.currentFrame];
+        },
+        pasteFrame() {
+            let clipboard = this.$store.state.settings.clipboard;
+            if(clipboard === null || clipboard === undefined) return;
+
+            for(let i=0;i<clipboard.length;i++) {
+                this.$store.state.workspace.grids[i].import(clipboard[i]);
+            }
         }
     },
     created() {
         this.$root.$on('gridUpdated', this.update);
+
+        this.$root.registerKeybind(' ', function() {
+            if(this.playing) {
+                this.controlPlayer('stop');
+            } else {
+                this.controlPlayer('start');
+            }
+        }.bind(this));
+        this.$root.registerKeybind('1', function() {
+            this.controlPlayer('backward');
+        }.bind(this));
+        this.$root.registerKeybind('2', function() {
+            this.controlPlayer('forward');
+        }.bind(this));
     }
     
 }
@@ -208,10 +236,14 @@ export default {
         .right {
             justify-content: flex-end;
             margin-left: auto;
+            
+            svg {
+                margin-left: 10px;
+            }
         }
     }
-    .animationControl .right svg:not(:nth-child(4)) {
-        margin-right: 10px;
-    }
+    // .animationControl .right svg:not(:nth-child(4)) {
+    //     margin-right: 10px;
+    // }
 
 </style>

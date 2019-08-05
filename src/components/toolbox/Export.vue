@@ -22,13 +22,17 @@
             <div v-show="screen === 'animation'">
                 <div v-for="(grid, index) of getAllAnimatedGrids" :key="index" class="block">
                     <div class="copyModule">
-                        <p class="copyArea">!pb{{index+1}}a.500.{{grid}}</p>
+                        <p class="copyArea">!pb{{index+1}}a.{{$store.state.workspace.animationDelay}}.{{grid}}</p>
                         <button class="copyButton" :class="{'overLimit': grid.length>500}" v-clipboard:copy="'!pb'+(index+1)+'d.'+grid"><font-awesome-icon icon="copy" /></button>
                     </div>
                 </div>
                 <div class="copyModule" style="margin-top: 20px;">
-                    <p class="copyArea">!pba.500.{{getAllAnimatedGrids.join('.')}}</p>
-                    <button class="copyButton" v-clipboard:copy="'!pba.500.'+getAllAnimatedGrids.join('.')"><font-awesome-icon icon="copy" /></button>
+                    <p class="copyArea">!pbaz.{{toGZip($store.state.workspace.animationDelay+'.'+getAllAnimatedGrids.join('.'))}}</p>
+                    <button class="copyButton" v-clipboard:copy="'!pbaz.'+toGZip($store.state.workspace.animationDelay+'.'+getAllAnimatedGrids.join('.'))"><font-awesome-icon icon="copy" /></button>
+                </div>
+                <div class="copyModule" style="margin-top: 20px;">
+                    <p class="copyArea">!pba.{{$store.state.workspace.animationDelay}}.{{getAllAnimatedGrids.join('.')}}</p>
+                    <button class="copyButton" v-clipboard:copy="'!pba.'+$store.state.workspace.animationDelay+'.'+getAllAnimatedGrids.join('.')"><font-awesome-icon icon="copy" /></button>
                 </div>
             </div>
         </template>
@@ -38,6 +42,7 @@
 <script>
 import Modal from '../Modal'
 import Logging from '../../logging'
+import Pako from 'pako'
 
 function encodeRLE(string) {
     let lastLetter = undefined;
@@ -129,6 +134,9 @@ export default {
             }
 
             return final.join('.');
+        },
+        toGZip(str) {
+            return new Buffer(Pako.gzip(str)).toString('base64');
         }
     }
 }

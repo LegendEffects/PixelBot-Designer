@@ -46,6 +46,7 @@ const settings = {
 
   state: {
     pixelSize: 35,
+    clipboard: null,
 
     layout: {
       toolbox: 'left',
