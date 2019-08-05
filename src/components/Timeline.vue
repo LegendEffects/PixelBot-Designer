@@ -1,12 +1,15 @@
 <template>
     <div class="timeline" :class="{'sideways': isSideways}">
         <div class="animationControl">
-            Delay: <input v-model="$store.state.workspace.animationDelay" type="number"> ms
-
-            <font-awesome-icon class="clickable" @click="controlPlayer('backward')" icon="step-backward"/>
-            <font-awesome-icon v-show="!playing" class="clickable" @click="controlPlayer('start')" icon="play" />
-            <font-awesome-icon v-show="playing" class="clickable" @click="controlPlayer('stop')" icon="stop" />
-            <font-awesome-icon class="clickable" @click="controlPlayer('forward')" icon="step-forward"/>
+            <div class="left">
+                Delay: <input v-model="$store.state.workspace.animationDelay" type="number"> ms
+            </div>
+            <div class="right">
+                <font-awesome-icon class="clickable" @click="controlPlayer('backward')" icon="step-backward"/>
+                <font-awesome-icon v-show="!playing" class="clickable" @click="controlPlayer('start')" icon="play" />
+                <font-awesome-icon v-show="playing" class="clickable" @click="controlPlayer('stop')" icon="stop" />
+                <font-awesome-icon class="clickable" @click="controlPlayer('forward')" icon="step-forward"/>
+            </div>
         </div>
         <div class="frames">
             <div v-for="(frame, id) of $store.state.workspace.frames" :key="id" class="frame" :class="{'selected': $store.state.workspace.currentFrame == id}">
@@ -165,6 +168,9 @@ export default {
             font-size: 2rem;
             color: #fff;
             text-align: center;
+
+            margin-top: auto;
+            margin-bottom: auto;
         }
     }
     .frame.selected {
@@ -182,6 +188,9 @@ export default {
                 margin-right: 10px;
             }
         }
+        .animationControl {
+            flex-direction: row;
+        }
     }
 
     .gridRow {
@@ -192,6 +201,17 @@ export default {
         background-color: #1f2024;
         padding: .5rem 1rem;
         color: #fff;
+
+        display: flex;
+        flex-direction: column;
+
+        .right {
+            justify-content: flex-end;
+            margin-left: auto;
+        }
+    }
+    .animationControl .right svg:not(:nth-child(4)) {
+        margin-right: 10px;
     }
 
 </style>

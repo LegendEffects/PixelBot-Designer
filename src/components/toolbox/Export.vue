@@ -85,12 +85,20 @@ export default {
         },
         getAllAnimatedGrids() {
             let final = [];
-            for(let i=1;i<this.$store.state.workspace.grids.length+1;i++) {
-                let grid = this.getAnimationOfGrid(i);
-                if(grid.length > 500) this.error = 'One or more of the grids are over the Twitch character limit and have been highlighted.';
+            // for(let i=1;i<this.$store.state.workspace.grids.length+1;i++) {
+            //     let grid = this.getAnimationOfGrid(i);
+            //     if(grid.length > 500) this.error = 'One or more of the grids are over the Twitch character limit and have been highlighted.';
 
-                final.push(grid);
+            //     final.push(grid);
+            // }
+            for(let frame of this.$store.state.workspace.frames) {
+                let grid = [];
+                for(let panel of frame) {
+                    grid.push(this.convertToSerpentine(panel));
+                }
+                final.push(grid.join('.'))
             }
+
             return final;
         }
     },
