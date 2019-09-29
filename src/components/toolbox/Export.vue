@@ -8,31 +8,27 @@
             </select>
             <div v-show="screen === 'singular'">
                 <div class="alert-danger" v-show="error !== null">{{error}}</div>
-                <div v-for="(grid, index) of getAllGrids" :key="index" class="block">
+                <div class="copyModule" style="margin-bottom: 20px; margin-top: 10px">
+                    <p class="copyArea">!pbd.{{getAllGrids().join('.')}}</p>
+                    <button class="copyButton" v-clipboard:copy="'!pba.'+getAllGrids().join('.')"><font-awesome-icon icon="copy" /></button>
+                </div>
+                <div v-for="(grid, index) of getAllGrids()" :key="index" class="block">
                     <div class="copyModule">
                         <p class="copyArea">!pb{{index+1}}d.{{grid}}</p>
                         <button class="copyButton" :class="{'overLimit': grid.length>500}" v-clipboard:copy="'!pb'+(index+1)+'d.'+grid"><font-awesome-icon icon="copy" /></button>
                     </div>
                 </div>
-                <div class="copyModule" style="margin-top: 20px;">
-                    <p class="copyArea">!pbd.{{getAllGrids.join('.')}}</p>
-                    <button class="copyButton" v-clipboard:copy="'!pba.'+getAllGrids.join('.')"><font-awesome-icon icon="copy" /></button>
-                </div>
             </div>
             <div v-show="screen === 'animation'">
+                <div class="copyModule" style="margin-bottom: 20px; margin-top: 10px">
+                    <p class="copyArea">!pbaz.{{toGZip($store.state.workspace.animationDelay+'.'+getAllAnimatedGrids().join('.'))}}</p>
+                    <button class="copyButton" v-clipboard:copy="'!pbaz.'+toGZip($store.state.workspace.animationDelay+'.'+getAllAnimatedGrids().join('.'))"><font-awesome-icon icon="copy" /></button>
+                </div>
                 <div v-for="(grid, index) of getAllAnimatedGrids" :key="index" class="block">
                     <div class="copyModule">
                         <p class="copyArea">!pb{{index+1}}a.{{$store.state.workspace.animationDelay}}.{{grid}}</p>
                         <button class="copyButton" :class="{'overLimit': grid.length>500}" v-clipboard:copy="'!pb'+(index+1)+'d.'+grid"><font-awesome-icon icon="copy" /></button>
                     </div>
-                </div>
-                <div class="copyModule" style="margin-top: 20px;">
-                    <p class="copyArea">!pbaz.{{toGZip($store.state.workspace.animationDelay+'.'+getAllAnimatedGrids.join('.'))}}</p>
-                    <button class="copyButton" v-clipboard:copy="'!pbaz.'+toGZip($store.state.workspace.animationDelay+'.'+getAllAnimatedGrids.join('.'))"><font-awesome-icon icon="copy" /></button>
-                </div>
-                <div class="copyModule" style="margin-top: 20px;">
-                    <p class="copyArea">!pba.{{$store.state.workspace.animationDelay}}.{{getAllAnimatedGrids.join('.')}}</p>
-                    <button class="copyButton" v-clipboard:copy="'!pba.'+$store.state.workspace.animationDelay+'.'+getAllAnimatedGrids.join('.')"><font-awesome-icon icon="copy" /></button>
                 </div>
             </div>
         </template>
@@ -77,7 +73,7 @@ export default {
         error: null,
         screen: 'singular'
     }},
-    computed: {
+    methods: {
         getAllGrids() {
             let final = []
             for(let i=1;i<this.$store.state.workspace.grids.length+1;i++) {
@@ -105,9 +101,7 @@ export default {
             }
 
             return final;
-        }
-    },
-    methods: {
+        },
         getGrid(gridId) {
             let exported = this.$store.state.workspace.grids[gridId-1].export();
             this.log('Export', 'Gotten Grid '+gridId);

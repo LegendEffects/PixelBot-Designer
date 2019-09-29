@@ -3,13 +3,16 @@
         <template slot="header">Import</template>
         <template slot="body">
             <div class="alert-danger" v-show="error !== null">{{error}}</div>
-            <textarea class="inputArea" v-model="importText"></textarea>
+            <div class="alert-success" v-show="success !== null">{{success}}</div>
+            <textarea spellcheck="false" autocomplete="false" autofocus="true" class="inputArea" v-model="importText"></textarea>
             <button class="submit" @click="processImport">Import</button>
         </template>
     </modal>
 </template>
 
 <script>
+import Pako from 'pako';
+
 import Modal from '../Modal'
 import Logging from '../../logging'
 
@@ -22,6 +25,9 @@ function decodeRLE(string) {
         return ret;
     });
 }
+function chunk(arr, size) {
+    return arr.reduce((chunks, el, i) => (i % size ? chunks[chunks.length - 1].push(el) : chunks.push([el])) && chunks, [])
+}
 
 export default {
     components: {
@@ -31,12 +37,14 @@ export default {
     data() {return{
         importText: "",
         error: null,
+        success: null,
     }},
     methods: {
         processImport() {
             this.log('Import', "Starting Import");
             let text = this.importText;
             let error = false;
+
             if(text[0] === '!') text = text.substr(1, text.length); // Remove prefix
 
             if(text.substr(0, 3) === 'pbd') {
@@ -50,24 +58,48 @@ export default {
                     this.$store.state.workspace.grids[onGrid].import(this.convertFromSerpentine(part));
                     onGrid++;
                 }
-
             } else if(text.substr(0, 4) === 'pbaz') {
-                // All 4 but compressed
-                this.log('Import', "Detected all 4 (Compressed)");
+                // All 4 but compressed and animated
+                this.log('Import', "Detected all 4 animated (Compressed)");
+                let output = Pako.inflate(new Buffer(text.slice(5), 'base64'), {to: 'string'}).split('.');
+                
+                if((output.length-1)%4 !== 0) {
+                    this.error = "Number of panels isn't divisible by 4.";
+                    error = true;
+                    this.log('Import', "Number of panels isn't divisible by 4.");
+                }
+
+                let frames = chunk(output.slice(1), 4);
+                
+                let currentFrame = 0;
+                for(const frame of frames) {
+                    let onGrid = 0;
+                    for(const grid of frame) {
+                        if(this.$store.state.workspace.frames[currentFrame] === undefined) {
+                            this.$store.state.workspace.frames[currentFrame] = JSON.parse(JSON.stringify(this.$store.state.workspace.blankFrame));
+                        }
+
+                        this.$store.state.workspace.frames[currentFrame][onGrid] = this.convertFromSerpentine(grid);
+                        onGrid++;
+                    }
+                    currentFrame++;
+                }
+                this.$root.$emit('frameSwitch', 0);
             } else if(text.match(/pb(1|2|3|4)d/)){ // REGEX
                 // Singular
                 this.log('Import', "Detected singular");
                 
                 this.$store.state.workspace.grids[parseInt(text.substr(2, 1))-1].import(this.convertFromSerpentine(text.split('.')[1]));
-
+                this.success = "Successfully Imported."
             } else {
                 this.error = "Invalid command.";
-                error =true;
+                error = true;
                 this.log('Import', "Invalid command", 'error');
             }
 
             if(!error) {
                 this.log('Import', 'Imported Successfully!');
+                this.success = "Successfully Imported."
             }
         },
         convertFromSerpentine(string) {
@@ -112,6 +144,13 @@ export default {
 }
 .alert-danger {
     background: rgb(211, 53, 53);
+    color: #fff;
+    padding: 1rem;
+    border-radius: 0.25rem;
+    margin-bottom: 2rem;
+}
+.alert-success {
+    background: rgb(39, 174, 96);
     color: #fff;
     padding: 1rem;
     border-radius: 0.25rem;
