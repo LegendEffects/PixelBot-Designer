@@ -3,20 +3,19 @@ node_js:
   - "9"
 
 before_install:
-  - npm install -g gulp
+  - npm install -g @vue/cli
 
 cache: npm
 
 script:
-  - cd src
-  - npm install
-  - gulp build
+  - "npm install --save-dev"
+  - npm run build
 
 deploy:
   provider: pages
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
   keep_history: true
-  local_dir: ./
+  local_dir: ./public
   on:
     branch: master

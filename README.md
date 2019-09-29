@@ -1,5 +1,31 @@
-# PixelBot-Designer
-## [View In Production](https://legendeffects.github.io/PixelBot-Designer/)
+# pixelbot-designer
 
-## What is this?
-'this' is a website designer which allows for configuration of Laboratory424's pixelbot's
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### A couple test codes
+```
+!pbd.49e11t14e1i2e3i1e4i5e1i2e1i4e1i2e3i1e3i2e1i3e1i2e1i3e11i12e.48e4t22e1i18e1i4e1i18e1i2e4i20e.144e.144e
+!pb1d.49e11t14e1i2e3i1e4i5e1i2e1i4e1i2e3i1e3i2e1i3e1i2e1i3e11i12e
+!pb2d.48e4t22e1i18e1i4e1i18e1i2e4i20e
+
+!pbd.119e3h19e3h.108e1b21e5b9e.3w19e3w119e.9e5n21e1n108e
+---
+```
