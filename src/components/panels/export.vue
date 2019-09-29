@@ -9,22 +9,22 @@
         </h3>
         <div slot="body">
             <div v-if="tab === 'singleFrame'">
-                <span v-for="(pixelbot, index) in data" :key="pixelbot.id">
-                    <p style="overflow: auto; padding: 20px;">!pb{{index}}d.{{pixelbot}}</p>
-                    <button class="actionButton darker" @click="copyCommand('!pb'+index+'d.'+pixelbot)"><i class="fas fa-copy"></i></button>
-                </span>
                 <span>
                     <p style="overflow: auto; padding: 20px;">!pbd{{exportAll()}}</p>
                     <button class="actionButton darker" @click="copyCommand('!pbd'+exportAll())"><i class="fas fa-copy"></i></button>
                 </span>
+                <span v-for="(pixelbot, index) in data" :key="pixelbot.id">
+                    <p style="overflow: auto; padding: 20px;">!pb{{index}}d.{{pixelbot}}</p>
+                    <button class="actionButton darker" @click="copyCommand('!pb'+index+'d.'+pixelbot)"><i class="fas fa-copy"></i></button>
+                </span>
             </div>
             <div v-else>
+                <p style="overflow: auto; padding: 20px;">!pbaz.{{exportAllAnimations()}}</p>
+                <button class="actionButton darker" @click="copyCommand('!pbaz.'+exportAllAnimations())"><i class="fas fa-copy"></i></button>
                 <span v-for="(pixelbot, index) in animationexport" :key="pixelbot.id">
                     <p style="overflow: auto; padding: 20px;">!pb{{index}}a.{{root.animation.delay}}{{pixelbot}}</p>
                     <button class="actionButton darker" @click="copyCommand('!pb'+index+'a.'+root.animation.delay+pixelbot)"><i class="fas fa-copy"></i></button>
                 </span>
-                <p style="overflow: auto; padding: 20px;">!pbaz.{{exportAllAnimations()}}</p>
-                <button class="actionButton darker" @click="copyCommand('!pbaz.'+exportAllAnimations())"><i class="fas fa-copy"></i></button>
             </div>
         </div>
     </modal>
