@@ -5,8 +5,8 @@
                 Delay: <input v-model="$store.state.workspace.animationDelay" type="number"> ms
             </div>
             <div class="right">
-                <font-awesome-icon label="Paste" icon="paste" @click="pasteFrame" />
-                <font-awesome-icon label="Copy" icon="copy" style="margin-right: 20px;" @click="copyFrame" />
+                <font-awesome-icon label="Paste" class="clickable" icon="paste" @click="pasteFrame" />
+                <font-awesome-icon label="Copy" class="clickable" icon="copy" style="margin-right: 20px;" @click="copyFrame" />
 
                 <font-awesome-icon label="Step Backward (1)" class="clickable" @click="controlPlayer('backward')" icon="step-backward"/>
                 <font-awesome-icon label="Play (SPACE)" class="clickable" v-show="!playing" @click="controlPlayer('start')" icon="play" />
