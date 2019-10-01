@@ -1,18 +1,21 @@
 <template>
     <div class="positionSelector">
-        <img src="../../assets/docks/top.png"
+        <img src="../../assets/dock.png"
             :class="{'active': selected == 'top'}"
             @click="changeActive('top')">
 
-        <img src="../../assets/docks/bottom.png"
+        <img src="../../assets/dock.png"
+            style="transform: rotate(180deg);"
             :class="{'active': selected == 'bottom'}"
             @click="changeActive('bottom')">
 
-        <img src="../../assets/docks/left.png"
+        <img src="../../assets/dock.png"
+            style="transform: rotate(270deg);"
             :class="{'active': selected == 'left'}"
             @click="changeActive('left')">
 
-        <img src="../../assets/docks/right.png"
+        <img src="../../assets/dock.png"
+            style="transform: rotate(90deg);"
             :class="{'active': selected == 'right'}"
             @click="changeActive('right')">
     </div>  
