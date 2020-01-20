@@ -27,11 +27,11 @@
                     <p class="copyArea">!pbaz.{{toGZip($store.state.workspace.animationDelay+'.'+getAllAnimatedGrids().join('.'))}}</p>
                     <button class="copyButton" v-clipboard:copy="'!pbaz.'+toGZip($store.state.workspace.animationDelay+'.'+getAllAnimatedGrids().join('.'))"><font-awesome-icon icon="copy" /></button>
                 </div>
-                <div v-for="(grid, index) of getAllAnimatedGrids()" :key="index" class="block">
+                <div v-for="(grid, index) of getAllSingularAnimatedGrids()" :key="index" class="block">
                     <div class="copyModule">
                         <img height="100%" width="32px" src="../../assets/grid/singular.png" :style="'transform: rotate('+getRotateAmount(index)+'deg)'">
                         <p class="copyArea">!pb{{index+1}}a.{{$store.state.workspace.animationDelay}}.{{grid}}</p>
-                        <button class="copyButton" :class="{'overLimit': grid.length>500}" v-clipboard:copy="'!pb'+(index+1)+'d.'+grid"><font-awesome-icon icon="copy" /></button>
+                        <button class="copyButton" :class="{'overLimit': grid.length>500}" v-clipboard:copy="'!pb'+(index+1)+'a.'+$store.state.workspace.animationDelay+'.'+grid"><font-awesome-icon icon="copy" /></button>
                     </div>
                 </div>
             </div>
@@ -89,16 +89,17 @@ export default {
             return final;
         },
         getAllAnimatedGrids() {
-            let beforeStringFormat = [[],[],[],[]];
-            for(let frame of this.$store.state.workspace.frames) {
-                for (let g = 0; g < frame.length; g++) {
-                    beforeStringFormat[g].push(this.convertToSerpentine(frame[g]));   
-                }
-            }
-
             let final = [];
-            for(let toParse of beforeStringFormat) final.push(toParse.join("."));
 
+            for(let frame of this.$store.state.workspace.frames) {
+                let grids = [];
+
+                for(let g = 0; g < frame.length; g++) {
+                    grids.push(this.convertToSerpentine(frame[g]));
+                }
+
+                final.push(grids.join("."));
+            }
 
             return final;
         },
@@ -120,6 +121,14 @@ export default {
             }
 
             return encodeRLE(string.join(''));
+        },
+        getAllSingularAnimatedGrids() {
+            let final = [];
+            for(let i=0; i < this.$store.state.workspace.grids.length; i++) {
+                final.push(this.getAnimationOfGrid(i+1));
+            }
+
+            return final;
         },
         getAnimationOfGrid(gridId) {
             let final = [];
