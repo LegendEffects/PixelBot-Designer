@@ -90,7 +90,18 @@ export default {
                 this.log('Import', "Detected singular");
                 
                 this.$store.state.workspace.grids[parseInt(text.substr(2, 1))-1].import(this.convertFromSerpentine(text.split('.')[1]));
-                this.success = "Successfully Imported."
+            } else if(text.match(/pb(1|2|3|4)a/)) {
+                this.log('Import', "Detected singular animated");
+
+                let frames = text.split('.');
+                frames.splice(0, 2);
+
+                for(let f=0; f < frames.length; f++) {
+                    if(this.$store.state.workspace.frames[f] === undefined) this.$store.state.workspace.frames[f] = JSON.parse(JSON.stringify(this.$store.state.workspace.blankFrame));
+                    this.$store.state.workspace.frames[f][parseInt(text.substr(2, 1))-1] = this.convertFromSerpentine(frames[f]);
+                }
+
+                this.$root.$emit('frameSwitch', 0);
             } else {
                 this.error = "Invalid command.";
                 error = true;
