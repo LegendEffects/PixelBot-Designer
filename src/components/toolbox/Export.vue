@@ -11,7 +11,7 @@
                 <div class="copyModule" style="margin-bottom: 20px; margin-top: 10px">
                     <img height="100%" width="32px" src="../../assets/grid/all.png">
                     <p class="copyArea">!pbd.{{getAllGrids().join('.')}}</p>
-                    <button class="copyButton" v-clipboard:copy="'!pba.'+getAllGrids().join('.')"><font-awesome-icon icon="copy" /></button>
+                    <button class="copyButton" v-clipboard:copy="'!pbd.'+getAllGrids().join('.')"><font-awesome-icon icon="copy" /></button>
                 </div>
                 <div v-for="(grid, index) of getAllGrids()" :key="index" class="block">
                     <div class="copyModule">
