@@ -89,14 +89,18 @@
         },
         created() {
             this.$root.$on('gridsRegistered', function() {
-                this.$store.state.workspace.blankFrame = [
-                    this.$store.state.workspace.grids[0].export(),
-                    this.$store.state.workspace.grids[1].export(),
-                    this.$store.state.workspace.grids[2].export(),
-                    this.$store.state.workspace.grids[3].export(),
-                ];
+                if(this.$store.state.workspace.loaded === false)  {
+                    this.$store.state.workspace.blankFrame = [
+                        this.$store.state.workspace.grids[0].export(),
+                        this.$store.state.workspace.grids[1].export(),
+                        this.$store.state.workspace.grids[2].export(),
+                        this.$store.state.workspace.grids[3].export(),
+                    ];
 
-                this.$store.state.workspace.frames[0] = JSON.parse(JSON.stringify(this.$store.state.workspace.blankFrame));
+                    this.$store.state.workspace.frames[0] = JSON.parse(JSON.stringify(this.$store.state.workspace.blankFrame));
+                    this.$store.state.workspace.loaded = true;
+                }
+
             });
 
             this.$root.$on('frameSwitch', function(frame) {
@@ -108,6 +112,7 @@
                     grid.import(this.$store.state.workspace.frames[frame][count]);
                 }
             });
+
         }
 	}
 </script>

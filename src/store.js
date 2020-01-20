@@ -8,6 +8,8 @@ const workspace = {
   namespaced: true,
 
   state: {
+    loaded: false,
+
     tool: 'pen',
     colour: '#000',
     drawing: false,
