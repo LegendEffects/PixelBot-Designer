@@ -2,10 +2,10 @@ import Vue from 'vue';
 import App from './App.vue';
 
 import {library} from '@fortawesome/fontawesome-svg-core'
-import {faLevelDownAlt, faPen, faEraser, faEyeDropper, faFill, faCog, faLayerGroup, faTimesCircle, faFileExport, faFileImport, faLink, faCopy, faPlus, faTrash, faPlay, faStop, faStepBackward, faStepForward, faPaste} from '@fortawesome/free-solid-svg-icons'
+import {faLevelDownAlt, faPen, faEraser, faEyeDropper, faFill, faCog, faLayerGroup, faTimesCircle, faFileExport, faFileImport, faLink, faCopy, faPlus, faTrash, faPlay, faStop, faStepBackward, faStepForward, faPaste, faTimes} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
-library.add(faLevelDownAlt, faPen, faEraser, faEyeDropper, faFill, faCog, faLayerGroup, faTimesCircle, faFileExport, faFileImport, faLink, faCopy, faPlus, faTrash, faPlay, faStop, faStepBackward, faStepForward, faPaste);
+library.add(faLevelDownAlt, faPen, faEraser, faEyeDropper, faFill, faCog, faLayerGroup, faTimesCircle, faFileExport, faFileImport, faLink, faCopy, faPlus, faTrash, faPlay, faStop, faStepBackward, faStepForward, faPaste, faTimes);
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 import router from './router'

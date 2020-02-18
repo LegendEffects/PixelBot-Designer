@@ -1,7 +1,7 @@
 <template>
     <div class="workspace" v-if="layout !== null">
-        <import v-if="modals.import" @close="modals.import = false" />
-        <export v-if="modals.export" @close="modals.export = false" />
+        <import v-show="modals.import" @close="modals.import = false" />
+        <export v-show="modals.export" @close="modals.export = false" />
 
         <portal :to="'toolbox-'+layout.toolbox">
             <toolbox :mounted="layout.toolbox" @toggleImport="modals.import = true" @toggleExport="modals.export = true"></toolbox>

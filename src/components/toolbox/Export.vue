@@ -1,46 +1,71 @@
 <template>
-    <modal @close="$emit('close')">
-        <template slot="header">Export</template>
+    <window-frame id="export_panel" :items="['Singular', 'Animation', 'Experimental']" :activeItem="activePanel" :maxWidth="350" @contextClick="parseClick" @close="$emit('close')">
         <template slot="body">
-            <select v-model="screen">
-                <option value="singular">Singular</option>
-                <option value="animation">Animation</option>
-            </select>
-            <div v-show="screen === 'singular'">
-                <div class="alert-danger" v-show="error !== null">{{error}}</div>
-                <div class="copyModule" style="margin-bottom: 20px; margin-top: 10px">
-                    <img height="100%" width="32px" src="../../assets/grid/all.png">
-                    <p class="copyArea">!pbd.{{getAllGrids().join('.')}}</p>
-                    <button class="copyButton" v-clipboard:copy="'!pbd.'+getAllGrids().join('.')"><font-awesome-icon icon="copy" /></button>
+            <div v-if="error !== null" class="alert-danger">
+                {{ error }}
+            </div>
+
+            <!-- Singular -->
+            <div v-if="activePanel === 'Singular'" class="window-panel">
+                <div class="copy-module" v-for="allGrids of [getAllGrids().join('.')]" :key="allGrids" style="margin-bottom: 1.5rem">
+                    <img src="../../assets/grid/all.png">
+
+                    <p class="copy-area">!pbd.{{allGrids}}</p>
+                    <button class="copy-button" :class="isOversized(allGrids, 5)" v-clipboard:copy="'!pbd.'+allGrids">
+                        <font-awesome-icon icon="copy" />
+                        </button>
                 </div>
-                <div v-for="(grid, index) of getAllGrids()" :key="index" class="block">
-                    <div class="copyModule">
-                        <img height="100%" width="32px" src="../../assets/grid/singular.png" :style="'transform: rotate('+getRotateAmount(index)+'deg)'">
-                        <p class="copyArea">!pb{{index+1}}d.{{grid}}</p>
-                        <button class="copyButton" :class="{'overLimit': grid.length>500}" v-clipboard:copy="'!pb'+(index+1)+'d.'+grid"><font-awesome-icon icon="copy" /></button>
-                    </div>
+
+                <div class="copy-module" v-for="(grid, index) of getAllGrids()" :key="index">
+                    <img src="../../assets/grid/singular.png" :style="'transform: rotate('+getRotateAmount(index)+'deg)'">
+                    <p class="copy-area">!pb{{ index + 1 }}d.{{grid}}</p>
+                    <button class="copy-button" :class="isOversized(grid, 5)" v-clipboard:copy="'!pb'+(index + 1)+'d.'+grid">
+                        <font-awesome-icon icon="copy" />
+                    </button>
                 </div>
             </div>
-            <div v-show="screen === 'animation'">
-                <div class="copyModule" style="margin-bottom: 20px; margin-top: 10px">
-                    <img height="100%" width="32px" src="../../assets/grid/all.png">
-                    <p class="copyArea">!pbaz.{{toGZip($store.state.workspace.animationDelay+'.'+getAllAnimatedGrids().join('.'))}}</p>
-                    <button class="copyButton" v-clipboard:copy="'!pbaz.'+toGZip($store.state.workspace.animationDelay+'.'+getAllAnimatedGrids().join('.'))"><font-awesome-icon icon="copy" /></button>
+
+            <!-- Animated -->
+            <div v-else-if="activePanel === 'Animation'" class="window-panel">
+                <div class="copy-module" v-for="allAnimatedGrids of [toGZip($store.state.workspace.animationDelay+'.'+getAllAnimatedGrids().join('.'))]" :key="allAnimatedGrids" style="margin-bottom: 1.5rem">
+                    <img src="../../assets/grid/all.png">
+                    
+                    <p class="copy-area">!pbaz.{{ allAnimatedGrids }}</p>
+                    <button class="copy-button" :class="isOversized(allAnimatedGrids, 6)" v-clipboard:copy="'!pbaz.' + allAnimatedGrids">
+                        <font-awesome-icon icon="copy" />
+                    </button>
                 </div>
-                <div v-for="(grid, index) of getAllSingularAnimatedGrids()" :key="index" class="block">
-                    <div class="copyModule">
-                        <img height="100%" width="32px" src="../../assets/grid/singular.png" :style="'transform: rotate('+getRotateAmount(index)+'deg)'">
-                        <p class="copyArea">!pb{{index+1}}a.{{$store.state.workspace.animationDelay}}.{{grid}}</p>
-                        <button class="copyButton" :class="{'overLimit': grid.length>500}" v-clipboard:copy="'!pb'+(index+1)+'a.'+$store.state.workspace.animationDelay+'.'+grid"><font-awesome-icon icon="copy" /></button>
-                    </div>
+
+                <div class="copy-module" v-for="(grid, index) of getAllSingularAnimatedGrids()" :key="index">
+                    <img src="../../assets/grid/singular.png" :style="'transform: rotate('+getRotateAmount(index)+'deg)'">
+
+                    <p class="copy-area">!pb{{ index + 1 }}a.{{ $store.state.workspace.animationDelay }}.{{ grid }}</p>
+                    <button class="copy-button" :class="isOversized(grid, $store.state.workspace.animationDelay.toString().length + 7)">
+                        <font-awesome-icon icon="copy" />
+                    </button>
                 </div>
             </div>
+
+            <!-- Expermimental (Custom Palette) -->
+            <div v-else-if="activePanel === 'Experimental'" class="window-panel">
+                <div class="copy-module" v-for="allGrids of [getAllGridsWithPalette(), toGZip(getAllGridsWithPalette())]" :key="allGrids">
+                    <img src="../../assets/grid/all.png">
+
+                    <p class="copy-area">!pbdhz.{{ allGrids }}</p>
+                    <button class="copy-button" :class="isOversized(allGrids, 7)" v-clipboard:copy="'!pbdhz.' + allGrids">
+                        <font-awesome-icon icon="copy" />
+                    </button>
+                </div>
+            </div>
+
         </template>
-    </modal>
+    </window-frame>
 </template>
 
 <script>
-import Modal from '../Modal'
+import WindowFrame from "../Framework/WindowFrame.vue";
+
+// import Modal from '../Modal'
 import Logging from '../../logging'
 import Pako from 'pako'
 
@@ -65,19 +90,43 @@ function encodeRLE(string) {
     return (output + (currentCount + lastLetter))
 }
 function getKeyByValue(object, value) {
-  return Object.keys(object).find(key => object[key] === value);
+    return Object.keys(object).find(key => object[key] === value);
 }
 
 export default {
     components: {
-        Modal
+        WindowFrame
     },
     mixins: [Logging],
     data() {return{
         error: null,
-        screen: 'singular'
+        activePanel: 'Singular'
     }},
     methods: {
+        parseClick(event) {
+            this.activePanel = event;
+        },
+        isOversized(string, add) {
+            if(string.length + add > 500) {
+                this.error = "One or more of the grids are over the Twitch character limit and have been highlighted.";
+                return {
+                    oversized: true
+                }
+            } else {
+                return {
+                    oversized: false
+                }
+            }
+        },
+        getAllGridsWithPalette() {
+            let colours = [];
+            for(const colourId in this.$store.state.workspace.palette) {
+                colours.push(colourId+this.$store.state.workspace.palette[colourId]);
+            }
+
+            return colours.join(',') + "." + this.getAllGrids().join(".");
+        },
+
         getAllGrids() {
             let final = []
             for(let i=1;i<this.$store.state.workspace.grids.length+1;i++) {
@@ -115,7 +164,8 @@ export default {
             for(let row of array) {
                 for(let colC=0;colC<row.length;colC++) {
                     let pid = this.$root.pixelMap[rowC][colC];
-                    string[pid] = getKeyByValue(this.$root.palette, array[rowC][colC]);
+
+                    string[pid] = this.getColorMapping(array[rowC][colC]);
                 }
                 rowC++;
             }
@@ -153,52 +203,74 @@ export default {
                     return 180;
             }
             return false;
+        },
+        getColorMapping(key) {
+            const firstAttempt = getKeyByValue(this.$root.palette, key);
+            if(firstAttempt !== undefined) return firstAttempt;
+
+            const secondAttempt = getKeyByValue(this.$store.state.workspace.palette, key);
+            if(secondAttempt !== undefined) return secondAttempt;
+
+            this.log('Error', 'Unable to find the colour mapping for: '+key);
+        },
+
+        update() {
+            this.$forceUpdate();
         }
+    },
+    created() {
+        this.$root.$on('gridUpdated', this.update);
     }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .alert-danger {
     background: rgb(211, 53, 53);
     color: #fff;
-    padding: 1rem;
-    border-radius: 0.25rem;
-    margin-bottom: 2rem;
+    padding: .75rem .5rem;
 }
 
-.block {
-    display: block;
-    margin-bottom: 10px;
+.window-panel {
+    padding: 1rem;
 }
-.copyModule {
+
+.copy-module {
     display: flex;
     flex-direction: row;
-    width: 100%;
-}
-.copyArea {
-    line-height: 1.5rem;
+    
+    img {
+        width: 32px;
+        height: 100%;
+    }
 
-    width: 80%;
-    overflow: auto;
-    background: #37393f;
-    border-radius: .25rem 0 0 .25rem;
-    padding: 5px 10px;
+    .copy-area {
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        padding: .5rem;
 
-    margin: 0;
+        width: 100%;
+        overflow-x: scroll;
+
+        margin: 0;
+    }
+    .copy-button {
+        background: var(--main-bg-color);
+        color: white;
+
+        outline: none;
+        border: none;
+        
+        padding: 0 1rem;
+        cursor: pointer;
+
+        &.oversized {
+            background-color: red;
+        }
+    }
 }
-.copyButton {
-    width: 20%;
-    background: #2e3035;
-    color: #fff;
-    font-size: 1rem;
-    border-radius: 0 .25rem .25rem 0;
-    padding: .5rem 1rem;
-    border: none;
-    outline: none;
-    cursor: pointer;
-}
-.overLimit {
-    background: rgb(211, 53, 53);
+
+.copy-module:not(:last-of-type) {
+    margin-bottom: .5rem;
 }
 </style>
