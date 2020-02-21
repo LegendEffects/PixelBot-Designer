@@ -1,7 +1,7 @@
 <template>
     <div class="workspace" v-if="layout !== null">
-        <import v-if="modals.import" @close="modals.import = false" />
-        <export v-if="modals.export" @close="modals.export = false" />
+        <import v-show="modals.import" @close="modals.import = false" />
+        <export v-show="modals.export" @close="modals.export = false" />
 
         <portal :to="'toolbox-'+layout.toolbox">
             <toolbox :mounted="layout.toolbox" @toggleImport="modals.import = true" @toggleExport="modals.export = true"></toolbox>
@@ -111,6 +111,16 @@
                     count++;
                     grid.import(this.$store.state.workspace.frames[frame][count]);
                 }
+            });
+
+            this.$root.$on('gridUpdated', function(id) {
+                // this.$store.state.workspace.frames[this.$store.state.workspace.currentFrame][id] = this.$store.state.workspace.grids[id].export();
+
+                this.$store.commit("workspace/setFrameForGrid", {
+                    frame: this.$store.state.workspace.currentFrame,
+                    gridId: id,
+                    data: this.$store.state.workspace.grids[id].export()
+                });
             });
 
         }

@@ -3,10 +3,10 @@
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
-
           <div class="modal-header">
-            <h3><slot name="header">Header</slot></h3>
+            <slot name="header">Header</slot>
           </div>
+
 
           <div class="modal-body">
             <slot name="body">Body</slot>
@@ -52,34 +52,25 @@ export default {
 .modal-container {
   width: 300px;
   margin: 0px auto;
-  padding: 20px 30px;
   
   background-color: #202225;
   color: #fff;
 
-  border-radius: .25rem;
   transition: all .3s ease;
 }
-
-.modal-header h3 {
-  margin-top: 0;
-  color: #ffcd00;
-}
-
 .modal-body {
   margin: 20px 0;
+  padding: .5rem;
 }
 .modal-footer {
     display: flex;
     flex-direction: row;
-    width: 100%;
     justify-content: flex-end;
 }
 .modal-default-button {
     background: #2f3136;
     color: #fff;
 
-    border-radius: .25rem;
     padding: .25rem .5rem;
 
     border: none;

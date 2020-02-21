@@ -11,4 +11,10 @@
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 	}
+
+	:root {
+		--main-bg-color: #37393f;
+		--secondary-bg-color: #202225;
+		--accent-color: #ffcd00;
+	}
 </style>

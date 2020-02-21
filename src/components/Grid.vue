@@ -97,11 +97,11 @@ export default {
             
             switch(this.$store.state.workspace.tool) {
                 case 'pen':
-                    pixel.style.backgroundColor = this.$store.state.workspace.colour;
+                    this.$set(pixel.style, "backgroundColor", this.$store.state.workspace.colour);
                     this.$root.$emit('gridUpdated', this.gridID);
                     break;
                 case 'eraser':
-                    pixel.style.backgroundColor = '#000';
+                    this.$set(pixel.style, "backgroundColor", '#000');
                     this.$root.$emit('gridUpdated', this.gridID);
                     break;
                 case 'eyedropper':
@@ -159,10 +159,6 @@ export default {
             minHeight: this.$store.state.settings.pixelSize+'px',
             backgroundColor: '#000',
         }
-
-        this.$root.$on('gridUpdated', function(id) {
-            this.$store.state.workspace.frames[this.$store.state.workspace.currentFrame][id] = this.$store.state.workspace.grids[id].export();
-        });
     }
 }
 </script>

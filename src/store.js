@@ -13,6 +13,7 @@ const workspace = {
     tool: 'pen',
     colour: '#000',
     drawing: false,
+    palette: {},
 
     scrollLocked: false,
     timeline: false,
@@ -24,19 +25,38 @@ const workspace = {
     currentFrame: 0,
     animationDelay: 500,
   },
+
   mutations: {
     toggleTimeline(state, enabled) {
       if(enabled === null) state.timeline = !state.timeline;
       else state.timeline = enabled;
     },
+
     switchFrame(state, newFrame) {
       if(state.frames[newFrame] === null) {
         logging.log('Frames', `Frame ${newFrame} doesn't exist.`, 'error');
         return false;
       }
       state.currentFrame = newFrame;
+    },
+
+    addSwatch(state, swatchObject) {
+      state.palette[swatchObject.id] = swatchObject.hex;
+    },
+
+    setFrameForGrid(state, { frame, gridId, data }) {
+      state.frames[frame][gridId] = data;
     }
   },
+
+  getters: {
+    getFrame: (state) => (frame) => {
+      return state.frames[frame];
+    },
+    getCurrentFrame: (state) => {
+      return state.frames[state.currentFrame];
+    }
+  }
 };
 
 
@@ -55,28 +75,29 @@ const settings = {
       timeline: 'bottom',
     }
   },
+
   mutations: {
     moveToolbox(state, pos) {
       state.layout.toolbox = pos;
       saveSettings(state);
     },
+
     moveTimeline(state, pos) {
       state.layout.timeline = pos;
       saveSettings(state);
     },
+
     setClipboard(state, clipboard) {
       state.clipboard = clipboard;
       saveSettings(state);
     },
+    
     changePixelSize(state, newSize) {
       if(newSize) {
         state.pixelSize = newSize;
       }
       saveSettings(state);
     }
-  },
-  getters: {
-    all: state => state,
   }
 }
 

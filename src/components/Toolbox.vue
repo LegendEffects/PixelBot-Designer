@@ -70,7 +70,7 @@ export default {
             return this.$store.state.workspace.tool == tool;
         },
         toggleTimeline() {
-            this.$store.commit('workspace/toggleTimeline', null, {root: true});
+            this.$store.commit('workspace/toggleTimeline', null);
         },
         colourChange(colour) {
             this.$store.state.workspace.colour = colour;
@@ -79,9 +79,9 @@ export default {
     created() {
         for(const tool of this.tools) {
             if(tool.bind) {
-                this.$root.registerKeybind(tool.bind, function() {
+                this.$root.registerKeybind(tool.bind, () => {
                     this.$store.state.workspace.tool = tool.name;
-                }.bind(this));
+                });
             }
         }
     }
