@@ -113,6 +113,16 @@
                 }
             });
 
+            this.$root.$on('gridUpdated', function(id) {
+                // this.$store.state.workspace.frames[this.$store.state.workspace.currentFrame][id] = this.$store.state.workspace.grids[id].export();
+
+                this.$store.commit("workspace/setFrameForGrid", {
+                    frame: this.$store.state.workspace.currentFrame,
+                    gridId: id,
+                    data: this.$store.state.workspace.grids[id].export()
+                });
+            });
+
         }
 	}
 </script>

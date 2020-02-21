@@ -159,10 +159,6 @@ export default {
             minHeight: this.$store.state.settings.pixelSize+'px',
             backgroundColor: '#000',
         }
-
-        this.$root.$on('gridUpdated', function(id) {
-            this.$store.state.workspace.frames[this.$store.state.workspace.currentFrame][id] = this.$store.state.workspace.grids[id].export();
-        });
     }
 }
 </script>

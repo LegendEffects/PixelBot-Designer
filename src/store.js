@@ -42,6 +42,10 @@ const workspace = {
 
     addSwatch(state, swatchObject) {
       state.palette[swatchObject.id] = swatchObject.hex;
+    },
+
+    setFrameForGrid(state, { frame, gridId, data }) {
+      state.frames[frame][gridId] = data;
     }
   },
 

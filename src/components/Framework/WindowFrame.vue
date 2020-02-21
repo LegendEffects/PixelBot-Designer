@@ -1,6 +1,6 @@
 <template>
-  <div class="window-frame" :style="getStyle" :class="{dragging: dragging.active}">
-    <div class="context-bar" @mousedown.left="startDragging" @mousemove="attemptDrag" @mouseup.left="stopDragging">
+  <div class="window-frame" :style="getStyle" :class="{dragging: dragging.active}" v-show="shown" @mousemove="attemptDrag">
+    <div class="context-bar" @mousedown.left="startDragging" @mouseup.left="stopDragging">
       <div class="items">
         <div class="item" :class="{'active': item === activeItem}" v-for="(item, index) of items" :key="index" @mousedown.stop @click.stop="$emit('contextClick', item)">
           {{ item }}
@@ -49,6 +49,8 @@ export default {
   },
 
   data() {return {
+    shown: false,
+
     dragging: {
       active: false,
       offsetX: 0,
@@ -110,14 +112,33 @@ export default {
       this.position.x = (event.clientX - this.dragging.offsetX);
       this.position.y = (event.clientY - this.dragging.offsetY);
 
+      // Clamp the top and left of the window
       if(this.position.x < 0) this.position.x = 0;
       if(this.position.y < 0) this.position.y = 0;
 
+      // ATTEMPT: Clamp the right and bottom of the window
       let vw =  Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
       let vh =  Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
       if(vw !== 0 && this.position.x+100 > vw) this.position.x = vw-100;
       if(vh !== 0 && this.position.y+100 > vh) this.position.y = vh-100;
+    },
+
+    show() {
+      this.shown = true;
+      this.$emit("shown");
+    },
+    hide() {
+      this.shown = false;
+      this.$emit("hidden")
+    },
+    toggle() {
+      // Can't just use this.shown = !this.shown as we also need to emit the event
+      if(this.shown) {
+        this.hide();
+      } else {
+        this.show();
+      }
     }
   }
 }

@@ -48,7 +48,15 @@
 
             <!-- Expermimental (Custom Palette) -->
             <div v-else-if="activePanel === 'Experimental'" class="window-panel">
-                <div class="copy-module" v-for="allGrids of [getAllGridsWithPalette(), toGZip(getAllGridsWithPalette())]" :key="allGrids">
+                <div class="copy-module" v-for="allGrids of [getAllGridsWithPalette()]" :key="allGrids">
+                    <img src="../../assets/grid/all.png">
+
+                    <p class="copy-area">!pbdh.{{ allGrids }}</p>
+                    <button class="copy-button" :class="isOversized(allGrids, 7)" v-clipboard:copy="'!pbdh.' + allGrids">
+                        <font-awesome-icon icon="copy" />
+                    </button>
+                </div>
+                <div class="copy-module" v-for="allGrids of [toGZip(getAllGridsWithPalette())]" :key="allGrids">
                     <img src="../../assets/grid/all.png">
 
                     <p class="copy-area">!pbdhz.{{ allGrids }}</p>
