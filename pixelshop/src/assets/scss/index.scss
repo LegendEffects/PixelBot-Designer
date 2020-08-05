@@ -1,0 +1,15 @@
+@import "./vars";
+
+html, body {
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+
+  background-color: var(--main-bg-color);
+}
+
+#app, .workspace {
+  height: 100%;
+  width: 100%;
+}
