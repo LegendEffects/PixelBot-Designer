@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 const state = {
+  version: 1,
   pixelSize: 35,
   clipboard: null,
   visible: false,
