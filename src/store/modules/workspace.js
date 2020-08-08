@@ -130,7 +130,6 @@ const actions = {
 
     // Frame doesn't exist
     if(frames[frame] === undefined) {
-      console.error("Frame doesn't exist.");
       return false;
     }
 
