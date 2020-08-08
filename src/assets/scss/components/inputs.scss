@@ -1,0 +1,22 @@
+.form-control {
+  background: rgba(0, 0, 0, .25);
+  color: #fff;
+  
+  padding: 0 .5rem;
+
+  border: none;
+  height: 100%;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.input-group {
+  display: flex;
+  flex-direction: row;
+
+  span:first-child {
+    margin-right: .75rem;
+  }
+}

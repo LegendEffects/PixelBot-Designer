@@ -27,10 +27,18 @@ export default {
   methods: {
     touchMove(e) {
       if(this.drawing) {
+        
         const element = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+        if(element === null || element.parentElement === null || element.parentElement.parentElement === null) {
+          this.drawing = false;
+          return;
+        }
+
         const backElement = element.parentElement.parentElement;
 
         if(backElement.className === "grid") {
+          e.preventDefault();
+
           const gridId = backElement.attributes['grid-id'].nodeValue;
 
           const cellRow = element.attributes['data-row'].nodeValue;
@@ -50,6 +58,10 @@ export default {
 .grid-array {
   display: flex;
   flex-direction: column;
+
+  padding: 2rem;
+
+  overflow: auto;
 }
 
 .grid-array .row {

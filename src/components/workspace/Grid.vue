@@ -16,9 +16,9 @@
         draggable="false"
         @dragstart.prevent
 
-        @mouseup="useTool(rowIndex, cellIndex)"
-        @mouseover="attemptDraw(rowIndex, cellIndex)"
-        @mouseleave="attemptDraw(rowIndex, cellIndex)"
+        @mouseup="useTool(rowIndex, cellIndex, $event)"
+        @mouseover="attemptDraw(rowIndex, cellIndex, $event)"
+        @mouseleave="attemptDraw(rowIndex, cellIndex, $event)"
       />
 
     </div>
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {
   props: {
@@ -41,35 +41,66 @@ export default {
   },
 
   computed: {
-    getGrid() {
-      // return this.$store.getters["workspace/gridDisplay"](this.id);
-      return this.$store.state.workspace.frames[this.$store.state.workspace.currentFrame][this.id];
-    },
     ...mapGetters({
       tool: 'workspace/currentTool',
-      display: 'workspace/gridDisplay'
+      display: 'workspace/gridDisplay',
+      currentFrame: 'workspace/currentFrame',
+
+      foregroundColour: 'workspace/foregroundColour'
     })
   },
 
   methods: {
-    useTool(row, col, dragging) {
-      console.log(dragging);
+    ...mapActions({
+      setPixel: "workspace/modifyPixel",
+      fillArea: "workspace/fillPixel"
+    }),
+    ...mapMutations({
+      setForegroundColour: 'workspace/setForegroundColour',
+      setBackgroundColour: 'workspace/setBackgroundColour'
+    }),
 
+    useTool(row, col, event, dragging) {
       switch(this.tool) {
         case "pen":
-          this.$store.commit("workspace/setPixel", {
-            frame: this.$store.state.workspace.currentFrame,
+          this.quickSetPixel(row, col, this.foregroundColour);
+          break;
+        case "eraser":
+          this.quickSetPixel(row, col, '#000000');
+          break;
+        case "eyeDropper":
+          // Background colour should be set
+          if(event.altKey) {
+            this.setBackgroundColour(this.display(this.id)[row][col]);      
+          } else {
+            this.setForegroundColour(this.display(this.id)[row][col]);
+          }
+          break;
+        case "fillBucket":
+          if(dragging) return;
+          this.fillArea({
             grid: this.id,
             row,
             col,
-            colour: "#fff"
+            colour: this.foregroundColour,
+            targetColour: this.display(this.id)[row][col]
           });
-
+          // this.fillBucket(row, col);
       }
     },
 
-    attemptDraw(row, col) {
-      if(this.drawing) this.useTool(row, col, true);
+    attemptDraw(row, col, event) {
+      if(this.drawing) this.useTool(row, col, event, true);
+    },
+
+    quickSetPixel(row, col, colour) {
+      this.setPixel({
+        frame: this.currentFrame,
+        grid: this.id,
+        row,
+        col,
+        colour
+      })
     }
   }
 }
@@ -79,8 +110,8 @@ export default {
 .grid {
   display: table;
   border-spacing: 1px;
-  background: #37393f;
-  border: 1px solid #37393f;
+  background: var(--main-bg-color);
+  border: 1px solid var(--main-bg-color);
 }
 
 .grid .row {

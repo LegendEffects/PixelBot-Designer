@@ -1,4 +1,6 @@
 @import "./vars";
+@import "./components";
+@import "./util";
 
 html, body {
   width: 100%;
@@ -7,9 +9,24 @@ html, body {
   margin: 0;
 
   background-color: var(--main-bg-color);
+  font-family: 'Raleway', sans-serif;
+
+  overflow: hidden;
 }
 
 #app, .workspace {
   height: 100%;
   width: 100%;
+}
+
+.vue-portal-target {
+  display: contents;
+}
+.mounts .centered .bottom div {
+  margin-top: auto;
+}
+
+.toasted-container.top-right {
+  top: 3%;
+  right: 3%;
 }

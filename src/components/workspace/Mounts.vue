@@ -1,16 +1,16 @@
 <template>
   <div class="mounts">
-    <portal-target name="workspace-left" />
+    <portal-target name="workspace-left" multiple />
 
     <div class="centered">
-      <portal-target name="workspace-top" />
+      <portal-target name="workspace-top" multiple />
 
-      <slot />
+      <slot class="grids" />
 
-      <portal-target name="workspace-bottom" />
+      <portal-target name="workspace-bottom" class="bottom" multiple />
     </div>
 
-    <portal-target name="workspace-right" />
+    <portal-target name="workspace-right" multiple />
   </div>
 </template>
 
@@ -39,5 +39,9 @@ export default {
 
 .mounts .centered .bottom {
   margin-top: auto;
+}
+
+.mounts .centered .grids {
+  margin: auto;
 }
 </style>
