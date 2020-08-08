@@ -1,3 +1,3 @@
 module.exports = {
-  publicPath: '/pixelbot-designer/'
+  publicPath: '/PixelBot-Designer/'
 }
