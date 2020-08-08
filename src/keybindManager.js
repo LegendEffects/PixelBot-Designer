@@ -11,10 +11,8 @@ class KeybindManager {
   }
   
   registerKeybind(key, callback) {
-    logging.log('KeybindManager', `Registering Keybind ${key}`, 'success')
-    
     // Check if the key parameter is a KeyListener or another type
-    if(typeof key === KeyListener) {
+    if(key instanceof KeyListener) {
       // Create the array if it doesn't exist
       if(!this.keybinds[key.key]) {
         this.keybinds[key.key] = [];
@@ -25,8 +23,12 @@ class KeybindManager {
       this.keybinds[key.key].push(key);
       
       if(key.upper) {
+        if(!this.keybinds[key.key.toUpperCase()]) {
+          this.keybinds[key.key.toUpperCase()] = [];
+        }
         this.keybinds[key.key.toUpperCase()].push(key);
       }
+      logging.log('KeybindManager', `Registered Complex Keybind ${key.key}`, 'success', key);
     } else {
       // Create the array if it doesn't exist
       if(!this.keybinds[key]) {
@@ -37,6 +39,7 @@ class KeybindManager {
       tempListener.setListener(callback);
       
       this.keybinds[key].push(tempListener);
+      logging.log('KeybindManager', `Registered Basic Keybind ${tempListener.key}`, 'success');
     }
   }
   // Alias for registerKeybind

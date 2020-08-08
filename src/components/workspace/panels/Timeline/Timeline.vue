@@ -18,8 +18,14 @@
             <div class="action" @click="deleteFrameClicked">
               <fa-icon icon="trash" />
             </div>
+            <div class="action" @click="copy" title="Copy (CTRL+C)">
+              <fa-icon icon="copy" />
+            </div>
+            <div class="action" @click="paste" title="Paste (CTRL+V)">
+              <fa-icon icon="paste" />
+            </div>
 
-            <div class="action" @click="iterate(-animationDelay)">
+            <div class="action" @click="iterate(-animationDelay)" title="Step Backward ([)">
               <fa-icon icon="step-backward" />
             </div>
 
@@ -28,7 +34,7 @@
               <fa-icon icon="stop" v-else />
             </div>
 
-            <div class="action" @click="iterate(animationDelay)">
+            <div class="action" @click="iterate(animationDelay)" title="Step Forward (])">
               <fa-icon icon="step-forward" />
             </div>
           </div>
@@ -56,6 +62,7 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 import BaseWindow from '@/components/base/BaseWindow'
 import PreviewFrame from './PreviewFrame'
+import { KeyListener } from '@/keybindManager'
 
 export default {
   components: {
@@ -79,7 +86,9 @@ export default {
     playing: false,
 
     itterator: null,
-    selected: null
+    selected: null,
+
+    clipboard: null
   }},
 
   computed: {
@@ -117,19 +126,27 @@ export default {
       };
     },
 
+    altSelected() {
+      if(this.selected === null) {
+        return this.currentFrame;
+      }
+
+      return this.selected;
+    }
+
   },
   
   methods: {
     ...mapMutations({
       setFrame: 'workspace/setFrame',
       setAnimationDelay: 'workspace/setAnimationDelay',
-      setVisibility: 'settings/setTimelineVisibility'
+      setVisibility: 'settings/setTimelineVisibility',
+      setFrameDrawing: 'workspace/setFrameDrawing'
     }),
     ...mapActions({
       addFrame: 'workspace/addFrame',
       deleteFrame: 'workspace/removeFrame'
     }),
-
     select(frame) {
       frame = parseInt(frame);
 
@@ -212,7 +229,35 @@ export default {
       } else {
         this.start();
       }
+    },
+
+    copy() {
+      if(this.altSelected === undefined) return;
+      this.clipboard = JSON.parse(JSON.stringify(this.frames[this.altSelected]));
+    },
+
+    paste() {
+      if(this.altSelected === undefined || this.clipboard === null) return;
+      this.setFrameDrawing({ 
+        frameNum: this.altSelected,
+        frame: this.clipboard
+      });
     }
+  },
+
+  created() {
+    this.$keybinds.$on(new KeyListener('[', true, false, false, false), () => {
+      this.iterate(-this.animationDelay);
+    });
+    this.$keybinds.$on(new KeyListener(']', true, false, false, false), () => {
+      this.iterate(this.animationDelay);
+    });
+    this.$keybinds.$on(new KeyListener('c', true, false, true, true), () => {
+      this.copy();
+    });
+    this.$keybinds.$on(new KeyListener('v', true, false, true, true), () => {
+      this.paste();
+    });
   }
 }
 </script>

@@ -140,8 +140,6 @@ const actions = {
       delete frames[i];
       frames[i - 1] = cache;
     }
-
-    
   },
 
   modifyPixel({ commit }, ctx) {

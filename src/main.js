@@ -6,7 +6,7 @@ import VueClipboard from 'vue-clipboard2'
 import KeybindManager from './keybindManager'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPen, faEraser, faEyeDropper, faFill, faCog, faTimes, faLevelDownAlt, faPlus, faLayerGroup, faPlay, faStop, faStepBackward, faStepForward, faCopy, faFileExport, faFileImport, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faPen, faEraser, faEyeDropper, faFill, faCog, faTimes, faLevelDownAlt, faPlus, faLayerGroup, faPlay, faStop, faStepBackward, faStepForward, faCopy, faFileExport, faFileImport, faTrash, faPaste } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(
@@ -24,6 +24,7 @@ library.add(
   faStepBackward,
   faStepForward,
   faCopy,
+  faPaste,
   faFileExport,
   faFileImport,
   faTrash

@@ -1,5 +1,5 @@
 /* eslint-disable */
-function log(component, message, type) {
+function log(component, message, type, extra) {
   if(process.env.NODE_ENV !== 'development' && component !== 'Build') {
       return;
   }
@@ -30,8 +30,11 @@ function log(component, message, type) {
       }
   }
 
-
-  console.log(`%c ${component} %c ${message} `,`background: ${set.background}; color: ${set.color}; border-radius: 3px 0 0 3px;`, "background: #333; color: #fff; border-radius: 0 3px 3px 0;");
+  if(extra === undefined) {
+    console.log(`%c ${component} %c ${message} `,`background: ${set.background}; color: ${set.color}; border-radius: 3px 0 0 3px;`, "background: #333; color: #fff; border-radius: 0 3px 3px 0;");
+} else {
+    console.log(`%c ${component} %c ${message} `,`background: ${set.background}; color: ${set.color}; border-radius: 3px 0 0 3px;`, "background: #333; color: #fff; border-radius: 0 3px 3px 0;", extra);
+  }
 }
 
 export default {
